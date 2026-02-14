@@ -17,14 +17,28 @@
         "id": "restrictions",
         "label": "Any dietary restrictions?",
         "type": "multiselect",
-        "options": ["None", "Vegetarian", "Vegan", "Gluten-free", "Dairy-free", "Low-carb", "Low-sodium"],
+        "options": [
+          "None",
+          "Vegetarian",
+          "Vegan",
+          "Gluten-free",
+          "Dairy-free",
+          "Low-carb",
+          "Low-sodium"
+        ],
         "required": false
       },
       {
         "id": "goal",
         "label": "What's your main health goal?",
         "type": "select",
-        "options": ["Fewer calories", "More protein", "Less sugar", "More vegetables", "Heart-healthy"],
+        "options": [
+          "Fewer calories",
+          "More protein",
+          "Less sugar",
+          "More vegetables",
+          "Heart-healthy"
+        ],
         "required": true
       }
     ],
@@ -36,7 +50,7 @@
     "title": "What Can I Make with What I Have?",
     "description": "Turn whatever's in your pantry into a real meal",
     "icon": "🥘",
-    "category": "cooking",
+    "category": "health",
     "questions": [
       {
         "id": "ingredients",
@@ -49,14 +63,26 @@
         "id": "cuisine",
         "label": "Any cuisine preference?",
         "type": "select",
-        "options": ["No preference", "Italian", "Mexican", "Asian", "American comfort food", "Mediterranean"],
+        "options": [
+          "No preference",
+          "Italian",
+          "Mexican",
+          "Asian",
+          "American comfort food",
+          "Mediterranean"
+        ],
         "required": false
       },
       {
         "id": "time",
         "label": "How much time do you have?",
         "type": "select",
-        "options": ["Under 20 minutes", "20-30 minutes", "30-45 minutes", "45+ minutes (I've got time)"],
+        "options": [
+          "Under 20 minutes",
+          "20-30 minutes",
+          "30-45 minutes",
+          "45+ minutes (I've got time)"
+        ],
         "required": true
       }
     ],
@@ -81,14 +107,27 @@
         "id": "recipient",
         "label": "Who are you writing to?",
         "type": "select",
-        "options": ["Boss/manager", "Coworker", "Direct report", "Client/customer", "Teacher/school", "Friend/family", "Service provider"],
+        "options": [
+          "Boss/manager",
+          "Coworker",
+          "Direct report",
+          "Client/customer",
+          "Teacher/school",
+          "Friend/family",
+          "Service provider"
+        ],
         "required": true
       },
       {
         "id": "tone",
         "label": "What tone are you going for?",
         "type": "select",
-        "options": ["Professional but firm", "Apologetic but clear", "Warm but direct", "Formal and careful"],
+        "options": [
+          "Professional but firm",
+          "Apologetic but clear",
+          "Warm but direct",
+          "Formal and careful"
+        ],
         "required": true
       }
     ],
@@ -100,13 +139,20 @@
     "title": "Negotiate My Bills Lower",
     "description": "Get a script to negotiate with cable, phone, or insurance companies",
     "icon": "💰",
-    "category": "money",
+    "category": "work",
     "questions": [
       {
         "id": "service",
         "label": "What service do you want to negotiate?",
         "type": "select",
-        "options": ["Cable/internet", "Cell phone", "Car insurance", "Home insurance", "Credit card interest rate", "Gym membership"],
+        "options": [
+          "Cable/internet",
+          "Cell phone",
+          "Car insurance",
+          "Home insurance",
+          "Credit card interest rate",
+          "Gym membership"
+        ],
         "required": true
       },
       {
@@ -120,7 +166,13 @@
         "id": "leverage",
         "label": "Do you have any leverage?",
         "type": "multiselect",
-        "options": ["I've been a customer for years", "I found a cheaper competitor offer", "My promotional rate expired", "I'm willing to switch providers", "None really"],
+        "options": [
+          "I've been a customer for years",
+          "I found a cheaper competitor offer",
+          "My promotional rate expired",
+          "I'm willing to switch providers",
+          "None really"
+        ],
         "required": false
       }
     ],
@@ -132,27 +184,44 @@
     "title": "Plan a Weekend Getaway",
     "description": "Quick trip ideas for a couple or family escape",
     "icon": "✈️",
-    "category": "fun",
+    "category": "lifestyle",
     "questions": [
       {
         "id": "travelers",
         "label": "Who's going?",
         "type": "select",
-        "options": ["Just me (solo)", "Couple (no kids)", "Family with young kids", "Family with teens", "Group of friends"],
+        "options": [
+          "Just me (solo)",
+          "Couple (no kids)",
+          "Family with young kids",
+          "Family with teens",
+          "Group of friends"
+        ],
         "required": true
       },
       {
         "id": "vibe",
         "label": "What kind of vibe are you after?",
         "type": "select",
-        "options": ["Relaxing and low-key", "Adventure and activities", "Food and culture", "Nature and outdoors", "City exploration"],
+        "options": [
+          "Relaxing and low-key",
+          "Adventure and activities",
+          "Food and culture",
+          "Nature and outdoors",
+          "City exploration"
+        ],
         "required": true
       },
       {
         "id": "budget",
         "label": "What's your budget range?",
         "type": "select",
-        "options": ["Budget-friendly (under $500 total)", "Moderate ($500-1000)", "Comfortable ($1000-2000)", "Splurge (sky's the limit)"],
+        "options": [
+          "Budget-friendly (under $500 total)",
+          "Moderate ($500-1000)",
+          "Comfortable ($1000-2000)",
+          "Splurge (sky's the limit)"
+        ],
         "required": true
       },
       {
@@ -171,27 +240,50 @@
     "title": "Find the Perfect Gift",
     "description": "Thoughtful gift ideas for any person or occasion",
     "icon": "🎁",
-    "category": "family",
+    "category": "personal",
     "questions": [
       {
         "id": "recipient",
         "label": "Who's the gift for?",
         "type": "select",
-        "options": ["Parent", "Spouse/partner", "Adult child", "Teen", "Young child", "Friend", "Coworker", "Teacher/coach"],
+        "options": [
+          "Parent",
+          "Spouse/partner",
+          "Adult child",
+          "Teen",
+          "Young child",
+          "Friend",
+          "Coworker",
+          "Teacher/coach"
+        ],
         "required": true
       },
       {
         "id": "occasion",
         "label": "What's the occasion?",
         "type": "select",
-        "options": ["Birthday", "Holiday/Christmas", "Anniversary", "Graduation", "Thank you", "Just because", "Housewarming"],
+        "options": [
+          "Birthday",
+          "Holiday/Christmas",
+          "Anniversary",
+          "Graduation",
+          "Thank you",
+          "Just because",
+          "Housewarming"
+        ],
         "required": true
       },
       {
         "id": "budget",
         "label": "What's your budget?",
         "type": "select",
-        "options": ["Under $25", "$25-50", "$50-100", "$100-250", "Over $250"],
+        "options": [
+          "Under $25",
+          "$25-50",
+          "$50-100",
+          "$100-250",
+          "Over $250"
+        ],
         "required": true
       },
       {
@@ -210,7 +302,7 @@
     "title": "Evaluate a Contractor Quote",
     "description": "Figure out if a home repair quote is fair and complete",
     "icon": "🔨",
-    "category": "home",
+    "category": "personal",
     "questions": [
       {
         "id": "project",
@@ -230,7 +322,14 @@
         "id": "concerns",
         "label": "Any specific concerns?",
         "type": "multiselect",
-        "options": ["Price seems high", "Scope seems incomplete", "Timeline unclear", "Warranty questions", "Materials quality", "Just want a second opinion"],
+        "options": [
+          "Price seems high",
+          "Scope seems incomplete",
+          "Timeline unclear",
+          "Warranty questions",
+          "Materials quality",
+          "Just want a second opinion"
+        ],
         "required": false
       }
     ],
@@ -242,7 +341,7 @@
     "title": "Explain This Tech Thing to Me",
     "description": "Plain-English explanations of confusing technology",
     "icon": "💻",
-    "category": "tech",
+    "category": "lifestyle",
     "questions": [
       {
         "id": "topic",
@@ -262,7 +361,12 @@
         "id": "level",
         "label": "How technical are you?",
         "type": "select",
-        "options": ["I can barely use my phone", "I get by with basics", "Pretty comfortable with tech", "I'm technical, just gaps in knowledge"],
+        "options": [
+          "I can barely use my phone",
+          "I get by with basics",
+          "Pretty comfortable with tech",
+          "I'm technical, just gaps in knowledge"
+        ],
         "required": true
       }
     ],
@@ -274,7 +378,7 @@
     "title": "What's Everyone Talking About?",
     "description": "Get caught up on pop culture, memes, or trends you missed",
     "icon": "📱",
-    "category": "fun",
+    "category": "lifestyle",
     "questions": [
       {
         "id": "topic",
@@ -287,14 +391,24 @@
         "id": "context",
         "label": "Where did you hear about this?",
         "type": "select",
-        "options": ["My kids/teens mentioned it", "Saw it on social media", "Coworkers were talking about it", "It's everywhere and I'm lost", "I just want to know"],
+        "options": [
+          "My kids/teens mentioned it",
+          "Saw it on social media",
+          "Coworkers were talking about it",
+          "It's everywhere and I'm lost",
+          "I just want to know"
+        ],
         "required": false
       },
       {
         "id": "depth",
         "label": "How deep do you want to go?",
         "type": "select",
-        "options": ["Just the basics so I'm not totally lost", "Enough to have a conversation", "The full deep dive"],
+        "options": [
+          "Just the basics so I'm not totally lost",
+          "Enough to have a conversation",
+          "The full deep dive"
+        ],
         "required": true
       }
     ],
@@ -306,34 +420,59 @@
     "title": "Plan My Week of Meals",
     "description": "Get a realistic meal plan that actually fits your life",
     "icon": "📅",
-    "category": "cooking",
+    "category": "health",
     "questions": [
       {
         "id": "people",
         "label": "Who are you feeding?",
         "type": "select",
-        "options": ["Just me", "Couple (no kids)", "Family with young kids", "Family with teens", "Mix of ages"],
+        "options": [
+          "Just me",
+          "Couple (no kids)",
+          "Family with young kids",
+          "Family with teens",
+          "Mix of ages"
+        ],
         "required": true
       },
       {
         "id": "dietary",
         "label": "Any dietary restrictions or preferences?",
         "type": "multiselect",
-        "options": ["None", "Vegetarian", "Low-carb", "Gluten-free", "Dairy-free", "Kid-friendly (picky eaters)", "Heart-healthy"],
+        "options": [
+          "None",
+          "Vegetarian",
+          "Low-carb",
+          "Gluten-free",
+          "Dairy-free",
+          "Kid-friendly (picky eaters)",
+          "Heart-healthy"
+        ],
         "required": false
       },
       {
         "id": "cooking_time",
         "label": "Realistically, how much time can you spend cooking on weeknights?",
         "type": "select",
-        "options": ["15-20 minutes max", "30 minutes is doable", "45 minutes if it's worth it", "I can batch cook on weekends"],
+        "options": [
+          "15-20 minutes max",
+          "30 minutes is doable",
+          "45 minutes if it's worth it",
+          "I can batch cook on weekends"
+        ],
         "required": true
       },
       {
         "id": "goals",
         "label": "What's your main goal?",
         "type": "select",
-        "options": ["Save money", "Eat healthier", "Reduce stress and decision fatigue", "Use up what I have", "Try new things"],
+        "options": [
+          "Save money",
+          "Eat healthier",
+          "Reduce stress and decision fatigue",
+          "Use up what I have",
+          "Try new things"
+        ],
         "required": true
       }
     ],
@@ -365,7 +504,14 @@
         "id": "concern",
         "label": "What's your main resume concern?",
         "type": "select",
-        "options": ["It's been years since I updated it", "Gaps in employment", "Changing industries", "Too long/too much detail", "Not getting past ATS systems", "Not standing out"],
+        "options": [
+          "It's been years since I updated it",
+          "Gaps in employment",
+          "Changing industries",
+          "Too long/too much detail",
+          "Not getting past ATS systems",
+          "Not standing out"
+        ],
         "required": true
       }
     ],
@@ -383,21 +529,38 @@
         "id": "current_level",
         "label": "How active are you right now?",
         "type": "select",
-        "options": ["Mostly sedentary", "I walk sometimes", "Occasionally active but inconsistent", "Pretty active, just want to level up"],
+        "options": [
+          "Mostly sedentary",
+          "I walk sometimes",
+          "Occasionally active but inconsistent",
+          "Pretty active, just want to level up"
+        ],
         "required": true
       },
       {
         "id": "goals",
         "label": "What's your main goal?",
         "type": "select",
-        "options": ["Lose weight", "Build strength", "Feel better/more energy", "Improve health markers", "Stay active as I age", "Just be consistent"],
+        "options": [
+          "Lose weight",
+          "Build strength",
+          "Feel better/more energy",
+          "Improve health markers",
+          "Stay active as I age",
+          "Just be consistent"
+        ],
         "required": true
       },
       {
         "id": "time",
         "label": "How much time can you realistically commit?",
         "type": "select",
-        "options": ["10-15 minutes a day", "30 minutes, 3x per week", "30-45 minutes, 4-5x per week", "I can make time for an hour most days"],
+        "options": [
+          "10-15 minutes a day",
+          "30 minutes, 3x per week",
+          "30-45 minutes, 4-5x per week",
+          "I can make time for an hour most days"
+        ],
         "required": true
       },
       {
@@ -416,27 +579,43 @@
     "title": "Dinner Table Conversation Starters",
     "description": "Get your family actually talking at dinner",
     "icon": "🍽️",
-    "category": "family",
+    "category": "personal",
     "questions": [
       {
         "id": "family",
         "label": "Who's at your dinner table?",
         "type": "select",
-        "options": ["Young kids (under 10)", "Tweens/middle schoolers", "Teenagers", "Mix of ages", "Just adults"],
+        "options": [
+          "Young kids (under 10)",
+          "Tweens/middle schoolers",
+          "Teenagers",
+          "Mix of ages",
+          "Just adults"
+        ],
         "required": true
       },
       {
         "id": "vibe",
         "label": "What kind of conversations are you after?",
         "type": "select",
-        "options": ["Fun and silly", "Thoughtful and meaningful", "Learning something new", "Just getting them to talk at all", "Mix it up"],
+        "options": [
+          "Fun and silly",
+          "Thoughtful and meaningful",
+          "Learning something new",
+          "Just getting them to talk at all",
+          "Mix it up"
+        ],
         "required": true
       },
       {
         "id": "count",
         "label": "How many questions do you want?",
         "type": "select",
-        "options": ["5 for this week", "10 for the next couple weeks", "20 to keep on hand"],
+        "options": [
+          "5 for this week",
+          "10 for the next couple weeks",
+          "20 to keep on hand"
+        ],
         "required": true
       }
     ],
@@ -448,13 +627,18 @@
     "title": "Find a Side Hustle That Fits My Life",
     "description": "Realistic side income ideas based on your skills and time",
     "icon": "💼",
-    "category": "money",
+    "category": "work",
     "questions": [
       {
         "id": "time",
         "label": "How much time can you actually commit?",
         "type": "select",
-        "options": ["5-10 hours per week", "10-15 hours per week", "15-20 hours per week", "Flexible/varies"],
+        "options": [
+          "5-10 hours per week",
+          "10-15 hours per week",
+          "15-20 hours per week",
+          "Flexible/varies"
+        ],
         "required": true
       },
       {
@@ -468,14 +652,24 @@
         "id": "goal",
         "label": "How much extra money are you trying to make?",
         "type": "select",
-        "options": ["$200-500/month", "$500-1000/month", "$1000-2000/month", "$2000+/month"],
+        "options": [
+          "$200-500/month",
+          "$500-1000/month",
+          "$1000-2000/month",
+          "$2000+/month"
+        ],
         "required": true
       },
       {
         "id": "preference",
         "label": "What sounds more appealing?",
         "type": "select",
-        "options": ["Work from home/online", "In-person/local services", "Creative work", "No preference"],
+        "options": [
+          "Work from home/online",
+          "In-person/local services",
+          "Creative work",
+          "No preference"
+        ],
         "required": false
       }
     ],
@@ -487,27 +681,45 @@
     "title": "Build a Packing List",
     "description": "Never forget anything important again",
     "icon": "🧳",
-    "category": "fun",
+    "category": "lifestyle",
     "questions": [
       {
         "id": "trip_type",
         "label": "What kind of trip?",
         "type": "select",
-        "options": ["Beach vacation", "City trip", "Outdoor/camping", "Business travel", "Ski/winter sports", "Mix of activities"],
+        "options": [
+          "Beach vacation",
+          "City trip",
+          "Outdoor/camping",
+          "Business travel",
+          "Ski/winter sports",
+          "Mix of activities"
+        ],
         "required": true
       },
       {
         "id": "duration",
         "label": "How long will you be gone?",
         "type": "select",
-        "options": ["Weekend (2-3 days)", "4-7 days", "1-2 weeks", "2+ weeks"],
+        "options": [
+          "Weekend (2-3 days)",
+          "4-7 days",
+          "1-2 weeks",
+          "2+ weeks"
+        ],
         "required": true
       },
       {
         "id": "travelers",
         "label": "Who's traveling?",
         "type": "multiselect",
-        "options": ["Just me", "Partner/spouse", "Young kids", "Teens", "Extended family"],
+        "options": [
+          "Just me",
+          "Partner/spouse",
+          "Young kids",
+          "Teens",
+          "Extended family"
+        ],
         "required": true
       },
       {
@@ -526,27 +738,46 @@
     "title": "Write a Sympathy Message",
     "description": "Express condolences with warmth and sincerity",
     "icon": "💐",
-    "category": "family",
+    "category": "personal",
     "questions": [
       {
         "id": "relationship",
         "label": "What's your relationship to the person grieving?",
         "type": "select",
-        "options": ["Close friend", "Family member", "Coworker", "Acquaintance", "Friend of a friend"],
+        "options": [
+          "Close friend",
+          "Family member",
+          "Coworker",
+          "Acquaintance",
+          "Friend of a friend"
+        ],
         "required": true
       },
       {
         "id": "loss",
         "label": "Who did they lose?",
         "type": "select",
-        "options": ["Parent", "Spouse/partner", "Child", "Sibling", "Friend", "Other family member", "Pet"],
+        "options": [
+          "Parent",
+          "Spouse/partner",
+          "Child",
+          "Sibling",
+          "Friend",
+          "Other family member",
+          "Pet"
+        ],
         "required": true
       },
       {
         "id": "format",
         "label": "What format?",
         "type": "select",
-        "options": ["Handwritten card", "Text message", "Email", "Social media comment"],
+        "options": [
+          "Handwritten card",
+          "Text message",
+          "Email",
+          "Social media comment"
+        ],
         "required": true
       },
       {
@@ -565,7 +796,7 @@
     "title": "Should I Buy This Big Thing?",
     "description": "Think through a major purchase decision",
     "icon": "🛒",
-    "category": "money",
+    "category": "personal",
     "questions": [
       {
         "id": "item",
@@ -592,7 +823,14 @@
         "id": "hesitation",
         "label": "What's making you hesitate?",
         "type": "multiselect",
-        "options": ["The cost", "Not sure it's the right time", "Worried I won't use it", "Other financial priorities", "Partner isn't sure", "Just want to be smart about it"],
+        "options": [
+          "The cost",
+          "Not sure it's the right time",
+          "Worried I won't use it",
+          "Other financial priorities",
+          "Partner isn't sure",
+          "Just want to be smart about it"
+        ],
         "required": false
       }
     ],
@@ -604,20 +842,31 @@
     "title": "Prepare for Parent-Teacher Conference",
     "description": "Go in organized with the right questions",
     "icon": "🏫",
-    "category": "family",
+    "category": "personal",
     "questions": [
       {
         "id": "age",
         "label": "What grade is your child in?",
         "type": "select",
-        "options": ["Elementary (K-5)", "Middle school (6-8)", "High school (9-12)"],
+        "options": [
+          "Elementary (K-5)",
+          "Middle school (6-8)",
+          "High school (9-12)"
+        ],
         "required": true
       },
       {
         "id": "concerns",
         "label": "Do you have specific concerns?",
         "type": "multiselect",
-        "options": ["Grades/academic performance", "Behavior/classroom issues", "Social situations", "Focus/attention", "Just want a general update", "Other"],
+        "options": [
+          "Grades/academic performance",
+          "Behavior/classroom issues",
+          "Social situations",
+          "Focus/attention",
+          "Just want a general update",
+          "Other"
+        ],
         "required": false
       },
       {
@@ -636,20 +885,31 @@
     "title": "Lower My Energy Bills",
     "description": "Find where you're wasting money on utilities",
     "icon": "⚡",
-    "category": "home",
+    "category": "lifestyle",
     "questions": [
       {
         "id": "home_type",
         "label": "What kind of home?",
         "type": "select",
-        "options": ["Single-family house", "Townhouse/duplex", "Apartment/condo", "Mobile home"],
+        "options": [
+          "Single-family house",
+          "Townhouse/duplex",
+          "Apartment/condo",
+          "Mobile home"
+        ],
         "required": true
       },
       {
         "id": "age",
         "label": "How old is your home?",
         "type": "select",
-        "options": ["Built in last 10 years", "10-30 years old", "30-50 years old", "50+ years old", "Not sure"],
+        "options": [
+          "Built in last 10 years",
+          "10-30 years old",
+          "30-50 years old",
+          "50+ years old",
+          "Not sure"
+        ],
         "required": true
       },
       {
@@ -663,7 +923,11 @@
         "id": "season",
         "label": "When is your bill highest?",
         "type": "select",
-        "options": ["Summer (cooling costs)", "Winter (heating costs)", "Pretty consistent year-round"],
+        "options": [
+          "Summer (cooling costs)",
+          "Winter (heating costs)",
+          "Pretty consistent year-round"
+        ],
         "required": true
       }
     ],
