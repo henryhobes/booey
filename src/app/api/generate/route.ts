@@ -5,7 +5,17 @@ import { generateResult } from '@/lib/ai/claude';
 
 export async function POST(request: NextRequest) {
   try {
-    const body: GenerateRequest = await request.json();
+    // Parse JSON and handle malformed requests
+    let body: GenerateRequest;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
+
     const { useCaseId, answers } = body;
     
     // Validate request body structure
