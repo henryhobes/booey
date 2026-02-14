@@ -245,12 +245,12 @@ export default function Wizard({ useCase }: WizardProps) {
   };
   
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="text-6xl mb-4">{useCase.icon}</div>
-        <h1 className="text-4xl font-bold mb-3">{useCase.title}</h1>
-        <p className="text-xl opacity-70">{useCase.description}</p>
+        <div className="text-5xl md:text-6xl mb-4">{useCase.icon}</div>
+        <h1 className="text-3xl md:text-4xl font-bold mb-3">{useCase.title}</h1>
+        <p className="text-lg md:text-xl opacity-70">{useCase.description}</p>
       </div>
       
       {/* Progress */}
@@ -270,7 +270,7 @@ export default function Wizard({ useCase }: WizardProps) {
       
       {/* Question Card */}
       <div className="card bg-base-100 shadow-xl mb-6">
-        <div className="card-body p-8">
+        <div className="card-body p-4 md:p-8">
           {renderQuestion()}
           
           {error && (
@@ -300,21 +300,21 @@ export default function Wizard({ useCase }: WizardProps) {
       </div>
       
       {/* Navigation */}
-      <div className="flex gap-4 justify-between">
+      <div className="flex flex-col-reverse md:flex-row gap-4 md:justify-between">
         <button
           onClick={handleBack}
-          className="btn btn-outline btn-lg"
+          className="btn btn-outline btn-lg w-full md:w-auto min-h-[44px]"
           disabled={currentStep === 0}
         >
           Back
         </button>
         
         {isLastQuestion ? (
-          <button onClick={handleSubmit} className="btn btn-primary btn-lg">
+          <button onClick={handleSubmit} className="btn btn-primary btn-lg w-full md:w-auto min-h-[44px]">
             Get My Results ✨
           </button>
         ) : (
-          <button onClick={handleNext} className="btn btn-primary btn-lg">
+          <button onClick={handleNext} className="btn btn-primary btn-lg w-full md:w-auto min-h-[44px]">
             Next
           </button>
         )}

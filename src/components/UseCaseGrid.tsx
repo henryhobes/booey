@@ -37,16 +37,16 @@ export default function UseCaseGrid({ useCases }: UseCaseGridProps) {
           No use cases in this category yet. Try &ldquo;All&rdquo; to see everything!
         </p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredUseCases.map((useCase) => (
             <Link
               key={useCase.id}
               href={`/use/${useCase.id}`}
-              className="card bg-base-100 shadow-lg transition-all hover:shadow-xl hover:-translate-y-1"
+              className="card bg-base-100 shadow-lg transition-all hover:shadow-xl hover:-translate-y-1 min-h-[44px]"
             >
               <div className="card-body">
                 <div className="text-5xl mb-3">{useCase.icon}</div>
-                <h3 className="card-title text-xl text-base-content">
+                <h3 className="card-title text-lg md:text-xl text-base-content">
                   {useCase.title}
                 </h3>
                 <p className="text-base-content/70">
