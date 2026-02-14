@@ -26,7 +26,7 @@ export function getUseCaseById(id: string): UseCase | undefined {
  */
 export function validateRequiredAnswers(
   useCase: UseCase,
-  answers: Record<string, any>
+  answers: Record<string, string | string[] | number>
 ): string[] {
   const missing: string[] = [];
   

@@ -12,7 +12,7 @@ const MODEL = 'claude-3-5-haiku-20241022';
  */
 function formatAnswersForPrompt(
   useCase: UseCase,
-  answers: Record<string, any>
+  answers: Record<string, string | string[] | number>
 ): string {
   const lines: string[] = [];
   
@@ -35,7 +35,7 @@ function formatAnswersForPrompt(
  */
 export async function generateResult(
   useCase: UseCase,
-  answers: Record<string, any>
+  answers: Record<string, string | string[] | number>
 ): Promise<GenerateResponse> {
   const userMessage = formatAnswersForPrompt(useCase, answers);
   
