@@ -1,0 +1,27 @@
+import { UseCaseQuestion } from '@/types';
+
+interface TextareaQuestionProps {
+  question: UseCaseQuestion;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export default function TextareaQuestion({ question, value, onChange }: TextareaQuestionProps) {
+  return (
+    <div className="form-control w-full">
+      <label className="label">
+        <span className="label-text text-lg font-medium">
+          {question.label}
+          {question.required && <span className="text-error ml-1">*</span>}
+        </span>
+      </label>
+      <textarea
+        placeholder={question.placeholder}
+        className="textarea textarea-bordered textarea-lg w-full text-lg min-h-32"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={question.required}
+      />
+    </div>
+  );
+}
