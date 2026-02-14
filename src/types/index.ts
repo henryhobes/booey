@@ -18,7 +18,7 @@ export interface UseCase {
   description: string;
   icon: string;
   category: string;
-  categoryLabel: string;
+  category_label: string;
   questions: UseCaseQuestion[];
   systemPrompt: string;
 }
