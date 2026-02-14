@@ -8,6 +8,14 @@ export async function POST(request: NextRequest) {
     const body: GenerateRequest = await request.json();
     const { useCaseId, answers } = body;
     
+    // Validate request body structure
+    if (!useCaseId || !answers || typeof answers !== 'object') {
+      return NextResponse.json(
+        { error: 'Invalid request: useCaseId and answers are required' },
+        { status: 400 }
+      );
+    }
+    
     // Validate use case exists
     const useCase = getUseCaseById(useCaseId);
     if (!useCase) {
