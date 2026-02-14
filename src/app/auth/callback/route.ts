@@ -17,8 +17,10 @@ export async function GET(request: NextRequest) {
   }
 
   // Validate that 'next' is a relative path (prevent open redirect)
-  // Only allow paths starting with '/' and not '//'
-  const isValidPath = next.startsWith('/') && !next.startsWith('//')
+  // Reject '//', backslashes, and anything that could be interpreted as external
+  const isValidPath = next.startsWith('/') && 
+                      !next.startsWith('//') && 
+                      !next.includes('\\')
   const redirectPath = isValidPath ? next : '/'
 
   return NextResponse.redirect(new URL(redirectPath, requestUrl.origin))

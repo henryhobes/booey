@@ -41,12 +41,22 @@ export async function updateSession(request: NextRequest) {
   if (isProtectedPath && !user) {
     const signInUrl = new URL('/auth/sign-in', request.url)
     signInUrl.searchParams.set('next', request.nextUrl.pathname)
-    return NextResponse.redirect(signInUrl)
+    const redirectResponse = NextResponse.redirect(signInUrl)
+    // Preserve any cookies set by Supabase
+    supabaseResponse.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie)
+    })
+    return redirectResponse
   }
 
   // Redirect authenticated users away from sign-in page
   if (request.nextUrl.pathname === '/auth/sign-in' && user) {
-    return NextResponse.redirect(new URL('/', request.url))
+    const redirectResponse = NextResponse.redirect(new URL('/', request.url))
+    // Preserve refreshed auth cookies
+    supabaseResponse.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie)
+    })
+    return redirectResponse
   }
 
   return supabaseResponse
