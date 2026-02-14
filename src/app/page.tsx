@@ -1,9 +1,16 @@
 import Link from "next/link";
 import useCases from "@/data/use-cases.json";
+import UseCaseGrid from "@/components/UseCaseGrid";
 
 export default function Home() {
-  // Show first 6 featured use cases
-  const featuredUseCases = useCases.slice(0, 6);
+  // Strip sensitive data (systemPrompts) before passing to client component
+  const useCaseCards = useCases.map(({ id, title, description, icon, category }) => ({
+    id,
+    title,
+    description,
+    icon,
+    category,
+  }));
 
   return (
     <div className="bg-base-100">
@@ -33,31 +40,8 @@ export default function Home() {
         <h2 className="mb-12 text-center text-3xl font-bold text-base-content lg:text-4xl">
           What can Booey help you with?
         </h2>
-        
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredUseCases.map((useCase) => (
-            <Link
-              key={useCase.id}
-              href={`/use/${useCase.id}`}
-              className="card bg-base-100 shadow-lg transition-all hover:shadow-xl hover:-translate-y-1"
-            >
-              <div className="card-body">
-                <div className="text-5xl mb-3">{useCase.icon}</div>
-                <h3 className="card-title text-xl text-base-content">
-                  {useCase.title}
-                </h3>
-                <p className="text-base-content/70">
-                  {useCase.description}
-                </p>
-                <div className="card-actions mt-4">
-                  <span className="text-primary font-medium text-sm">
-                    Try it →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+
+        <UseCaseGrid useCases={useCaseCards} />
 
         {/* Additional CTA */}
         <div className="mt-16 text-center">

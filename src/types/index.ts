@@ -1,6 +1,8 @@
 // Use Case types
 export type QuestionType = "text" | "textarea" | "select" | "multiselect" | "number";
 
+export type UseCaseCategory = "health" | "work" | "lifestyle" | "personal";
+
 export interface UseCaseQuestion {
   id: string;
   label: string;
@@ -17,7 +19,7 @@ export interface UseCase {
   title: string;
   description: string;
   icon: string;
-  category: string;
+  category: UseCaseCategory;
   category_label: string;
   questions: UseCaseQuestion[];
   systemPrompt: string;
