@@ -2,8 +2,9 @@ import { notFound } from 'next/navigation';
 import { getUseCaseById } from '@/lib/use-cases';
 import Wizard from '@/components/wizard/Wizard';
 
-export default function UseCasePage({ params }: { params: { id: string } }) {
-  const useCase = getUseCaseById(params.id);
+export default async function UseCasePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const useCase = getUseCaseById(id);
   
   if (!useCase) {
     notFound();

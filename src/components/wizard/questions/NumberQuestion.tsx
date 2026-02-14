@@ -1,20 +1,34 @@
+import { useState, useEffect } from 'react';
 import { UseCaseQuestion } from '@/types';
 
 interface NumberQuestionProps {
   question: UseCaseQuestion;
   value: number | string;
-  onChange: (value: number) => void;
+  onChange: (value: number | string) => void;
 }
 
 export default function NumberQuestion({ question, value, onChange }: NumberQuestionProps) {
+  // Keep raw input string locally to preserve intermediate states like "-" or "12."
+  const [inputValue, setInputValue] = useState(String(value));
+  
+  // Sync local state when external value changes (e.g., navigation between questions)
+  useEffect(() => {
+    setInputValue(String(value));
+  }, [value]);
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    // Preserve empty string for validation; otherwise convert to number
+    setInputValue(val);
+    
+    // Update parent state with parsed number or empty string for validation
     if (val === '') {
-      // Type assertion needed since onChange expects number, but we need empty string for validation
-      onChange(val as unknown as number);
+      onChange('');
     } else {
-      onChange(Number(val));
+      const parsed = Number(val);
+      // Only update if it's a valid number (not NaN)
+      if (!isNaN(parsed)) {
+        onChange(parsed);
+      }
     }
   };
   
@@ -30,7 +44,7 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
         type="number"
         placeholder={question.placeholder}
         className="input input-bordered input-lg w-full text-lg"
-        value={value}
+        value={inputValue}
         onChange={handleChange}
         min={question.min}
         max={question.max}
