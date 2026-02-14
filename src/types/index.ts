@@ -36,14 +36,14 @@ export interface WizardState {
 // Session (completed use case)
 export interface Session {
   id: string;
-  userId: string | null;
-  useCaseId: string;
+  user_id: string;
+  use_case_id: string;
   answers: Record<string, string | string[] | number>;
   result: string;
   model: string;
-  inputTokens: number;
-  outputTokens: number;
-  createdAt: string;
+  input_tokens: number;
+  output_tokens: number;
+  created_at: string;
 }
 
 // API types
@@ -57,6 +57,11 @@ export interface GenerateResponse {
   model: string;
   inputTokens: number;
   outputTokens: number;
+  sessionId?: string | null;
+}
+
+export interface SessionsResponse {
+  sessions: Session[];
 }
 
 // Category for filtering
