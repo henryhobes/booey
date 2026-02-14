@@ -72,10 +72,12 @@ create policy "Users can insert own sessions"
 ## Environment Variables
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://nyvsmvvjvktmdhwwxaqu.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_a2cFFoTn_INlRFPHQ7F2iw_S-L7E5t3
-SUPABASE_SECRET_KEY=sb_secret_eKStKOq1neEjOt8COuGBGQ_tgAw1kD9
+NEXT_PUBLIC_SUPABASE_URL=<your-supabase-project-url>
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<your-supabase-publishable-key>
+SUPABASE_SECRET_KEY=<your-supabase-secret-key>
 ```
+
+**Note:** Actual credentials stored in `.env.local` (not committed to git).
 
 ## Dependencies
 
