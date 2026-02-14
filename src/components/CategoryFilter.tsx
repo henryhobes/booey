@@ -22,7 +22,7 @@ export default function CategoryFilter({ onFilterChange, activeCategory }: Categ
         <button
           key={cat.id}
           onClick={() => onFilterChange(cat.id)}
-          className={`btn btn-sm ${
+          className={`btn btn-sm min-h-[44px] ${
             activeCategory === cat.id ? 'btn-primary' : 'btn-outline'
           }`}
         >

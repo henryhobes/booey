@@ -27,10 +27,10 @@ export function NavAuth() {
   if (user) {
     return (
       <div className="flex items-center gap-4">
-        <Link href="/history" className="btn btn-ghost btn-sm">
+        <Link href="/history" className="btn btn-ghost btn-sm min-h-[44px]">
           History
         </Link>
-        <button onClick={handleSignOut} className="btn btn-ghost btn-sm">
+        <button onClick={handleSignOut} className="btn btn-ghost btn-sm min-h-[44px]">
           Sign Out
         </button>
       </div>
@@ -39,7 +39,7 @@ export function NavAuth() {
 
   return (
     <div className="flex gap-2">
-      <Link href="/auth/sign-in" className="btn btn-primary btn-sm">
+      <Link href="/auth/sign-in" className="btn btn-primary btn-sm min-h-[44px]">
         Sign In
       </Link>
     </div>

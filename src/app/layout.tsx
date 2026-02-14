@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <div className="flex min-h-screen flex-col">
           {/* Navigation */}
-          <nav className="navbar bg-base-100 border-b border-base-300 px-4 lg:px-8">
+          <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8">
             <div className="flex-1">
               <Link href="/" className="text-2xl font-bold text-primary">
                 Booey
