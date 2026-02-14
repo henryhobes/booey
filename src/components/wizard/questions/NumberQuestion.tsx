@@ -25,9 +25,12 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
       onChange('');
     } else {
       const parsed = Number(val);
-      // Only update if it's a valid number (not NaN)
+      // Update parent with parsed number if valid, empty string if invalid
+      // This ensures validation/submission always reflects current input state
       if (!isNaN(parsed)) {
         onChange(parsed);
+      } else {
+        onChange('');
       }
     }
   };
