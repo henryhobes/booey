@@ -35,15 +35,18 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
     }
   };
   
+  const inputId = `question-${question.id}`;
+  
   return (
     <div className="form-control w-full">
-      <label className="label">
+      <label htmlFor={inputId} className="label">
         <span className="label-text text-lg font-medium">
           {question.label}
           {question.required && <span className="text-error ml-1">*</span>}
         </span>
       </label>
       <input
+        id={inputId}
         type="number"
         placeholder={question.placeholder}
         className="input input-bordered input-lg w-full text-lg"

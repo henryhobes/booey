@@ -7,15 +7,18 @@ interface TextareaQuestionProps {
 }
 
 export default function TextareaQuestion({ question, value, onChange }: TextareaQuestionProps) {
+  const inputId = `question-${question.id}`;
+  
   return (
     <div className="form-control w-full">
-      <label className="label">
+      <label htmlFor={inputId} className="label">
         <span className="label-text text-lg font-medium">
           {question.label}
           {question.required && <span className="text-error ml-1">*</span>}
         </span>
       </label>
       <textarea
+        id={inputId}
         placeholder={question.placeholder}
         className="textarea textarea-bordered textarea-lg w-full text-lg min-h-32"
         value={value}
