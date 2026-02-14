@@ -33,7 +33,13 @@ export function validateRequiredAnswers(
   for (const question of useCase.questions) {
     if (question.required) {
       const answer = answers[question.id];
-      if (answer === undefined || answer === null || answer === '') {
+      // Check for missing values including empty arrays for multiselect
+      if (
+        answer === undefined || 
+        answer === null || 
+        answer === '' ||
+        (Array.isArray(answer) && answer.length === 0)
+      ) {
         missing.push(question.id);
       }
     }
