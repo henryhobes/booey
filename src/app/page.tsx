@@ -27,7 +27,7 @@ export default function Home() {
             </p>
             <Link 
               href="#use-cases" 
-              className="btn btn-primary btn-lg text-lg"
+              className="btn btn-primary btn-lg text-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:outline-none"
             >
               Try one free — no account needed
             </Link>
@@ -60,7 +60,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-4xl mb-4">🎯</div>
+              <div className="text-5xl mb-4" aria-hidden="true">🎯</div>
               <h3 className="text-xl font-semibold mb-2">Guided Questions</h3>
               <p className="text-base-content/70">
                 Just answer simple questions. No need to craft the perfect prompt.
@@ -68,7 +68,7 @@ export default function Home() {
             </div>
             
             <div className="text-center">
-              <div className="text-4xl mb-4">⚡</div>
+              <div className="text-5xl mb-4" aria-hidden="true">⚡</div>
               <h3 className="text-xl font-semibold mb-2">Instant Results</h3>
               <p className="text-base-content/70">
                 Get helpful, personalized answers in seconds.
@@ -76,7 +76,7 @@ export default function Home() {
             </div>
             
             <div className="text-center">
-              <div className="text-4xl mb-4">🔒</div>
+              <div className="text-5xl mb-4" aria-hidden="true">🔒</div>
               <h3 className="text-xl font-semibold mb-2">Private & Safe</h3>
               <p className="text-base-content/70">
                 Your information stays private. No training on your data.
