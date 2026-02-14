@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GenerateRequest } from '@/types';
 import { getUseCaseById, validateRequiredAnswers } from '@/lib/use-cases';
 import { generateResult } from '@/lib/ai/claude';
+import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -50,7 +51,37 @@ export async function POST(request: NextRequest) {
     // Generate result using Claude
     const result = await generateResult(useCase, answers);
     
-    return NextResponse.json(result);
+    // Save session to database for authenticated users
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    let sessionId: string | null = null;
+    
+    if (user) {
+      // Save to database for authenticated users
+      const { data: session, error } = await supabase
+        .from('sessions')
+        .insert({
+          user_id: user.id,
+          use_case_id: useCaseId,
+          answers,
+          result: result.result,
+          model: result.model,
+          input_tokens: result.inputTokens,
+          output_tokens: result.outputTokens,
+        })
+        .select('id')
+        .single();
+      
+      if (!error && session) {
+        sessionId = session.id;
+      }
+    }
+    
+    return NextResponse.json({
+      ...result,
+      sessionId,
+    });
     
   } catch (error) {
     console.error('Generate API error:', error);
