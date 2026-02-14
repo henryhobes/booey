@@ -2,18 +2,23 @@
 
 import { useState } from 'react';
 import { UseCase } from '@/types';
+import { useUser } from '@/hooks/useUser';
+import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
 import TextQuestion from './questions/TextQuestion';
 import TextareaQuestion from './questions/TextareaQuestion';
 import SelectQuestion from './questions/SelectQuestion';
 import MultiselectQuestion from './questions/MultiselectQuestion';
 import NumberQuestion from './questions/NumberQuestion';
 import Result from './Result';
+import Link from 'next/link';
 
 interface WizardProps {
   useCase: UseCase;
 }
 
 export default function Wizard({ useCase }: WizardProps) {
+  const { user } = useUser();
+  const { canUseAsGuest, markGuestUseComplete, hasUsedFreeUse } = useTryBeforeSignup();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
   const [result, setResult] = useState<string | null>(null);
@@ -102,6 +107,15 @@ export default function Wizard({ useCase }: WizardProps) {
       }
       
       setResult(data.result);
+      
+      // Track guest usage
+      if (!user) {
+        markGuestUseComplete({
+          useCaseId: useCase.id,
+          answers,
+          result: data.result,
+        });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
@@ -123,9 +137,48 @@ export default function Wizard({ useCase }: WizardProps) {
     setError(null);
   };
   
+  // Guest gate: if guest has used free use and no result yet, block access
+  if (!user && !canUseAsGuest() && !result) {
+    return (
+      <div className="w-full max-w-2xl mx-auto">
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body items-center text-center p-12">
+            <h2 className="text-2xl font-bold mb-4">Sign up to continue</h2>
+            <p className="text-lg opacity-70 mb-6">
+              You&apos;ve used your free use case. Sign up to save your results and unlock unlimited use!
+            </p>
+            <Link
+              href={`/auth/sign-in?next=/use/${useCase.id}`}
+              className="btn btn-primary btn-lg"
+            >
+              Sign Up / Sign In
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Render result view
   if (result) {
-    return <Result result={result} onStartOver={handleStartOver} />;
+    return (
+      <>
+        <Result result={result} onStartOver={handleStartOver} />
+        {!user && hasUsedFreeUse && (
+          <div className="w-full max-w-4xl mx-auto mt-6">
+            <div className="alert alert-info">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Sign up to save your results and unlock unlimited use!</span>
+              <Link href="/auth/sign-in" className="btn btn-sm btn-primary">
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        )}
+      </>
+    );
   }
   
   // Render loading state
