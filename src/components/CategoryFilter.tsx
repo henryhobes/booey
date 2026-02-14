@@ -22,11 +22,13 @@ export default function CategoryFilter({ onFilterChange, activeCategory }: Categ
         <button
           key={cat.id}
           onClick={() => onFilterChange(cat.id)}
-          className={`btn btn-sm min-h-[44px] ${
+          aria-label={`Filter by ${cat.label}`}
+          aria-pressed={activeCategory === cat.id}
+          className={`btn btn-sm min-h-[44px] focus:ring-2 focus:ring-primary focus:outline-none ${
             activeCategory === cat.id ? 'btn-primary' : 'btn-outline'
           }`}
         >
-          <span className="mr-1">{cat.emoji}</span>
+          <span className="mr-1" aria-hidden="true">{cat.emoji}</span>
           {cat.label}
         </button>
       ))}
