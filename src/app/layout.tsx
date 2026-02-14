@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { NavAuth } from "@/components/nav/NavAuth";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,7 +38,7 @@ export default function RootLayout({
               </Link>
             </div>
             <div className="flex-none">
-              {/* Auth buttons will go here in Phase 2 */}
+              <NavAuth />
             </div>
           </nav>
 
