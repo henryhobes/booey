@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useUser } from './useUser';
 
 interface GuestState {
@@ -19,20 +19,22 @@ const DEFAULT_STATE: GuestState = {
   guestSession: null,
 };
 
-function getInitialState(): GuestState {
-  if (typeof window === 'undefined') return DEFAULT_STATE;
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
-  } catch {
-    // ignore
-  }
-  return DEFAULT_STATE;
-}
-
 export function useTryBeforeSignup() {
   const { user } = useUser();
-  const [guestState, setGuestState] = useState<GuestState>(getInitialState);
+  // Always start with DEFAULT_STATE to match server render
+  const [guestState, setGuestState] = useState<GuestState>(DEFAULT_STATE);
+
+  // Load from localStorage after mount (client-side only, after hydration)
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        setGuestState(JSON.parse(stored));
+      }
+    } catch {
+      // ignore parse errors
+    }
+  }, []);
 
   const canUseAsGuest = useCallback((): boolean => {
     if (user) return true;
