@@ -16,6 +16,10 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Redirect to the intended destination or home
-  return NextResponse.redirect(new URL(next, requestUrl.origin))
+  // Validate that 'next' is a relative path (prevent open redirect)
+  // Only allow paths starting with '/' and not '//'
+  const isValidPath = next.startsWith('/') && !next.startsWith('//')
+  const redirectPath = isValidPath ? next : '/'
+
+  return NextResponse.redirect(new URL(redirectPath, requestUrl.origin))
 }
