@@ -1,37 +1,124 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+'use client';
 
-export default async function HistoryPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+import { useEffect, useState } from 'react';
+import { useUser } from '@/hooks/useUser';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import type { Session } from '@/types';
 
-  if (!user) {
-    redirect('/auth/sign-in')
+export default function HistoryPage() {
+  const { user, loading: authLoading } = useUser();
+  const router = useRouter();
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authLoading) return;
+
+    if (!user) {
+      router.push('/auth/sign-in?next=/history');
+      return;
+    }
+
+    async function fetchSessions() {
+      try {
+        const res = await fetch('/api/sessions');
+        if (!res.ok) throw new Error('Failed to fetch sessions');
+        const data = await res.json();
+        setSessions(data.sessions);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchSessions();
+  }, [user, authLoading, router]);
+
+  if (authLoading || loading) {
+    return (
+      <div className="container mx-auto px-4 py-16 max-w-4xl">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <span className="loading loading-spinner loading-lg text-primary"></span>
+          <p className="text-base-content/70">Loading your history...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-16 max-w-4xl">
+        <div className="alert alert-error">
+          <span>Error: {error}</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (sessions.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-16 max-w-4xl text-center">
+        <h1 className="text-4xl font-bold mb-4">Your History</h1>
+        <p className="text-base-content/70 text-lg mb-6">
+          You haven&apos;t used any tools yet.
+        </p>
+        <Link href="/" className="btn btn-primary">
+          Browse Tools
+        </Link>
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-4xl">
       <h1 className="text-4xl font-bold mb-8">Your History</h1>
-      
-      <div className="alert alert-info mb-8">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <span>Signed in as: <strong>{user.email}</strong></span>
-      </div>
-
-      <div className="card bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title">Session History</h2>
-          <p className="text-base-content/70">
-            Your completed use case sessions will appear here. This feature will be fully implemented in a future phase.
-          </p>
-          <div className="divider"></div>
-          <p className="text-sm text-base-content/60">
-            For now, this page demonstrates that authentication is working correctly! 🎉
-          </p>
-        </div>
+      <div className="space-y-4">
+        {sessions.map((session) => (
+          <SessionCard key={session.id} session={session} />
+        ))}
       </div>
     </div>
-  )
+  );
+}
+
+function SessionCard({ session }: { session: Session }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const useCaseTitle = session.use_case_id
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+  const timestamp = new Date(session.created_at).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+
+  return (
+    <div className="card bg-base-100 shadow-lg">
+      <div className="card-body">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="card-title">{useCaseTitle}</h3>
+            <p className="text-sm text-base-content/60">{timestamp}</p>
+          </div>
+        </div>
+
+        <div className={expanded ? '' : 'line-clamp-3'}>
+          <p className="mt-2 whitespace-pre-wrap">{session.result}</p>
+        </div>
+
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="btn btn-ghost btn-sm mt-2 self-start"
+        >
+          {expanded ? 'Show less' : 'Show more'}
+        </button>
+      </div>
+    </div>
+  );
 }
