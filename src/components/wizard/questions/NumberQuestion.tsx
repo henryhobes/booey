@@ -7,6 +7,17 @@ interface NumberQuestionProps {
 }
 
 export default function NumberQuestion({ question, value, onChange }: NumberQuestionProps) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    // Preserve empty string for validation; otherwise convert to number
+    if (val === '') {
+      // Type assertion needed since onChange expects number, but we need empty string for validation
+      onChange(val as unknown as number);
+    } else {
+      onChange(Number(val));
+    }
+  };
+  
   return (
     <div className="form-control w-full">
       <label className="label">
@@ -20,7 +31,7 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
         placeholder={question.placeholder}
         className="input input-bordered input-lg w-full text-lg"
         value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onChange={handleChange}
         min={question.min}
         max={question.max}
         required={question.required}
