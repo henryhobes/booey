@@ -53,7 +53,10 @@ export default function RootLayout({
                 Booey
               </Link>
             </div>
-            <div className="flex-none hidden md:block">
+            <div className="flex-none hidden md:flex items-center gap-4">
+              <Link href="/explore" className="btn btn-ghost btn-sm text-base">
+                Explore
+              </Link>
               <NavAuth />
             </div>
           </nav>
