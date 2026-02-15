@@ -8,6 +8,7 @@ import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
 import LoadingScreen from './LoadingScreen';
 import Result from './Result';
 import WelcomeScreen from './WelcomeScreen';
+import { RateLimitError } from '@/lib/utils/errors';
 import ReviewScreen from './ReviewScreen';
 import QuestionScreen from './QuestionScreen';
 import GuestGateScreen from './GuestGateScreen';
@@ -153,12 +154,8 @@ export default function Wizard({ useCase }: WizardProps) {
       if (!response.ok) {
         // Rate limit errors get a tailored message (don't say "try again")
         if (data.rateLimited) {
-          const isMinuteLimit = data.minuteRemaining !== undefined && data.minuteRemaining <= 0;
-          if (isMinuteLimit) {
-            throw Object.assign(new Error(data.error), { isRateLimit: true, canRetry: true });
-          } else {
-            throw Object.assign(new Error(data.error), { isRateLimit: true, canRetry: false });
-          }
+          const canRetry = data.minuteRemaining !== undefined && data.minuteRemaining <= 0;
+          throw new RateLimitError(data.error, canRetry);
         }
         throw new Error(data.error || 'Failed to generate result');
       }
@@ -176,13 +173,12 @@ export default function Wizard({ useCase }: WizardProps) {
         });
       }
     } catch (err) {
-      const rateLimitErr = err as Error & { isRateLimit?: boolean; canRetry?: boolean };
-      if (rateLimitErr.isRateLimit && !rateLimitErr.canRetry) {
+      if (err instanceof RateLimitError && !err.canRetry) {
         // Daily limit — don't tell them to try again
-        setError(`${rateLimitErr.message} Come back tomorrow — your answers will be waiting.`);
-      } else if (rateLimitErr.isRateLimit && rateLimitErr.canRetry) {
+        setError(`${err.message} Come back tomorrow — your answers will be waiting.`);
+      } else if (err instanceof RateLimitError && err.canRetry) {
         // Per-minute limit — they can try again shortly
-        setError(`${rateLimitErr.message} Wait a moment, then try again.`);
+        setError(`${err.message} Wait a moment, then try again.`);
       } else {
         setError(
           err instanceof Error 
