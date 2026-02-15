@@ -56,7 +56,7 @@ export function MobileBottomNav() {
         </Link>
         <Link
           href="/explore"
-          aria-current={pathname === '/explore' ? 'page' : undefined}
+          aria-current={pathname === '/explore' || pathname.startsWith('/use/') ? 'page' : undefined}
         >
           <ExploreIcon />
           <span>Explore</span>

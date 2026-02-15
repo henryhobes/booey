@@ -1,8 +1,9 @@
-const steps = [
+const steps: { icon: string; title: string; description: string; link?: string }[] = [
   {
     icon: "🎯",
     title: "Pick a tool",
     description: "Browse tools for cooking, work, health, and more",
+    link: "/explore",
   },
   {
     icon: "💬",
@@ -34,7 +35,11 @@ export default function HowItWorks() {
                 {step.icon}
               </div>
               <h3 className="text-xl md:text-2xl font-semibold mb-3 text-base-content">
-                {index + 1}. {step.title}
+                {index + 1}. {step.link ? (
+                  <a href={step.link} className="hover:text-primary transition-colors">
+                    {step.title}
+                  </a>
+                ) : step.title}
               </h3>
               <p className="text-lg text-base-content/70">{step.description}</p>
             </div>
