@@ -76,6 +76,7 @@ types/ → lib/ → hooks/ → components/ → app/
 | Vercel deployment | `docs/infrastructure/VERCEL.md` |
 | UX research & audit | `docs/UX-AUDIT.md` |
 | Active work plans | `docs/plans/active/` |
+| One-off tasks | `docs/plans/tasks/` |
 | Completed phase history | `docs/phases/` |
 
 ## Workflow Summary
