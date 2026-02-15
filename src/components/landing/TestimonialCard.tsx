@@ -46,11 +46,11 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
         <figcaption className="flex flex-col">
           <cite
             className="not-italic font-semibold text-lg"
-            style={{ color: "#0D7377" }}
+            style={{ color: "#2C5682" }}
           >
             {name}
           </cite>
-          <span className="text-base" style={{ color: "#2D2D2D" }}>
+          <span className="text-base" style={{ color: "#2C3E50" }}>
             {age}, {occupation}
           </span>
         </figcaption>
@@ -62,7 +62,7 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
       {/* Quote */}
       <blockquote
         className="flex-1 text-lg italic leading-relaxed"
-        style={{ color: "#2D2D2D" }}
+        style={{ color: "#2C3E50" }}
       >
         &ldquo;{quote}&rdquo;
       </blockquote>

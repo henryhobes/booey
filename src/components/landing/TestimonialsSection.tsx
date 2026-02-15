@@ -12,7 +12,7 @@ export default function TestimonialsSection() {
         <h2
           id="testimonials-heading"
           className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12"
-          style={{ color: "#2D2D2D" }}
+          style={{ color: "#2C3E50" }}
         >
           Real people, real results
         </h2>
