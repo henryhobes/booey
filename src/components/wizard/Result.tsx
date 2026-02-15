@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { UseCase, UseCaseQuestion } from '@/types';
+import { UseCase } from '@/types';
 import RefineModal from './RefineModal';
 
 interface ResultProps {

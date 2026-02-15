@@ -34,7 +34,7 @@ export default function HowItWorks() {
               2. Answer questions
             </h3>
             <p style={{ color: "#2C3E50" }}>
-              We'll ask 3-5 simple questions. No confusing tech terms, just plain English.
+              We&apos;ll ask 3-5 simple questions. No confusing tech terms, just plain English.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export default function HowItWorks() {
               3. Get your result
             </h3>
             <p style={{ color: "#2C3E50" }}>
-              Copy it, edit it, print it — use it however you like. That's it!
+              Copy it, edit it, print it — use it however you like. That&apos;s it!
             </p>
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function HowItWorks() {
         {/* Reassurance callout */}
         <div className="mt-12 text-center bg-white rounded-lg p-6 shadow-sm">
           <p className="text-lg" style={{ color: "#2C3E50" }}>
-            <strong>You can't break anything.</strong> Try as many times as you like, no wrong answers.
+            <strong>You can&apos;t break anything.</strong> Try as many times as you like, no wrong answers.
           </p>
         </div>
       </div>

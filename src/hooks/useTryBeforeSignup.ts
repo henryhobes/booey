@@ -29,6 +29,7 @@ export function useTryBeforeSignup() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Required for Next.js SSR/hydration pattern: start with default state to match server, then hydrate from localStorage client-side
         setGuestState(JSON.parse(stored));
       }
     } catch {

@@ -1,17 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { UseCase } from '@/types';
 import { useUser } from '@/hooks/useUser';
 import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
-import TextQuestion from './questions/TextQuestion';
-import TextareaQuestion from './questions/TextareaQuestion';
-import SelectQuestion from './questions/SelectQuestion';
-import MultiselectQuestion from './questions/MultiselectQuestion';
-import NumberQuestion from './questions/NumberQuestion';
 import LoadingScreen from './LoadingScreen';
 import Result from './Result';
-import Link from 'next/link';
+import WelcomeScreen from './WelcomeScreen';
+import ReviewScreen from './ReviewScreen';
+import QuestionScreen from './QuestionScreen';
+import GuestGateScreen from './GuestGateScreen';
 
 interface WizardProps {
   useCase: UseCase;
@@ -198,6 +197,7 @@ export default function Wizard({ useCase }: WizardProps) {
     setResult(null);
     setCurrentStep(0);
     setError(null);
+    setMode('questions');
   };
   
   // Refine result - append refinement and regenerate
@@ -234,24 +234,7 @@ export default function Wizard({ useCase }: WizardProps) {
   
   // Guest gate: if guest has used free use and no result yet, block access
   if (!user && !canUseAsGuest() && !result) {
-    return (
-      <div className="w-full max-w-2xl mx-auto">
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body items-center text-center p-12">
-            <h2 className="text-2xl font-bold mb-4">Sign up to continue</h2>
-            <p className="text-lg opacity-70 mb-6">
-              You&apos;ve used your free use case. Sign up to save your results and unlock unlimited use!
-            </p>
-            <Link
-              href={`/auth/sign-in?next=/use/${useCase.id}`}
-              className="btn btn-primary btn-lg"
-            >
-              Sign Up / Sign In
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <GuestGateScreen useCase={useCase} />;
   }
 
   // Render result view
@@ -290,297 +273,39 @@ export default function Wizard({ useCase }: WizardProps) {
   
   // Render welcome screen
   if (mode === 'welcome') {
-    const estimatedMinutes = Math.max(1, Math.round(totalQuestions * 0.5));
-    
-    return (
-      <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="text-6xl md:text-7xl mb-6">{useCase.icon}</div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{useCase.title}</h1>
-          <p className="text-lg md:text-xl opacity-70 mb-8">{useCase.description}</p>
-        </div>
-        
-        {/* Welcome Card */}
-        <div className="card bg-base-100 shadow-xl mb-6">
-          <div className="card-body p-6 md:p-10">
-            <h2 className="text-2xl font-bold mb-6">What to expect</h2>
-            
-            <div className="space-y-4 mb-8">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">⏱️</span>
-                <div>
-                  <p className="font-medium">Quick & easy</p>
-                  <p className="opacity-70">We'll ask you {totalQuestions} question{totalQuestions > 1 ? 's' : ''} (takes about {estimatedMinutes} minute{estimatedMinutes > 1 ? 's' : ''})</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">✨</span>
-                <div>
-                  <p className="font-medium">Personalized results</p>
-                  <p className="opacity-70">You'll get a custom response tailored to your specific needs</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">👀</span>
-                <div>
-                  <p className="font-medium">Review before we start</p>
-                  <p className="opacity-70">You can review and edit your answers before generating</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Reassurance box */}
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
-              <p className="text-base" style={{ color: "#2C5682" }}>
-                💡 <strong>Tip:</strong> There are no wrong answers. Just answer naturally, like you're talking to a friend.
-              </p>
-            </div>
-            
-            <button 
-              onClick={handleStart}
-              className="btn btn-primary btn-lg w-full text-lg min-h-[48px]"
-            >
-              Let&apos;s Get Started →
-            </button>
-            
-            <p className="text-sm mt-4 text-center opacity-60">
-              You can go back and change your answers anytime
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    return <WelcomeScreen useCase={useCase} onStart={handleStart} />;
   }
   
   // Render review screen
   if (mode === 'review') {
     return (
-      <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="text-5xl md:text-6xl mb-4">{useCase.icon}</div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">{useCase.title}</h1>
-        </div>
-        
-        {/* Progress */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium">Review your answers</span>
-            <span className="text-sm opacity-70">{Math.round(getProgress())}% complete</span>
-          </div>
-          <progress
-            className="progress progress-primary w-full"
-            value={getProgress()}
-            max="100"
-          ></progress>
-        </div>
-        
-        {/* Review Card */}
-        <div className="card bg-base-100 shadow-xl mb-6">
-          <div className="card-body p-4 md:p-8">
-            <h2 className="text-2xl font-bold mb-6">Review Your Answers</h2>
-            
-            <div className="space-y-6">
-              {useCase.questions.map((question, index) => {
-                const answer = answers[question.id];
-                let displayAnswer = '';
-                
-                if (Array.isArray(answer)) {
-                  displayAnswer = answer.join(', ');
-                } else if (answer !== undefined && answer !== null) {
-                  displayAnswer = String(answer);
-                }
-                
-                return (
-                  <div key={question.id} className="border-b border-base-300 pb-4 last:border-0">
-                    <div className="flex items-start justify-between gap-4 mb-2">
-                      <p className="font-medium text-base-content/70">
-                        {index + 1}. {question.label}
-                      </p>
-                      <button
-                        onClick={() => handleEditAnswer(index)}
-                        className="btn btn-ghost btn-xs text-primary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <p className="text-lg font-medium pl-4">
-                      {displayAnswer || <span className="opacity-50 italic">No answer</span>}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-            
-            {error && (
-              <div className="alert alert-error mt-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-current shrink-0 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{error}</span>
-                {error.includes('try again') && (
-                  <button onClick={handleRetry} className="btn btn-sm btn-outline">
-                    Retry
-                  </button>
-                )}
-              </div>
-            )}
-            
-            <div className="mt-8">
-              <p className="text-center text-sm opacity-70 mb-4">
-                Everything look good?
-              </p>
-              <button 
-                onClick={handleSubmit}
-                className={`btn btn-primary btn-lg w-full text-lg min-h-[48px] ${isSubmitting ? 'loading' : ''}`}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Creating Your Answer...' : 'Create My Answer'}
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Navigation */}
-        <div className="flex justify-start">
-          <button
-            onClick={handleBackFromReview}
-            className="btn btn-outline btn-lg min-h-[48px]"
-          >
-            ← Back
-          </button>
-        </div>
-      </div>
+      <ReviewScreen
+        useCase={useCase}
+        answers={answers}
+        progress={getProgress()}
+        error={error}
+        isSubmitting={isSubmitting}
+        onBack={handleBackFromReview}
+        onEdit={handleEditAnswer}
+        onSubmit={handleSubmit}
+        onRetry={handleRetry}
+      />
     );
   }
   
-  // Render question
-  const renderQuestion = () => {
-    const value = getCurrentValue();
-    
-    switch (currentQuestion.type) {
-      case 'text':
-        return (
-          <TextQuestion
-            question={currentQuestion}
-            value={value as string}
-            onChange={handleAnswerChange}
-          />
-        );
-      case 'textarea':
-        return (
-          <TextareaQuestion
-            question={currentQuestion}
-            value={value as string}
-            onChange={handleAnswerChange}
-          />
-        );
-      case 'select':
-        return (
-          <SelectQuestion
-            question={currentQuestion}
-            value={value as string}
-            onChange={handleAnswerChange}
-          />
-        );
-      case 'multiselect':
-        return (
-          <MultiselectQuestion
-            question={currentQuestion}
-            value={value as string[]}
-            onChange={handleAnswerChange}
-          />
-        );
-      case 'number':
-        return (
-          <NumberQuestion
-            question={currentQuestion}
-            value={value as string | number}
-            onChange={handleAnswerChange}
-          />
-        );
-    }
-  };
-  
+  // Render question screen
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <div className="text-5xl md:text-6xl mb-4">{useCase.icon}</div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">{useCase.title}</h1>
-        <p className="text-lg md:text-xl opacity-70">{useCase.description}</p>
-      </div>
-      
-      {/* Progress */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium">
-            Question {currentStep + 1} of {totalQuestions}
-          </span>
-          <span className="text-sm opacity-70">{Math.round(getProgress())}% complete</span>
-        </div>
-        <progress
-          className="progress progress-primary w-full"
-          value={getProgress()}
-          max="100"
-        ></progress>
-      </div>
-      
-      {/* Question Card */}
-      <div className="card bg-base-100 shadow-xl mb-6">
-        <div className="card-body p-4 md:p-8">
-          {renderQuestion()}
-          
-          {error && (
-            <div className="alert alert-error mt-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>{error}</span>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      {/* Navigation */}
-      <div className="flex flex-col-reverse md:flex-row gap-4 md:justify-between">
-        <button
-          onClick={handleBack}
-          className="btn btn-outline btn-lg w-full md:w-auto min-h-[48px]"
-        >
-          Back
-        </button>
-        
-        <button 
-          onClick={handleNext} 
-          className="btn btn-primary btn-lg w-full md:w-auto min-h-[48px]"
-        >
-          {currentStep === totalQuestions - 1 ? 'Review Answers →' : 'Next'}
-        </button>
-      </div>
-    </div>
+    <QuestionScreen
+      useCase={useCase}
+      currentStep={currentStep}
+      totalQuestions={totalQuestions}
+      progress={getProgress()}
+      currentQuestion={currentQuestion}
+      currentValue={getCurrentValue()}
+      error={error}
+      onBack={handleBack}
+      onNext={handleNext}
+      onChange={handleAnswerChange}
+    />
   );
 }

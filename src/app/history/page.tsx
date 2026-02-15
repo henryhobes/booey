@@ -64,7 +64,7 @@ export default function HistoryPage() {
         <div className="text-6xl mb-4">🎯</div>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">Ready to try your first tool?</h1>
         <p className="text-base-content/70 text-lg mb-6">
-          Pick any tool from the home page. It only takes 2 minutes, and you can't break anything!
+          Pick any tool from the home page. It only takes 2 minutes, and you can&apos;t break anything!
         </p>
         <Link href="/" className="btn btn-primary btn-lg">
           Browse Tools
