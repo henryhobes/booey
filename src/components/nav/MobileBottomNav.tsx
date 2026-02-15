@@ -34,7 +34,7 @@ export function MobileBottomNav() {
 
   return (
     <nav className="mobile-bottom-nav md:hidden" aria-label="Mobile navigation">
-      <div className="grid grid-cols-3">
+      <div className={`grid ${user ? 'grid-cols-2' : 'grid-cols-3'}`}>
         <Link
           href="/"
           aria-current={pathname === '/' ? 'page' : undefined}
@@ -49,13 +49,15 @@ export function MobileBottomNav() {
           <HistoryIcon />
           <span>History</span>
         </Link>
-        <Link
-          href={user ? '/history' : '/auth/sign-in'}
-          aria-current={pathname === '/auth/sign-in' ? 'page' : undefined}
-        >
-          <UserIcon />
-          <span>{user ? 'Account' : 'Sign In'}</span>
-        </Link>
+        {!user && (
+          <Link
+            href="/auth/sign-in"
+            aria-current={pathname === '/auth/sign-in' ? 'page' : undefined}
+          >
+            <UserIcon />
+            <span>Sign In</span>
+          </Link>
+        )}
       </div>
     </nav>
   )
