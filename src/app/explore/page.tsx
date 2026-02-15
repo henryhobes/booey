@@ -3,7 +3,7 @@ import useCases from "@/data/use-cases.json";
 
 export const metadata = {
   title: "Explore Tools | Booey",
-  description: "Browse all AI-powered tools — recipes, emails, budgets, and more.",
+  description: "Browse all tools — recipes, emails, budgets, and more.",
 };
 
 const FEATURED_IDS = [
@@ -41,6 +41,7 @@ export default function ExplorePage() {
                 <Link
                   key={uc.id}
                   href={`/use/${uc.id}`}
+                  aria-label={`Try ${uc.title}`}
                   className="snap-start shrink-0 w-44 card bg-base-200 shadow-md hover:shadow-lg transition-shadow focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   <div className="card-body p-4 items-center text-center">
@@ -60,7 +61,7 @@ export default function ExplorePage() {
         {/* All Tools Section */}
         <section>
           <h2 className="text-xl font-bold text-base-content mb-4">All Tools</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" role="list" aria-label="All AI tools">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" role="list" aria-label="All tools">
             {allUseCases.map((uc) => (
               <Link
                 key={uc.id}
@@ -76,10 +77,10 @@ export default function ExplorePage() {
                   <h3 className="text-lg font-bold text-base-content leading-tight">
                     {uc.title}
                   </h3>
-                  <p className="text-sm text-base-content/70 line-clamp-1 mt-0.5">
+                  <p className="text-base text-base-content/70 line-clamp-1 mt-0.5">
                     {uc.description}
                   </p>
-                  <span className="badge badge-outline badge-sm mt-1.5">
+                  <span className="badge badge badge-outline mt-1.5">
                     {uc.categoryLabel}
                   </span>
                 </div>

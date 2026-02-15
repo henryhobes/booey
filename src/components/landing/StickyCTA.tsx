@@ -23,7 +23,7 @@ export default function StickyCTA() {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm border-t border-base-300 p-3 transition-transform duration-300 ${
+      className={`fixed bottom-20 left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm border-t border-base-300 p-3 transition-transform duration-300 ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
       aria-hidden={!visible}
