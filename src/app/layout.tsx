@@ -63,15 +63,6 @@ export default function RootLayout({
             {children}
           </main>
 
-          {/* Footer */}
-          <footer className="footer footer-center bg-base-200 p-6 text-base-content">
-            <aside>
-              <p className="text-sm">
-                Powered by AI • Built with ❤️
-              </p>
-            </aside>
-          </footer>
-
           {/* Mobile Bottom Navigation */}
           <MobileBottomNav />
         </div>

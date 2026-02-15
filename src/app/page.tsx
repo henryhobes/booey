@@ -3,7 +3,6 @@ import useCases from "@/data/use-cases.json";
 import UseCaseGrid from "@/components/UseCaseGrid";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import PrivacySection from "@/components/landing/PrivacySection";
-import FounderStory from "@/components/landing/FounderStory";
 import TrustBadges from "@/components/landing/TrustBadges";
 
 export default function Home() {
@@ -65,11 +64,6 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 md:px-6 lg:px-8">
           <PrivacySection />
         </div>
-      </section>
-
-      {/* Founder Story Section */}
-      <section className="mx-auto max-w-4xl px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
-        <FounderStory />
       </section>
 
       {/* Trust Badges Section */}
