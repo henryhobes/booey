@@ -151,6 +151,15 @@ export default function Wizard({ useCase }: WizardProps) {
       const data = await response.json();
       
       if (!response.ok) {
+        // Rate limit errors get a tailored message (don't say "try again")
+        if (data.rateLimited) {
+          const isMinuteLimit = data.minuteRemaining !== undefined && data.minuteRemaining <= 0;
+          if (isMinuteLimit) {
+            throw Object.assign(new Error(data.error), { isRateLimit: true, canRetry: true });
+          } else {
+            throw Object.assign(new Error(data.error), { isRateLimit: true, canRetry: false });
+          }
+        }
         throw new Error(data.error || 'Failed to generate result');
       }
       
@@ -167,11 +176,20 @@ export default function Wizard({ useCase }: WizardProps) {
         });
       }
     } catch (err) {
-      setError(
-        err instanceof Error 
-          ? `We could not create your result: ${err.message}. Please try again. If this keeps happening, contact support.`
-          : 'We could not create your result. Please try again. If this keeps happening, contact support.'
-      );
+      const rateLimitErr = err as Error & { isRateLimit?: boolean; canRetry?: boolean };
+      if (rateLimitErr.isRateLimit && !rateLimitErr.canRetry) {
+        // Daily limit — don't tell them to try again
+        setError(`${rateLimitErr.message} Come back tomorrow — your answers will be waiting.`);
+      } else if (rateLimitErr.isRateLimit && rateLimitErr.canRetry) {
+        // Per-minute limit — they can try again shortly
+        setError(`${rateLimitErr.message} Wait a moment, then try again.`);
+      } else {
+        setError(
+          err instanceof Error 
+            ? `We could not create your result: ${err.message}. Please try again. If this keeps happening, contact support.`
+            : 'We could not create your result. Please try again. If this keeps happening, contact support.'
+        );
+      }
       setMode('review'); // Go back to review on error
       setIsSubmitting(false);
     }
