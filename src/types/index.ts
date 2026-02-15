@@ -12,6 +12,7 @@ export interface UseCaseQuestion {
   required: boolean;
   min?: number;
   max?: number;
+  helperText?: string;
 }
 
 export interface UseCase {

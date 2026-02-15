@@ -24,7 +24,13 @@ export default function TextareaQuestion({ question, value, onChange }: Textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={question.required}
+        autoFocus
       />
+      {question.helperText && (
+        <label className="label">
+          <span className="label-text-alt text-base-content/60">{question.helperText}</span>
+        </label>
+      )}
     </div>
   );
 }

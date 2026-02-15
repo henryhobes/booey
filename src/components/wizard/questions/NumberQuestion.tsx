@@ -55,7 +55,13 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
         min={question.min}
         max={question.max}
         required={question.required}
+        autoFocus
       />
+      {question.helperText && (
+        <label className="label">
+          <span className="label-text-alt text-base-content/60">{question.helperText}</span>
+        </label>
+      )}
     </div>
   );
 }

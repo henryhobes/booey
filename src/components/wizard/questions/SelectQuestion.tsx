@@ -23,6 +23,7 @@ export default function SelectQuestion({ question, value, onChange }: SelectQues
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={question.required}
+        autoFocus
       >
         <option value="" disabled>
           Choose an option...
@@ -33,6 +34,11 @@ export default function SelectQuestion({ question, value, onChange }: SelectQues
           </option>
         ))}
       </select>
+      {question.helperText && (
+        <label className="label">
+          <span className="label-text-alt text-base-content/60">{question.helperText}</span>
+        </label>
+      )}
     </div>
   );
 }

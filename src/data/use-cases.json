@@ -11,7 +11,8 @@
         "label": "Paste your recipe (or describe the dish)",
         "type": "textarea",
         "placeholder": "e.g., Grandma's mac and cheese: 2 cups elbow macaroni, 4 tbsp butter, 2 cups heavy cream...",
-        "required": true
+        "required": true,
+        "helperText": "Include ingredients and amounts if you have them"
       },
       {
         "id": "restrictions",
@@ -57,7 +58,8 @@
         "label": "What ingredients do you have?",
         "type": "textarea",
         "placeholder": "e.g., chicken breast, rice, frozen broccoli, cheddar cheese, onions, garlic...",
-        "required": true
+        "required": true,
+        "helperText": "List everything - even basic pantry staples like salt, oil, etc."
       },
       {
         "id": "cuisine",
@@ -101,7 +103,8 @@
         "label": "What's the situation?",
         "type": "textarea",
         "placeholder": "e.g., I need to tell my boss I can't take on another project right now...",
-        "required": true
+        "required": true,
+        "helperText": "The more context you provide, the better we can help"
       },
       {
         "id": "recipient",

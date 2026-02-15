@@ -9,6 +9,7 @@ import TextareaQuestion from './questions/TextareaQuestion';
 import SelectQuestion from './questions/SelectQuestion';
 import MultiselectQuestion from './questions/MultiselectQuestion';
 import NumberQuestion from './questions/NumberQuestion';
+import LoadingScreen from './LoadingScreen';
 import Result from './Result';
 import Link from 'next/link';
 
@@ -16,19 +17,32 @@ interface WizardProps {
   useCase: UseCase;
 }
 
+type WizardMode = 'welcome' | 'questions' | 'review' | 'generating' | 'result';
+
 export default function Wizard({ useCase }: WizardProps) {
   const { user } = useUser();
   const { canUseAsGuest, markGuestUseComplete, hasUsedFreeUse } = useTryBeforeSignup();
+  const [mode, setMode] = useState<WizardMode>('welcome');
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
   const [result, setResult] = useState<string | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
   const currentQuestion = useCase.questions[currentStep];
-  const isLastQuestion = currentStep === useCase.questions.length - 1;
   const totalQuestions = useCase.questions.length;
-  const progress = ((currentStep + 1) / totalQuestions) * 100;
+  
+  // Calculate progress including welcome and review screens
+  const getProgress = () => {
+    const totalSteps = totalQuestions + 2; // +2 for welcome and review
+    let currentStepNum = 0;
+    
+    if (mode === 'welcome') currentStepNum = 0;
+    else if (mode === 'questions') currentStepNum = currentStep + 1;
+    else if (mode === 'review') currentStepNum = totalQuestions + 1;
+    else currentStepNum = totalSteps;
+    
+    return (currentStepNum / totalSteps) * 100;
+  };
   
   // Get current answer value (initialize based on question type)
   const getCurrentValue = () => {
@@ -59,15 +73,28 @@ export default function Wizard({ useCase }: WizardProps) {
     setError(null);
   };
   
+  // Start the wizard from welcome screen
+  const handleStart = () => {
+    setMode('questions');
+    setCurrentStep(0);
+    setError(null);
+  };
+  
   // Navigate to next question
   const handleNext = () => {
     if (!isCurrentQuestionValid()) {
-      setError('Please answer this question before continuing');
+      setError('Just need your answer here 👆');
       return;
     }
     
-    setCurrentStep(currentStep + 1);
-    setError(null);
+    // Check if last question - go to review
+    if (currentStep === totalQuestions - 1) {
+      setMode('review');
+      setError(null);
+    } else {
+      setCurrentStep(currentStep + 1);
+      setError(null);
+    }
   };
   
   // Navigate to previous question
@@ -75,17 +102,30 @@ export default function Wizard({ useCase }: WizardProps) {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
       setError(null);
+    } else {
+      // Go back to welcome screen
+      setMode('welcome');
+      setError(null);
     }
+  };
+  
+  // Go back from review to last question
+  const handleBackFromReview = () => {
+    setMode('questions');
+    setCurrentStep(totalQuestions - 1);
+    setError(null);
+  };
+  
+  // Edit a specific answer from review screen
+  const handleEditAnswer = (questionIndex: number) => {
+    setMode('questions');
+    setCurrentStep(questionIndex);
+    setError(null);
   };
   
   // Submit and generate result
   const handleSubmit = async () => {
-    if (!isCurrentQuestionValid()) {
-      setError('Please answer this question before continuing');
-      return;
-    }
-    
-    setIsGenerating(true);
+    setMode('generating');
     setError(null);
     
     try {
@@ -107,6 +147,7 @@ export default function Wizard({ useCase }: WizardProps) {
       }
       
       setResult(data.result);
+      setMode('result');
       
       // Track guest usage
       if (!user) {
@@ -117,9 +158,12 @@ export default function Wizard({ useCase }: WizardProps) {
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
-    } finally {
-      setIsGenerating(false);
+      setError(
+        err instanceof Error 
+          ? `Hmm, something went wrong: ${err.message}. Mind trying again?`
+          : 'Oops! Something didn\'t work quite right. Could you give it another try?'
+      );
+      setMode('review'); // Go back to review on error
     }
   };
   
@@ -131,6 +175,7 @@ export default function Wizard({ useCase }: WizardProps) {
   
   // Start over
   const handleStartOver = () => {
+    setMode('welcome');
     setCurrentStep(0);
     setAnswers({});
     setResult(null);
@@ -160,7 +205,7 @@ export default function Wizard({ useCase }: WizardProps) {
   }
 
   // Render result view
-  if (result) {
+  if (mode === 'result' && result) {
     return (
       <>
         <Result result={result} onStartOver={handleStartOver} />
@@ -182,15 +227,172 @@ export default function Wizard({ useCase }: WizardProps) {
   }
   
   // Render loading state
-  if (isGenerating) {
+  if (mode === 'generating') {
+    return <LoadingScreen />;
+  }
+  
+  // Render welcome screen
+  if (mode === 'welcome') {
+    const estimatedMinutes = Math.max(1, Math.round(totalQuestions * 0.5));
+    
     return (
-      <div className="w-full max-w-2xl mx-auto">
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body items-center text-center p-12">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
-            <h2 className="text-2xl font-bold mt-6 mb-2">Working on your results...</h2>
-            <p className="text-lg opacity-70">This should just take a moment</p>
+      <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="text-6xl md:text-7xl mb-6">{useCase.icon}</div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{useCase.title}</h1>
+          <p className="text-lg md:text-xl opacity-70 mb-8">{useCase.description}</p>
+        </div>
+        
+        {/* Welcome Card */}
+        <div className="card bg-base-100 shadow-xl mb-6">
+          <div className="card-body p-6 md:p-10">
+            <h2 className="text-2xl font-bold mb-6">What to expect</h2>
+            
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">⏱️</span>
+                <div>
+                  <p className="font-medium">Quick & easy</p>
+                  <p className="opacity-70">We'll ask you {totalQuestions} question{totalQuestions > 1 ? 's' : ''} (takes about {estimatedMinutes} minute{estimatedMinutes > 1 ? 's' : ''})</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">✨</span>
+                <div>
+                  <p className="font-medium">Personalized results</p>
+                  <p className="opacity-70">You'll get a custom response tailored to your specific needs</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">👀</span>
+                <div>
+                  <p className="font-medium">Review before we start</p>
+                  <p className="opacity-70">You can review and edit your answers before generating</p>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              onClick={handleStart}
+              className="btn btn-primary btn-lg w-full text-lg min-h-[48px]"
+            >
+              Let&apos;s Get Started →
+            </button>
           </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Render review screen
+  if (mode === 'review') {
+    return (
+      <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="text-5xl md:text-6xl mb-4">{useCase.icon}</div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-3">{useCase.title}</h1>
+        </div>
+        
+        {/* Progress */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium">Review your answers</span>
+            <span className="text-sm opacity-70">{Math.round(getProgress())}% complete</span>
+          </div>
+          <progress
+            className="progress progress-primary w-full"
+            value={getProgress()}
+            max="100"
+          ></progress>
+        </div>
+        
+        {/* Review Card */}
+        <div className="card bg-base-100 shadow-xl mb-6">
+          <div className="card-body p-4 md:p-8">
+            <h2 className="text-2xl font-bold mb-6">Review Your Answers</h2>
+            
+            <div className="space-y-6">
+              {useCase.questions.map((question, index) => {
+                const answer = answers[question.id];
+                let displayAnswer = '';
+                
+                if (Array.isArray(answer)) {
+                  displayAnswer = answer.join(', ');
+                } else if (answer !== undefined && answer !== null) {
+                  displayAnswer = String(answer);
+                }
+                
+                return (
+                  <div key={question.id} className="border-b border-base-300 pb-4 last:border-0">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <p className="font-medium text-base-content/70">
+                        {index + 1}. {question.label}
+                      </p>
+                      <button
+                        onClick={() => handleEditAnswer(index)}
+                        className="btn btn-ghost btn-xs text-primary"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                    <p className="text-lg font-medium pl-4">
+                      {displayAnswer || <span className="opacity-50 italic">No answer</span>}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {error && (
+              <div className="alert alert-error mt-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+                {error.includes('try again') && (
+                  <button onClick={handleRetry} className="btn btn-sm btn-outline">
+                    Retry
+                  </button>
+                )}
+              </div>
+            )}
+            
+            <div className="mt-8">
+              <p className="text-center text-sm opacity-70 mb-4">
+                Everything look good?
+              </p>
+              <button 
+                onClick={handleSubmit}
+                className="btn btn-primary btn-lg w-full text-lg min-h-[48px]"
+              >
+                Generate My Results ✨
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Navigation */}
+        <div className="flex justify-start">
+          <button
+            onClick={handleBackFromReview}
+            className="btn btn-outline btn-lg min-h-[48px]"
+          >
+            ← Back
+          </button>
         </div>
       </div>
     );
@@ -259,11 +461,11 @@ export default function Wizard({ useCase }: WizardProps) {
           <span className="text-sm font-medium">
             Question {currentStep + 1} of {totalQuestions}
           </span>
-          <span className="text-sm opacity-70">{Math.round(progress)}% complete</span>
+          <span className="text-sm opacity-70">{Math.round(getProgress())}% complete</span>
         </div>
         <progress
           className="progress progress-primary w-full"
-          value={progress}
+          value={getProgress()}
           max="100"
         ></progress>
       </div>
@@ -289,11 +491,6 @@ export default function Wizard({ useCase }: WizardProps) {
                 />
               </svg>
               <span>{error}</span>
-              {error.includes('try again') && (
-                <button onClick={handleRetry} className="btn btn-sm btn-outline">
-                  Retry
-                </button>
-              )}
             </div>
           )}
         </div>
@@ -303,21 +500,17 @@ export default function Wizard({ useCase }: WizardProps) {
       <div className="flex flex-col-reverse md:flex-row gap-4 md:justify-between">
         <button
           onClick={handleBack}
-          className="btn btn-outline btn-lg w-full md:w-auto min-h-[44px]"
-          disabled={currentStep === 0}
+          className="btn btn-outline btn-lg w-full md:w-auto min-h-[48px]"
         >
           Back
         </button>
         
-        {isLastQuestion ? (
-          <button onClick={handleSubmit} className="btn btn-primary btn-lg w-full md:w-auto min-h-[44px]">
-            Get My Results ✨
-          </button>
-        ) : (
-          <button onClick={handleNext} className="btn btn-primary btn-lg w-full md:w-auto min-h-[44px]">
-            Next
-          </button>
-        )}
+        <button 
+          onClick={handleNext} 
+          className="btn btn-primary btn-lg w-full md:w-auto min-h-[48px]"
+        >
+          {currentStep === totalQuestions - 1 ? 'Review Answers →' : 'Next'}
+        </button>
       </div>
     </div>
   );
