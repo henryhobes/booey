@@ -1,9 +1,12 @@
+import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { getUseCaseById, validateRequiredAnswers } from '@/lib/use-cases';
 import { generateResult } from '@/lib/ai/claude';
 import { createClient } from '@/lib/supabase/server';
 import { GenerateRequestSchema } from '@/lib/validation';
 import { checkRateLimit, incrementUsage } from '@/lib/rate-limit';
+
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export async function POST(request: NextRequest) {
   try {
@@ -74,9 +77,45 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    // Check response cache
+    const cacheKey = crypto
+      .createHash('sha256')
+      .update(`${useCaseId}:${JSON.stringify(answers)}`)
+      .digest('hex');
+
+    const { data: cached } = await supabase
+      .from('response_cache')
+      .select('result')
+      .eq('cache_key', cacheKey)
+      .gte('created_at', new Date(Date.now() - CACHE_TTL_MS).toISOString())
+      .single();
+
+    if (cached) {
+      console.log(`[Cache] HIT for ${useCaseId} key=${cacheKey.slice(0, 8)}`);
+      return NextResponse.json({
+        result: cached.result,
+        model: 'cache',
+        inputTokens: 0,
+        outputTokens: 0,
+        cached: true,
+      });
+    }
+
     // Generate result using Claude
     const result = await generateResult(useCase, answers);
     
+    // Cache the response (fire-and-forget, don't block response)
+    supabase
+      .from('response_cache')
+      .upsert({
+        cache_key: cacheKey,
+        use_case_id: useCaseId,
+        result: result.result,
+      })
+      .then(({ error }) => {
+        if (error) console.error('[Cache] Failed to store:', error.message);
+      });
+
     // Increment rate limit usage after successful generation
     await incrementUsage(userId);
     
