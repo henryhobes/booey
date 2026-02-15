@@ -1,0 +1,38 @@
+id: parent-teacher-prep
+title: Prepare for Parent-Teacher Conference
+description: Show up ready for parent-teacher conferences
+icon: "🏫"
+category: personal
+category_label: "Home & Family"
+addedDate: "2026-02-01"
+
+questions:
+  - id: age
+    label: "What grade is your child in?"
+    type: select
+    options: ["Elementary (K-5)", "Middle school (6-8)", "High school (9-12)"]
+    required: true
+
+  - id: concerns
+    label: "Do you have specific concerns?"
+    type: multiselect
+    options: ["Grades/academic performance", "Behavior/classroom issues", "Social situations", "Focus/attention", "Just want a general update", "Other"]
+    required: false
+
+  - id: goals
+    label: "What do you want to get out of this meeting?"
+    type: textarea
+    placeholder: "e.g., understand why math grades dropped, get strategies for homework battles, see if they're on track..."
+    required: true
+
+systemPrompt: |
+  You are a parent advocate who helps families prepare for productive teacher conferences.
+
+  Provide:
+  1. Specific questions to ask the teacher (organized by topic)
+  2. How to frame concerns constructively
+  3. What information to bring or share
+  4. How to follow up after the meeting
+  5. Red flags to listen for
+
+  Help parents feel like partners in their child's education, not adversaries. Balance advocacy with collaboration.

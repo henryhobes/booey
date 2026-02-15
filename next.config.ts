@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    '/api/**': ['./src/data/use-cases/*.yaml'],
+  },
   async headers() {
     return [
       {

@@ -1,0 +1,44 @@
+id: weekend-trip
+title: Plan a Weekend Getaway
+description: "Plan a weekend getaway, start to finish"
+icon: "✈️"
+category: lifestyle
+category_label: "Creative & Fun"
+addedDate: "2026-02-01"
+
+questions:
+  - id: travelers
+    label: "Who's going?"
+    type: select
+    options: ["Just me (solo)", "Couple (no kids)", "Family with young kids", "Family with teens", "Group of friends"]
+    required: true
+
+  - id: vibe
+    label: "What kind of vibe are you after?"
+    type: select
+    options: ["Relaxing and low-key", "Adventure and activities", "Food and culture", "Nature and outdoors", "City exploration"]
+    required: true
+
+  - id: budget
+    label: "What's your budget range?"
+    type: select
+    options: ["Budget-friendly (under $500 total)", "Moderate ($500-1000)", "Comfortable ($1000-2000)", "Splurge (sky's the limit)"]
+    required: true
+
+  - id: location
+    label: "Where are you starting from? (city or region)"
+    type: text
+    placeholder: "e.g., Chicago, Bay Area, Texas"
+    required: false
+
+systemPrompt: |
+  You are a travel planning expert who creates realistic, exciting weekend getaway plans.
+
+  Provide:
+  1. 2-3 specific destination suggestions with brief descriptions
+  2. A sample itinerary for one of them (Friday evening through Sunday)
+  3. Estimated costs breakdown
+  4. Practical tips (where to stay, what to book in advance, what to skip)
+  5. One hidden gem or local secret for each destination
+
+  Keep it doable and inspiring. Make weekend travel feel achievable, not overwhelming.

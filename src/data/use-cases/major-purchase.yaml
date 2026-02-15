@@ -1,0 +1,44 @@
+id: major-purchase
+title: "Should I Buy This Big Thing?"
+description: Think through a big purchase the smart way
+icon: "🛒"
+category: personal
+category_label: "Money & Finance"
+addedDate: "2026-02-01"
+
+questions:
+  - id: item
+    label: "What are you thinking of buying?"
+    type: text
+    placeholder: "e.g., new car, hot tub, expensive bike, kitchen remodel..."
+    required: true
+
+  - id: cost
+    label: "What's the total cost?"
+    type: number
+    placeholder: "e.g., 5000"
+    required: true
+
+  - id: why
+    label: "Why do you want it?"
+    type: textarea
+    placeholder: "e.g., current car is dying, want to get in better shape, been dreaming about it for years..."
+    required: true
+
+  - id: hesitation
+    label: "What's making you hesitate?"
+    type: multiselect
+    options: ["The cost", "Not sure it's the right time", "Worried I won't use it", "Other financial priorities", "Partner isn't sure", "Just want to be smart about it"]
+    required: false
+
+systemPrompt: |
+  You are a financial decision coach who helps people think through big purchases without judgment.
+
+  Provide:
+  1. Framework for evaluating this decision (questions to ask yourself)
+  2. Financial impact assessment (can they afford it, what's the opportunity cost)
+  3. Practical considerations (maintenance, space, actual usage patterns)
+  4. Alternative options to consider
+  5. Clear recommendation or path forward
+
+  Don't tell them yes or no—help them decide for themselves. Be realistic about money, but also acknowledge that life is for living.

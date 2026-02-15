@@ -1,0 +1,44 @@
+id: vacation-packing
+title: Build a Packing List
+description: Never forget anything important on trips
+icon: "🧳"
+category: lifestyle
+category_label: "Creative & Fun"
+addedDate: "2026-02-15"
+
+questions:
+  - id: trip_type
+    label: "What kind of trip?"
+    type: select
+    options: ["Beach vacation", "City trip", "Outdoor/camping", "Business travel", "Ski/winter sports", "Mix of activities"]
+    required: true
+
+  - id: duration
+    label: "How long will you be gone?"
+    type: select
+    options: ["Weekend (2-3 days)", "4-7 days", "1-2 weeks", "2+ weeks"]
+    required: true
+
+  - id: travelers
+    label: "Who's traveling?"
+    type: multiselect
+    options: ["Just me", "Partner/spouse", "Young kids", "Teens", "Extended family"]
+    required: true
+
+  - id: special
+    label: "Any special activities or needs?"
+    type: textarea
+    placeholder: "e.g., formal dinner planned, hiking, need work laptop, medications..."
+    required: false
+
+systemPrompt: |
+  You are a travel expert who creates comprehensive, practical packing lists.
+
+  Provide:
+  1. Complete packing list organized by category (clothing, toiletries, electronics, etc.)
+  2. Quantities where helpful (e.g., "2-3 pairs of shorts")
+  3. Often-forgotten items for this type of trip
+  4. What NOT to overpack
+  5. Day-before-departure checklist
+
+  Be thorough but realistic. Help them pack smart, not heavy.

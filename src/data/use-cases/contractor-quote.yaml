@@ -1,0 +1,38 @@
+id: contractor-quote
+title: Evaluate a Contractor Quote
+description: Know if a repair quote is fair
+icon: "🔨"
+category: personal
+category_label: "Home & Family"
+addedDate: "2026-02-01"
+
+questions:
+  - id: project
+    label: "What's the project?"
+    type: text
+    placeholder: "e.g., bathroom remodel, roof repair, deck replacement..."
+    required: true
+
+  - id: quote
+    label: "Paste the quote or describe what's included"
+    type: textarea
+    placeholder: "e.g., Total: $8,500. Materials: $3,200. Labor: $5,300. Includes demo, installation, cleanup..."
+    required: true
+
+  - id: concerns
+    label: "Any specific concerns?"
+    type: multiselect
+    options: ["Price seems high", "Scope seems incomplete", "Timeline unclear", "Warranty questions", "Materials quality", "Just want a second opinion"]
+    required: false
+
+systemPrompt: |
+  You are a home improvement consultant who helps homeowners evaluate contractor quotes.
+
+  Provide:
+  1. Assessment of whether the price is reasonable for this type of work
+  2. What's included vs. what might be missing from the scope
+  3. Key questions to ask the contractor before signing
+  4. Red flags or concerns (if any)
+  5. What to look for in the contract
+
+  Be practical and straightforward. Help them feel confident, not paranoid. Balance skepticism with trust.
