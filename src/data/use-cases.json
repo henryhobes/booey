@@ -2,7 +2,7 @@
   {
     "id": "healthy-recipe",
     "title": "Make a Recipe Healthier",
-    "description": "Get a healthier version of any recipe without sacrificing flavor",
+    "description": "Make any recipe healthier without losing flavor",
     "icon": "🍎",
     "category": "health",
     "questions": [
@@ -49,7 +49,7 @@
   {
     "id": "pantry-meal",
     "title": "What Can I Make with What I Have?",
-    "description": "Turn whatever's in your pantry into a real meal",
+    "description": "Turn what you have into a real meal",
     "icon": "🥘",
     "category": "health",
     "questions": [
@@ -94,7 +94,7 @@
   {
     "id": "difficult-email",
     "title": "Write a Tough Email",
-    "description": "Get help composing a sensitive or difficult email",
+    "description": "Write a hard email with confidence",
     "icon": "✉️",
     "category": "work",
     "questions": [
@@ -140,7 +140,7 @@
   {
     "id": "bill-negotiation",
     "title": "Negotiate My Bills Lower",
-    "description": "Get a script to negotiate with cable, phone, or insurance companies",
+    "description": "Lower your bills. We tell you what to say.",
     "icon": "💰",
     "category": "work",
     "questions": [
@@ -185,7 +185,7 @@
   {
     "id": "weekend-trip",
     "title": "Plan a Weekend Getaway",
-    "description": "Quick trip ideas for a couple or family escape",
+    "description": "Plan a weekend getaway, start to finish",
     "icon": "✈️",
     "category": "lifestyle",
     "questions": [
@@ -241,7 +241,7 @@
   {
     "id": "gift-ideas",
     "title": "Find the Perfect Gift",
-    "description": "Thoughtful gift ideas for any person or occasion",
+    "description": "Find the perfect gift for anyone",
     "icon": "🎁",
     "category": "personal",
     "questions": [
@@ -303,7 +303,7 @@
   {
     "id": "contractor-quote",
     "title": "Evaluate a Contractor Quote",
-    "description": "Figure out if a home repair quote is fair and complete",
+    "description": "Know if a repair quote is fair",
     "icon": "🔨",
     "category": "personal",
     "questions": [
@@ -342,7 +342,7 @@
   {
     "id": "tech-explainer",
     "title": "Explain This Tech Thing to Me",
-    "description": "Plain-English explanations of confusing technology",
+    "description": "Understand tech stuff without the confusion",
     "icon": "💻",
     "category": "lifestyle",
     "questions": [
@@ -379,7 +379,7 @@
   {
     "id": "pop-culture",
     "title": "What's Everyone Talking About?",
-    "description": "Get caught up on pop culture, memes, or trends you missed",
+    "description": "Catch up on what everyone's talking about",
     "icon": "📱",
     "category": "lifestyle",
     "questions": [
@@ -421,7 +421,7 @@
   {
     "id": "meal-plan-week",
     "title": "Plan My Week of Meals",
-    "description": "Get a realistic meal plan that actually fits your life",
+    "description": "Plan a week of meals that fit your life",
     "icon": "📅",
     "category": "health",
     "questions": [
@@ -485,7 +485,7 @@
   {
     "id": "resume-update",
     "title": "Modernize My Resume",
-    "description": "Update your resume for today's job market",
+    "description": "Make your resume work for today's jobs",
     "icon": "📄",
     "category": "work",
     "questions": [
@@ -524,7 +524,7 @@
   {
     "id": "exercise-plan",
     "title": "Get Back Into Exercise",
-    "description": "A realistic workout plan for getting active again",
+    "description": "Get back into exercise the right way",
     "icon": "🏃",
     "category": "health",
     "questions": [
@@ -580,7 +580,7 @@
   {
     "id": "conversation-starters",
     "title": "Dinner Table Conversation Starters",
-    "description": "Get your family actually talking at dinner",
+    "description": "Get your family talking at dinner",
     "icon": "🍽️",
     "category": "personal",
     "questions": [
@@ -628,7 +628,7 @@
   {
     "id": "side-hustle",
     "title": "Find a Side Hustle That Fits My Life",
-    "description": "Realistic side income ideas based on your skills and time",
+    "description": "Find a side hustle that fits your life",
     "icon": "💼",
     "category": "work",
     "questions": [
@@ -682,7 +682,7 @@
   {
     "id": "vacation-packing",
     "title": "Build a Packing List",
-    "description": "Never forget anything important again",
+    "description": "Never forget anything important on trips",
     "icon": "🧳",
     "category": "lifestyle",
     "questions": [
@@ -739,7 +739,7 @@
   {
     "id": "sympathy-message",
     "title": "Write a Sympathy Message",
-    "description": "Express condolences with warmth and sincerity",
+    "description": "Write a heartfelt condolence message",
     "icon": "💐",
     "category": "personal",
     "questions": [
@@ -797,7 +797,7 @@
   {
     "id": "major-purchase",
     "title": "Should I Buy This Big Thing?",
-    "description": "Think through a major purchase decision",
+    "description": "Think through a big purchase the smart way",
     "icon": "🛒",
     "category": "personal",
     "questions": [
@@ -843,7 +843,7 @@
   {
     "id": "parent-teacher-prep",
     "title": "Prepare for Parent-Teacher Conference",
-    "description": "Go in organized with the right questions",
+    "description": "Show up ready for parent-teacher conferences",
     "icon": "🏫",
     "category": "personal",
     "questions": [
