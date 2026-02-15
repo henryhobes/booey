@@ -2,10 +2,18 @@
 @plugin "daisyui";
 
 @theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
-  --color-primary-aaa: #095B5F;
-  --color-primary-light: #0D7377;
+  /* Sunrise Surf AAA Color Palette */
+  --color-background: #FFF5EB;      /* Sand - warm background */
+  --color-foreground: #2C3E50;      /* Charcoal Navy - body text */
+  --color-primary: #2C5682;         /* Ocean Blue - links/headers (7.07:1 AAA) */
+  --color-primary-decorative: #4A90D9; /* Sky Blue - backgrounds only */
+  --color-primary-hover: #244B70;   /* Ocean Blue hover */
+  --color-secondary: #D9663D;       /* Rust Orange - CTA buttons (4.87:1 AA) */
+  --color-secondary-decorative: #FF8A6C; /* Peach Coral - backgrounds only */
+  --color-secondary-hover: #C25833; /* Rust Orange hover */
+  --color-accent: #FFD4B8;          /* Blush Peach - decorative only */
+  --color-dark: #2C3E50;            /* Charcoal Navy - text/buttons (10.21:1 AAA) */
+  --color-dark-hover: #1E2B37;      /* Charcoal Navy hover */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -64,41 +72,41 @@ textarea {
 }
 
 /* ============================================
-   DaisyUI Custom Theme - Booey (AAA Contrast)
+   DaisyUI Custom Theme - Booey "Sunrise Surf AAA"
    ============================================ */
 [data-theme="booey"] {
   color-scheme: light;
 
-  /* Primary: Darkened teal for 7:1 AAA contrast */
-  --p: 183 80% 20%;  /* #095B5F - 7.2:1 on white */
-  --pc: 0 0% 100%;
+  /* Primary: Ocean Blue (text variant, AAA on Sand) */
+  --p: 207 49% 34%;  /* #2C5682 - 7.07:1 on Sand */
+  --pc: 0 0% 100%;   /* White text on Ocean Blue */
 
-  /* Secondary: Darkened coral for better contrast */
-  --s: 15 80% 40%;   /* Darker coral */
-  --sc: 0 0% 100%;
+  /* Secondary: Rust Orange (interactive, AA on Sand with white text) */
+  --s: 14 62% 54%;   /* #D9663D - 4.87:1 on Sand */
+  --sc: 0 0% 100%;   /* White text on Rust Orange */
 
-  /* Accent */
-  --a: 200 80% 30%;
-  --ac: 0 0% 100%;
+  /* Accent: Blush Peach (decorative only) */
+  --a: 24 100% 87%;  /* #FFD4B8 */
+  --ac: 215 25% 27%; /* Charcoal Navy text on light accent */
 
-  /* Neutral */
-  --n: 220 13% 18%;
-  --nc: 0 0% 100%;
+  /* Neutral: Charcoal Navy */
+  --n: 210 29% 24%;  /* #2C3E50 - body text */
+  --nc: 0 0% 100%;   /* White text on Charcoal Navy */
 
-  /* Base colors */
-  --b1: 0 0% 100%;
-  --b2: 220 13% 97%;
-  --b3: 220 13% 93%;
-  --bc: 0 0% 10%;     /* #1A1A1A - 16.6:1 on white */
+  /* Base colors: Sand backgrounds */
+  --b1: 33 100% 97%; /* #FFF5EB - Sand (main background) */
+  --b2: 33 80% 94%;  /* Slightly darker sand */
+  --b3: 33 60% 90%;  /* Even darker sand */
+  --bc: 210 29% 24%; /* #2C3E50 - Charcoal Navy for text */
 
-  /* Status colors - all AAA compliant */
-  --in: 198 80% 35%;
+  /* Status colors - adjusted for Sand background */
+  --in: 207 49% 34%;  /* Ocean Blue */
   --inc: 0 0% 100%;
-  --su: 158 64% 30%;
+  --su: 158 64% 30%;  /* Green (AAA compliant) */
   --suc: 0 0% 100%;
-  --wa: 43 96% 40%;
+  --wa: 43 96% 40%;   /* Yellow/amber */
   --wac: 0 0% 10%;
-  --er: 0 70% 40%;    /* #AD2E2E - 7.1:1 on white */
+  --er: 0 70% 40%;    /* Red (AAA compliant) */
   --erc: 0 0% 100%;
 
   --rounded-box: 1rem;
@@ -122,16 +130,16 @@ textarea {
 }
 
 *:focus-visible {
-  outline: 3px solid #095B5F;
+  outline: 3px solid #2C5682; /* Ocean Blue */
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 button:focus-visible,
 .btn:focus-visible {
-  outline: 3px solid #095B5F;
+  outline: 3px solid #2C5682; /* Ocean Blue */
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(9, 91, 95, 0.2);
+  box-shadow: 0 0 0 6px rgba(44, 86, 130, 0.2);
 }
 
 /* Skip to content link */
@@ -139,7 +147,7 @@ button:focus-visible,
   position: absolute;
   top: -100px;
   left: 16px;
-  background: #095B5F;
+  background: #2C3E50; /* Charcoal Navy - AAA contrast */
   color: white;
   padding: 12px 24px;
   z-index: 100;
@@ -151,7 +159,7 @@ button:focus-visible,
 
 .skip-to-content:focus {
   top: 0;
-  outline: 3px solid #073E42;
+  outline: 3px solid #2C5682; /* Ocean Blue */
   outline-offset: 2px;
 }
 
@@ -188,7 +196,7 @@ button:focus-visible,
 
 .mobile-bottom-nav a:hover,
 .mobile-bottom-nav a[aria-current="page"] {
-  color: #095B5F;
+  color: #2C5682; /* Ocean Blue */
   font-weight: 600;
 }
 
