@@ -47,7 +47,7 @@ export default function PrivacySection() {
       <div className="mx-auto max-w-[700px] px-4 md:px-6 lg:px-8 text-center">
         <h2
           className="text-2xl md:text-3xl font-bold mb-8 md:mb-12"
-          style={{ color: "#2D2D2D" }}
+          style={{ color: "#2C3E50" }}
         >
           Your Privacy, Our Promise
         </h2>
@@ -57,7 +57,7 @@ export default function PrivacySection() {
             <li
               key={index}
               className="flex items-start gap-3 md:gap-4 text-lg leading-relaxed"
-              style={{ color: "#2D2D2D" }}
+              style={{ color: "#2C3E50" }}
             >
               <span
                 className="flex-shrink-0 text-xl md:text-2xl"
