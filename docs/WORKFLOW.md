@@ -16,15 +16,16 @@
 - Decides when QA is needed
 - Communicates progress to Henry
 
-### Coding Agents (Developers)
-- Implement tasks based on specs
+### Claude Code Agents (Developers) — Default Implementation
+- Implement tasks based on specs (via `sessions_spawn`)
 - Self-review before opening PR
 - Address review feedback and iterate
 
-### Review Agents (Code Reviewers)
+### Codex Agent (Default Reviewer)
 - Review PRs against conventions and architecture
 - Check for bugs, security issues, anti-patterns
 - Approve or request changes with specific, actionable comments
+- Run via: `npx @openai/codex --approval-mode full-auto "Review the diff on branch <branch> vs main. Read docs/CONVENTIONS.md and docs/ARCHITECTURE.md first. Check: TypeScript correctness, import boundaries, accessibility, responsive design, error handling, security. Give specific, actionable feedback. Approve or request changes."`
 
 ## Task Lifecycle
 
@@ -60,13 +61,9 @@ Inspired by OpenAI's "Ralph Wiggum Loop" — agents review each other until all 
    - Verifies `npm run build` and `npm run lint` pass
    - Writes a self-review summary in the PR description
 
-2. **Peer Agent Review:** Frank spawns a review agent (Codex or Claude Code) with:
-   ```
-   Review PR #X on branch <branch> against main.
-   Read docs/CONVENTIONS.md and docs/ARCHITECTURE.md first.
-   Check: TypeScript correctness, import boundaries, accessibility,
-   responsive design, error handling, security, code quality.
-   Give specific, actionable feedback. Approve or request changes.
+2. **Codex Review (default):** Frank runs Codex from the worktree directory:
+   ```bash
+   npx @openai/codex --approval-mode full-auto "Review the diff on branch <branch> vs main. Read docs/CONVENTIONS.md and docs/ARCHITECTURE.md first. Check: TypeScript correctness, import boundaries, accessibility, responsive design, error handling, security, code quality. Give specific, actionable feedback. Approve or request changes."
    ```
 
 3. **Iteration Loop:** If reviewer requests changes:
