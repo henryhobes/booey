@@ -35,7 +35,7 @@ export default function ExplorePage() {
         {/* Featured Section */}
         <section className="mb-10">
           <h2 className="text-xl font-bold text-base-content mb-4">⭐ Featured</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-none">
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {featured.map((uc) =>
               uc ? (
                 <Link
