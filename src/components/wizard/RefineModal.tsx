@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import FocusLock from 'react-focus-lock';
 
 interface RefineModalProps {
   isOpen: boolean;
@@ -19,6 +20,38 @@ const QUICK_REFINEMENTS = [
 
 export default function RefineModal({ isOpen, onClose, onSubmit }: RefineModalProps) {
   const [customPrompt, setCustomPrompt] = useState('');
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedElement = useRef<HTMLElement | null>(null);
+
+  // Store previously focused element when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      previouslyFocusedElement.current = document.activeElement as HTMLElement;
+    }
+  }, [isOpen]);
+
+  // Return focus to trigger element when modal closes
+  useEffect(() => {
+    if (!isOpen && previouslyFocusedElement.current) {
+      previouslyFocusedElement.current.focus();
+      previouslyFocusedElement.current = null;
+    }
+  }, [isOpen]);
+
+  // Handle Escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        e.preventDefault();
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isOpen, onClose]);
 
   const handleQuickRefine = (prompt: string) => {
     onSubmit(prompt);
@@ -43,8 +76,9 @@ export default function RefineModal({ isOpen, onClose, onSubmit }: RefineModalPr
 
   return (
     <div className="modal modal-open">
-      <div className="modal-box max-w-2xl">
-        <h3 className="font-bold text-2xl mb-4">Refine Your Results</h3>
+      <FocusLock returnFocus>
+        <div className="modal-box max-w-2xl" ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h3 id="modal-title" className="font-bold text-2xl mb-4">Refine Your Results</h3>
         <p className="text-base opacity-70 mb-6">
           Tell us what you'd like to change, or pick a quick option below.
         </p>
@@ -118,8 +152,9 @@ export default function RefineModal({ isOpen, onClose, onSubmit }: RefineModalPr
             Refine
           </button>
         </div>
-      </div>
-      <div className="modal-backdrop" onClick={onClose} />
+        </div>
+      </FocusLock>
+      <div className="modal-backdrop" onClick={onClose} aria-hidden="true" />
     </div>
   );
 }
