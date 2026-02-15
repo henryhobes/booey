@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
+import { QuotaBadge } from './QuotaBadge'
 
 function HomeIcon() {
   return (
@@ -34,6 +35,9 @@ export function MobileBottomNav() {
 
   return (
     <nav className="mobile-bottom-nav md:hidden" aria-label="Mobile navigation">
+      <div className="flex justify-center py-1">
+        <QuotaBadge />
+      </div>
       <div className={`grid ${user ? 'grid-cols-2' : 'grid-cols-3'}`}>
         <Link
           href="/"
