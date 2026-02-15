@@ -1,0 +1,86 @@
+name: PR Review (Codex)
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+# Prevent multiple reviews running simultaneously on same PR
+concurrency:
+  group: codex-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get PR diff
+        run: |
+          git diff origin/main...HEAD > /tmp/pr-diff.txt
+          echo "Diff size: $(wc -l < /tmp/pr-diff.txt) lines"
+
+      - name: Run Codex Review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          npx @openai/codex --approval-mode full-auto --quiet \
+            "You are a code reviewer for Booey, an AI web app (Next.js + Tailwind + Supabase + Claude API).
+
+            Read these files first:
+            - CLAUDE.md (project map)
+            - docs/CONVENTIONS.md (import boundaries, naming, patterns)
+
+            Then review the PR diff. The diff is between this branch and main.
+
+            Check for:
+            1. Import boundary violations (see CONVENTIONS.md)
+            2. TypeScript quality (no any types, proper error handling)
+            3. Security issues (XSS, injection, exposed secrets)
+            4. Accessibility (48px touch targets, contrast, labels)
+            5. Files over 300 lines
+            6. Dead code or unnecessary complexity
+
+            Write your review to /tmp/review-output.md using this format:
+            - 🚨 CRITICAL: must fix (security, crashes, data loss)
+            - ⚠️ WARNING: should fix (bugs, poor patterns)
+            - 💡 SUGGESTION: nice to have
+            - ✅ APPROVED if no critical/warning issues
+
+            Be specific with file paths and line numbers." 2>&1 || true
+
+      - name: Post Review Comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let review = '';
+            try {
+              review = fs.readFileSync('/tmp/review-output.md', 'utf8');
+            } catch (e) {
+              review = '⚠️ Codex review did not produce output. Check the workflow logs.';
+            }
+
+            const body = `## 🤖 Codex Review\n\n${review}\n\n---\n*Automated review by Codex CLI via GitHub Actions*`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
