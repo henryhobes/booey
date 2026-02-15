@@ -1,6 +1,7 @@
 import Link from "next/link";
 import useCases from "@/data/use-cases.json";
 import UseCaseGrid from "@/components/UseCaseGrid";
+import HowItWorks from "@/components/landing/HowItWorks";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import PrivacySection from "@/components/landing/PrivacySection";
 import TrustBadges from "@/components/landing/TrustBadges";
@@ -22,18 +23,21 @@ export default function Home() {
         <div className="hero-content text-center">
           <div className="max-w-3xl">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-base-content">
-              AI tools for everyday life
+              Get things done faster, no tech skills needed
             </h1>
             <p className="py-6 text-lg md:text-xl lg:text-2xl text-base-content/80">
-              Simple, guided tools that help you get things done. No tech skills needed, 
-              no confusing prompts. Just answer a few questions and let AI do the work.
+              Answer a few simple questions, and our smart assistant does the work. 
+              No confusing prompts, no wrong answers — just helpful results in seconds.
             </p>
             <Link 
               href="#use-cases" 
               className="btn btn-primary btn-lg text-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:outline-none"
             >
-              Try one free — no account needed
+              Try your first tool — free, no signup
             </Link>
+            <p className="text-sm mt-4 text-base-content/60">
+              ✓ No credit card  ✓ No installation  ✓ Works on any device
+            </p>
           </div>
         </div>
       </section>
@@ -53,6 +57,9 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* How It Works Section */}
+      <HowItWorks />
 
       {/* Testimonials Section */}
       <section className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
@@ -75,7 +82,7 @@ export default function Home() {
       <section className="bg-base-200 py-12 md:py-16 lg:py-24">
         <div className="mx-auto max-w-5xl px-4 md:px-6 lg:px-8">
           <h2 className="mb-12 text-center text-2xl md:text-3xl font-bold text-base-content">
-            AI without the hassle
+            Smart help, without the hassle
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

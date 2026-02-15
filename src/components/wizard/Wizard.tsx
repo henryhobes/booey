@@ -328,12 +328,23 @@ export default function Wizard({ useCase }: WizardProps) {
               </div>
             </div>
             
+            {/* Reassurance box */}
+            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+              <p className="text-base" style={{ color: "#2C5682" }}>
+                💡 <strong>Tip:</strong> There are no wrong answers. Just answer naturally, like you're talking to a friend.
+              </p>
+            </div>
+            
             <button 
               onClick={handleStart}
               className="btn btn-primary btn-lg w-full text-lg min-h-[48px]"
             >
               Let&apos;s Get Started →
             </button>
+            
+            <p className="text-sm mt-4 text-center opacity-60">
+              You can go back and change your answers anytime
+            </p>
           </div>
         </div>
       </div>
