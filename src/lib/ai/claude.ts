@@ -12,7 +12,8 @@ const MODEL = 'claude-3-5-haiku-20241022';
  */
 function formatAnswersForPrompt(
   useCase: UseCase,
-  answers: Record<string, string | string[] | number>
+  answers: Record<string, string | string[] | number>,
+  refinement?: string
 ): string {
   const lines: string[] = [];
   
@@ -24,6 +25,13 @@ function formatAnswersForPrompt(
     }
   }
   
+  if (refinement) {
+    lines.push('');
+    lines.push('---');
+    lines.push('');
+    lines.push(`Please refine the response with the following adjustment: ${refinement}`);
+  }
+  
   return lines.join('\n\n');
 }
 
@@ -31,13 +39,15 @@ function formatAnswersForPrompt(
  * Generate AI result using Claude API
  * @param useCase - The use case containing the system prompt
  * @param answers - User's answers to the questions
+ * @param refinement - Optional refinement instruction to modify the output
  * @returns Generated result with token usage
  */
 export async function generateResult(
   useCase: UseCase,
-  answers: Record<string, string | string[] | number>
+  answers: Record<string, string | string[] | number>,
+  refinement?: string
 ): Promise<GenerateResponse> {
-  const userMessage = formatAnswersForPrompt(useCase, answers);
+  const userMessage = formatAnswersForPrompt(useCase, answers, refinement);
   
   const response = await anthropic.messages.create({
     model: MODEL,

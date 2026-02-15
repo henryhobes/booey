@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { useCaseId, answers } = validation.data;
+    const { useCaseId, answers, refinement } = validation.data;
     
     // Validate use case exists
     const useCase = getUseCaseById(useCaseId);
@@ -99,10 +99,10 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check response cache
+    // Check response cache (only for non-refinement requests)
     const cacheKey = crypto
       .createHash('sha256')
-      .update(`${useCaseId}:${JSON.stringify(answers)}`)
+      .update(`${useCaseId}:${JSON.stringify(answers)}${refinement ? `:refinement:${refinement}` : ''}`)
       .digest('hex');
 
     const { data: cached } = await supabase
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate result using Claude
-    const result = await generateResult(useCase, answers);
+    const result = await generateResult(useCase, answers, refinement);
     
     // Cache the response (fire-and-forget, don't block response)
     supabase
