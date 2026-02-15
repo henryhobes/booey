@@ -4,15 +4,13 @@ import TestimonialCard from "./TestimonialCard";
 export default function TestimonialsSection() {
   return (
     <section
-      className="py-12 md:py-16 lg:py-24"
-      style={{ backgroundColor: "#FAF8F5" }}
+      className="py-16 md:py-24 bg-base-200"
       aria-labelledby="testimonials-heading"
     >
       <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <h2
           id="testimonials-heading"
-          className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12"
-          style={{ color: "#2C3E50" }}
+          className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12 text-base-content"
         >
           Real people, real results
         </h2>

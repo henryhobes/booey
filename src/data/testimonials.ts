@@ -10,21 +10,21 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
-    id: "sarah-m",
+    id: "karen-t",
     quote:
-      "I was skeptical about AI, but Booey made it simple. No tech jargon, just helpful answers to real questions I had.",
-    name: "Sarah M.",
-    age: 52,
-    occupation: "Small Business Owner",
+      "I used the recipe helper to plan a whole week of dinners. It asked what I had in my fridge and gave me meals my family actually loved.",
+    name: "Karen T.",
+    age: 54,
+    occupation: "Office Manager",
     photoUrl: "https://i.pravatar.cc/300?img=32",
     rating: 5,
   },
   {
     id: "robert-j",
     quote:
-      "My daughter kept telling me to try AI tools, but they always felt too complicated. Booey is different — it just works.",
+      "I needed to write a tricky email to my landlord. Booey asked me a few questions and drafted something better than I could have written myself.",
     name: "Robert J.",
-    age: 58,
+    age: 59,
     occupation: "Retired Teacher",
     photoUrl: "https://i.pravatar.cc/300?img=68",
     rating: 5,
@@ -32,7 +32,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "maria-l",
     quote:
-      "I use Booey to help write emails and plan trips. It feels like having a smart friend who's always ready to help.",
+      "The budget planner helped me figure out where my money was going. Simple questions, clear answers. I wish everything online was this easy.",
     name: "Maria L.",
     age: 47,
     occupation: "Healthcare Administrator",
