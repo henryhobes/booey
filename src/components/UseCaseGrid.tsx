@@ -88,7 +88,7 @@ export default function UseCaseGrid({ useCases }: UseCaseGridProps) {
             >
               <div className="card-body">
                 <div className="text-5xl mb-3" aria-hidden="true">{useCase.icon}</div>
-                <h3 className="card-title text-lg md:text-xl text-base-content group-hover:text-primary transition-colors">
+                <h3 className="card-title text-lg md:text-xl text-base-content group-hover:text-primary transition-colors whitespace-normal break-words">
                   {useCase.title}
                 </h3>
                 <p className="text-base-content/70 line-clamp-2">

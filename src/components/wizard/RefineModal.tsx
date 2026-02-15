@@ -52,7 +52,7 @@ export default function RefineModal({ isOpen, onClose, onSubmit }: RefineModalPr
         {/* Custom refinement input */}
         <div className="form-control mb-6">
           <label className="label">
-            <span className="label-text font-medium">What would you like to change?</span>
+            <span className="label-text font-medium whitespace-normal break-words">What would you like to change?</span>
           </label>
           <textarea
             className="textarea textarea-bordered h-32 text-base leading-relaxed"
@@ -62,7 +62,7 @@ export default function RefineModal({ isOpen, onClose, onSubmit }: RefineModalPr
             onKeyDown={handleKeyDown}
           />
           <label className="label">
-            <span className="label-text-alt opacity-60">
+            <span className="label-text-alt opacity-60 whitespace-normal break-words">
               Press Cmd+Enter (Mac) or Ctrl+Enter (Windows) to submit
             </span>
           </label>

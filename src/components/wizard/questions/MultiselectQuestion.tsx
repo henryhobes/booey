@@ -37,7 +37,7 @@ export default function MultiselectQuestion({ question, value, onChange }: Multi
               checked={value.includes(option)}
               onChange={() => handleToggle(option)}
             />
-            <span className="label-text text-lg">{option}</span>
+            <span className="label-text text-lg whitespace-normal break-words">{option}</span>
           </label>
         ))}
       </div>
