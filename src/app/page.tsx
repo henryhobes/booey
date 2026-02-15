@@ -22,13 +22,20 @@ export default function Home() {
       <section className="hero min-h-[60vh] bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10">
         <div className="hero-content text-center">
           <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-base-content">
-              Get things done faster, no tech skills needed
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-base-content">
+              Get things done faster. No tech skills needed.
             </h1>
-            <p className="py-6 text-lg md:text-xl lg:text-2xl text-base-content/80">
-              Answer a few simple questions, and our smart assistant does the work. 
-              No confusing prompts, no wrong answers — just helpful results in seconds.
-            </p>
+            <div className="py-6 text-lg md:text-xl text-base-content/80 max-w-2xl mx-auto">
+              <p className="mb-4">Here's how it works:</p>
+              <ul className="text-left space-y-2 mx-auto max-w-lg">
+                <li>• Answer a few simple questions</li>
+                <li>• We do the work for you</li>
+                <li>• Get your answer in seconds</li>
+              </ul>
+              <p className="mt-4 text-sm text-base-content/70">
+                No tricky words. No wrong answers. Just help when you need it.
+              </p>
+            </div>
             <Link 
               href="#use-cases" 
               className="btn btn-primary btn-lg text-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:outline-none"
