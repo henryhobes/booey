@@ -48,6 +48,8 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
       <input
         id={inputId}
         type="number"
+        inputMode="numeric"
+        pattern="[0-9]*"
         placeholder={question.placeholder}
         className="input input-bordered input-lg w-full text-lg"
         value={inputValue}
@@ -55,6 +57,7 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
         min={question.min}
         max={question.max}
         required={question.required}
+        autoFocus
       />
       {question.helperText && (
         <label className="label">

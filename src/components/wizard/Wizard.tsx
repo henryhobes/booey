@@ -441,9 +441,10 @@ export default function Wizard({ useCase }: WizardProps) {
               </p>
               <button 
                 onClick={handleSubmit}
-                className="btn btn-primary btn-lg w-full text-lg min-h-[48px]"
+                className={`btn btn-primary btn-lg w-full text-lg min-h-[48px] ${mode === 'generating' ? 'loading' : ''}`}
+                disabled={mode === 'generating'}
               >
-                Generate My Results ✨
+                {mode === 'generating' ? 'Creating Your Answer...' : 'Create My Answer'}
               </button>
             </div>
           </div>

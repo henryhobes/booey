@@ -24,6 +24,7 @@ export default function TextareaQuestion({ question, value, onChange }: Textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={question.required}
+        autoFocus
       />
       {question.helperText && (
         <label className="label">
