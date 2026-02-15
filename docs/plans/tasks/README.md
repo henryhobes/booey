@@ -32,3 +32,4 @@ Implementation notes, decisions, context.
 | # | Task | Status | PR |
 |---|------|--------|----|
 | 0001 | Mobile quota badge | DONE | #35 |
+| 0002 | Simplify hero section | DONE | #36 |
