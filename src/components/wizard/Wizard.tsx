@@ -27,6 +27,7 @@ export default function Wizard({ useCase }: WizardProps) {
   const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const currentQuestion = useCase.questions[currentStep];
   const totalQuestions = useCase.questions.length;
@@ -132,6 +133,7 @@ export default function Wizard({ useCase }: WizardProps) {
   
   // Submit and generate result
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     setMode('generating');
     setError(null);
     
@@ -155,6 +157,7 @@ export default function Wizard({ useCase }: WizardProps) {
       
       setResult(data.result);
       setMode('result');
+      setIsSubmitting(false);
       
       // Track guest usage
       if (!user) {
@@ -171,6 +174,7 @@ export default function Wizard({ useCase }: WizardProps) {
           : 'Oops! Something didn\'t work quite right. Could you give it another try?'
       );
       setMode('review'); // Go back to review on error
+      setIsSubmitting(false);
     }
   };
   
@@ -441,10 +445,10 @@ export default function Wizard({ useCase }: WizardProps) {
               </p>
               <button 
                 onClick={handleSubmit}
-                className={`btn btn-primary btn-lg w-full text-lg min-h-[48px] ${mode === 'generating' ? 'loading' : ''}`}
-                disabled={mode === 'generating'}
+                className={`btn btn-primary btn-lg w-full text-lg min-h-[48px] ${isSubmitting ? 'loading' : ''}`}
+                disabled={isSubmitting}
               >
-                {mode === 'generating' ? 'Creating Your Answer...' : 'Create My Answer'}
+                {isSubmitting ? 'Creating Your Answer...' : 'Create My Answer'}
               </button>
             </div>
           </div>
