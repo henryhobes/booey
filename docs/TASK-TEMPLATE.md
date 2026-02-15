@@ -39,24 +39,30 @@ Numbered list of specific deliverables:
 - [ ] PR description includes implementation notes + self-review summary
 
 ### Workflow
-1. Set up worktree: `git worktree add /Users/henryhobin/Projects/booey-worktrees/<task-name> -b phase-X/<task-name>`
+1. Set up worktree: `./scripts/setup-worktree.sh <task-name> phase-X/<task-name>`
+   - Or manually: `git worktree add /Users/henryhobin/Projects/booey-worktrees/<task-name> -b phase-X/<task-name>`
 2. Work in the worktree directory (not the main checkout)
 3. Install dependencies: `cd <worktree> && npm install`
 4. Read `CLAUDE.md` and any docs linked in Context above
 5. Implement everything in "What to Build"
-6. **Self-review before PR:**
+6. **Self-test before PR:** Run `./scripts/agent-test.sh` to verify:
+   - Dependencies install correctly
+   - Production build passes (`npm run build`)
+   - Linting passes (`npm run lint`)
+   - App boots and serves key routes
+7. **Self-review before PR:**
    - Run `git diff main...HEAD` and re-read your own changes
    - Check against `docs/CONVENTIONS.md` (import boundaries, naming, patterns)
-   - Verify `npm run build` and `npm run lint` pass
    - Fix any issues found
-7. Commit with descriptive messages (`feat:`, `fix:`, etc.)
-8. Push and open PR against `main`
-9. Include in PR description:
+8. Commit with descriptive messages (`feat:`, `fix:`, etc.)
+9. Push and open PR against `main`
+10. Include in PR description:
    - What was built (summary)
    - Self-review findings (what you checked, any concerns)
    - `Fixes #<issue>` if applicable
-10. Wait for CI (GitHub Actions) to pass
-11. Write task doc at `docs/phases/phase-X/task-N-<name>.md`
+11. Wait for CI (GitHub Actions) to pass
+12. Write task doc at `docs/phases/phase-X/task-N-<name>.md`
+13. Clean up worktree after merge: `./scripts/cleanup-worktree.sh <task-name>`
 
 ### Return Format
 - ✅ **"PR #X ready for review"** — all success criteria met, self-review done
