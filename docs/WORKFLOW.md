@@ -38,47 +38,106 @@
            ↓
 4. Agent self-reviews: re-reads own diff, checks against CONVENTIONS.md
            ↓
-5. Agent opens PR with implementation notes + `Fixes #<issue>` (if applicable)
+5. Agent runs `npm run build` + `npm run lint` locally (fix before pushing)
            ↓
-6. Agent-to-agent review loop begins (see below)
+6. Agent pushes branch and opens PR
            ↓
-7. All reviewers satisfied → Frank merges to main
+7. Agent enters PR Approval Loop (see below) — polls CI + Codex review
            ↓
-8. Vercel auto-deploys. Frank QAs if user-facing change.
+8. CI passes + Codex approves → Agent signals PR ready to Frank
            ↓
-9. Frank checks dependency graph → spawns next tasks
+9. Frank merges to main. Vercel auto-deploys.
+           ↓
+10. Frank checks dependency graph → spawns next tasks
 ```
 
-## Agent-to-Agent Review Loop
+## PR Approval Loop
 
-Inspired by OpenAI's "Ralph Wiggum Loop" — agents review each other until all are satisfied, minimizing human review burden.
+Every agent must get their PR through CI AND Codex review before signaling completion. Frank should only ever see PRs that are green and approved.
 
-### How It Works
+### The Loop
 
-1. **Self-Review (mandatory):** Before opening PR, the coding agent:
-   - Re-reads its own diff (`git diff main...HEAD`)
-   - Checks against `docs/CONVENTIONS.md` (import boundaries, naming, patterns)
-   - Verifies `npm run build` and `npm run lint` pass
-   - Writes a self-review summary in the PR description
+```
+  Push code → Open PR
+       ↓
+  ┌──────────────────────────────────┐
+  │  Poll every 30s (10 min timeout) │
+  │                                  │
+  │  1. CI passing?                  │
+  │     NO  → read failed logs       │
+  │         → fix and push           │
+  │         → restart loop           │
+  │     YES → continue               │
+  │                                  │
+  │  2. Codex review posted?         │
+  │     NO  → keep waiting           │
+  │     YES → read feedback          │
+  │                                  │
+  │  3. Codex approved?              │
+  │     YES → ✅ EXIT (PR ready)     │
+  │     NO  → evaluate each item     │
+  │         → fix what you agree     │
+  │           with, comment on rest  │
+  │         → push fixes             │
+  │         → restart loop           │
+  │           (max 3 cycles)         │
+  └──────────────────────────────────┘
+       ↓ (timeout or max cycles)
+  Escalate to Frank
+```
 
-2. **Codex Review (default):** Frank runs Codex from the worktree directory:
+### Using the Script
+
+A reusable script handles the polling mechanics:
+
+```bash
+# Run from your worktree after opening the PR
+./scripts/wait-for-pr-approval.sh <pr-number>
+
+# Exit codes:
+#   0 = CI passed + Codex approved (PR is ready)
+#   1 = CI failed or timeout (needs manual fix or escalation)
+#   2 = Codex posted feedback (agent should read output, fix, push, re-run)
+```
+
+**Environment variables:**
+- `POLL_INTERVAL=30` — seconds between polls (default 30)
+- `CYCLE_TIMEOUT=600` — max seconds per cycle (default 600 / 10 min)
+- `MAX_CYCLES=3` — max fix-and-re-review cycles (default 3)
+
+### Agent Workflow (step by step)
+
+1. **Implement** the task on a feature branch
+2. **Self-review:** re-read your diff against `docs/CONVENTIONS.md`
+3. **Build + lint locally:** `npm run build && npm run lint` — fix any errors
+4. **Push and open PR** with implementation notes
+5. **Run the approval script:**
    ```bash
-   npx @openai/codex --approval-mode full-auto "Review the diff on branch <branch> vs main. Read docs/CONVENTIONS.md and docs/ARCHITECTURE.md first. Check: TypeScript correctness, import boundaries, accessibility, responsive design, error handling, security, code quality. Give specific, actionable feedback. Approve or request changes."
+   ./scripts/wait-for-pr-approval.sh <pr-number>
    ```
+6. **If exit code 1 (CI failure):** read the logged output, fix the build/lint errors, push, re-run
+7. **If exit code 2 (Codex feedback):** read the logged review comments and evaluate each one:
+   - **Agree?** → Implement the fix, push
+   - **Disagree?** → Leave a PR comment explaining why you're not addressing it
+   - Then re-run the script
+8. **If exit code 0 (approved):** Signal completion to Frank. PR is ready to merge.
+9. **If max cycles reached:** Escalate to Frank with a summary of unresolved items
 
-3. **Iteration Loop:** If reviewer requests changes:
-   - Coding agent addresses each comment
-   - Pushes fixes
-   - Reviewer re-reviews
-   - Loop until reviewer approves (max 3 cycles)
+### Evaluating Codex Feedback
 
-4. **Frank's Role:** Reviews architecture-level decisions only. Does NOT review individual code lines unless flagged by agents.
+Codex review items are **suggestions, not mandates**. The implementing agent should:
+- **Always address:** Security issues (P0), build-breaking bugs, import boundary violations
+- **Usually address:** Accessibility issues, TypeScript quality, missing error handling
+- **Evaluate case-by-case:** Design opinions, alternative approaches, style preferences
+- **Okay to skip (with comment):** Nitpicks that conflict with existing patterns, over-engineering suggestions for MVP scope
+
+If you disagree with a Codex suggestion, leave a brief comment on the PR explaining your reasoning.
 
 ### When Frank Reviews Directly
 - New architectural patterns or abstractions
 - Security-sensitive changes (auth, API, data access)
-- Changes to CLAUDE.md, docs/CONVENTIONS.md, or linter rules
-- When agents disagree (tie-breaker)
+- Changes to CLAUDE.md, AGENTS.md, docs/CONVENTIONS.md, or linter rules
+- When agent and Codex disagree after 3 cycles (tie-breaker)
 
 ## Git Workflow
 

@@ -82,13 +82,16 @@ types/ → lib/ → hooks/ → components/ → app/
 
 1. Agent gets task spec with acceptance criteria
 2. Work in git worktree (`/booey-worktrees/<task>/`)
-3. Implement → self-review → open PR
-4. Peer agent reviews → iterate until approved
-5. `npm run build` + CI must pass
-6. PR merged to main → Vercel auto-deploys
+3. Implement → self-review → `npm run build && npm run lint`
+4. Push branch → open PR
+5. Run `./scripts/wait-for-pr-approval.sh <pr-number>` — polls CI + Codex review
+6. Fix CI failures and address Codex feedback (max 3 cycles)
+7. Only signal completion when CI passes AND Codex approves
+8. Frank merges to main → Vercel auto-deploys
 
 → Full workflow: `docs/WORKFLOW.md`
 → Task template: `docs/TASK-TEMPLATE.md`
+→ PR approval script: `scripts/wait-for-pr-approval.sh`
 
 ## Security Invariants
 
