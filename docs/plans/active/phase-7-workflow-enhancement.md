@@ -11,12 +11,12 @@ Transform from ad-hoc agent workflow to systematic agent-first engineering, base
 
 | # | Task | Status | Type | Notes |
 |---|------|--------|------|-------|
-| 1 | Restructure CLAUDE.md → docs/ knowledge base | 🔄 in progress | Docs | Foundational — all other tasks reference this |
-| 2 | Agent-to-agent review loops | ⬜ queued | Workflow | Update WORKFLOW.md + TASK-TEMPLATE.md |
-| 3 | Custom ESLint rules enforcing architecture | ⬜ queued | Code | Import boundaries, file size, naming |
-| 4 | Make app legible to agents (self-test scripts) | ⬜ queued | Code | Boot per worktree, screenshot, validate |
-| 5 | Execution plans as first-class artifacts | ⬜ queued | Docs | plans/ structure, migrate completed phases |
-| 6 | Daily doc-gardening cron job | ⬜ queued | Cron | Scan for stale docs, open fix-up PRs |
+| 1 | Restructure CLAUDE.md → docs/ knowledge base | ✅ complete | Docs | CLAUDE.md 214→102 lines, 5 new docs, ADRs, infrastructure/ |
+| 2 | Agent-to-agent review loops | ✅ complete | Workflow | WORKFLOW.md + TASK-TEMPLATE.md updated with Ralph Wiggum Loop |
+| 3 | Custom ESLint rules enforcing architecture | 🔄 agent running | Code | Import boundaries, file size, naming |
+| 4 | Make app legible to agents (self-test scripts) | 🔄 agent running | Code | Boot per worktree, health checks, cleanup |
+| 5 | Execution plans as first-class artifacts | ✅ complete | Docs | plans/ structure, phases 1-6 summaries |
+| 6 | Daily doc-gardening cron job | ✅ complete | Cron | Daily at 6 AM ET, scans for stale docs |
 
 ## Decision Log
 
