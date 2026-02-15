@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { NavAuth } from "@/components/nav/NavAuth";
+import { MobileBottomNav } from "@/components/nav/MobileBottomNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,6 +20,12 @@ export const metadata: Metadata = {
   description: "Simple, guided AI tools for non-technical people. No prompt engineering required.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: true,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,21 +36,26 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Skip to content link for keyboard users */}
+        <a href="#main-content" className="skip-to-content">
+          Skip to main content
+        </a>
+
         <div className="flex min-h-screen flex-col">
           {/* Navigation */}
-          <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8">
+          <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8" aria-label="Main navigation">
             <div className="flex-1">
               <Link href="/" className="text-2xl font-bold text-primary">
                 Booey
               </Link>
             </div>
-            <div className="flex-none">
+            <div className="flex-none hidden md:block">
               <NavAuth />
             </div>
           </nav>
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main id="main-content" className="flex-1">
             {children}
           </main>
 
@@ -55,6 +67,9 @@ export default function RootLayout({
               </p>
             </aside>
           </footer>
+
+          {/* Mobile Bottom Navigation */}
+          <MobileBottomNav />
         </div>
       </body>
     </html>
