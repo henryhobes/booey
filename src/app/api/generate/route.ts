@@ -3,6 +3,7 @@ import { getUseCaseById, validateRequiredAnswers } from '@/lib/use-cases';
 import { generateResult } from '@/lib/ai/claude';
 import { createClient } from '@/lib/supabase/server';
 import { GenerateRequestSchema } from '@/lib/validation';
+import { checkRateLimit, incrementUsage } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,13 +50,37 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    // Check rate limits
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    const userId = user?.id || 'guest';
+    
+    const limits = await checkRateLimit(userId);
+    if (!limits.allowed) {
+      const isMinuteLimit = limits.minuteRemaining <= 0;
+      const message = isMinuteLimit
+        ? 'Too many requests. Please wait a moment before trying again.'
+        : "You've reached your daily limit of 20 interactions. Your quota resets on a rolling 24-hour basis.";
+      
+      return NextResponse.json(
+        {
+          error: message,
+          rateLimited: true,
+          dailyRemaining: limits.dailyRemaining,
+          minuteRemaining: limits.minuteRemaining,
+          resetAt: limits.resetAt,
+        },
+        { status: 429 }
+      );
+    }
+    
     // Generate result using Claude
     const result = await generateResult(useCase, answers);
     
-    // Save session to database for authenticated users
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    // Increment rate limit usage after successful generation
+    await incrementUsage(userId);
     
+    // Save session to database for authenticated users
     let sessionId: string | null = null;
     
     if (user) {
