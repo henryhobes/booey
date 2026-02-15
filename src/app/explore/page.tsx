@@ -1,5 +1,6 @@
 import { getAllUseCases } from "@/lib/use-cases";
 import ExploreContent from "@/components/explore/ExploreContent";
+import { Footer } from "@/components/Footer";
 
 export const metadata = {
   title: "Explore Tools | Booey",
@@ -42,6 +43,7 @@ export default function ExplorePage() {
         featuredUseCases={featured}
         categories={categories}
       />
+      <Footer />
     </div>
   );
 }

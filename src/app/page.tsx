@@ -2,6 +2,7 @@ import Link from "next/link";
 import HowItWorks from "@/components/landing/HowItWorks";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import StickyCTA from "@/components/landing/StickyCTA";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -57,14 +58,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Privacy Footer */}
-      <section className="py-8 border-t border-base-300">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <p className="text-base text-base-content/60">
-            🔒 Your data stays private. We never share or sell your information.
-          </p>
-        </div>
-      </section>
+      {/* Footer */}
+      <Footer />
 
       {/* Sticky mobile CTA */}
       <StickyCTA />
