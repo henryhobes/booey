@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { NavAuth } from "@/components/nav/NavAuth";
 import { MobileBottomNav } from "@/components/nav/MobileBottomNav";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,6 +37,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Scroll to top on route change */}
+        <ScrollToTop />
+        
         {/* Skip to content link for keyboard users */}
         <a href="#main-content" className="skip-to-content">
           Skip to main content

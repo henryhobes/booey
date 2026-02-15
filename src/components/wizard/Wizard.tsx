@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { UseCase } from '@/types';
 import { useUser } from '@/hooks/useUser';
 import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
@@ -30,11 +30,6 @@ export default function Wizard({ useCase }: WizardProps) {
   
   const currentQuestion = useCase.questions[currentStep];
   const totalQuestions = useCase.questions.length;
-  
-  // Scroll to top when mode or step changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [mode, currentStep]);
   
   // Calculate progress including welcome and review screens
   const getProgress = () => {
