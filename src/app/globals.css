@@ -208,10 +208,11 @@ button:focus-visible,
 /* Bottom padding on mobile to prevent content overlap */
 @media (max-width: 767px) {
   main {
-    /* Increased from 80px to 140px to account for mobile keyboard overlap */
-    /* 56px nav height + 4px padding + 80px extra space for keyboard */
-    padding-bottom: 140px;
-    padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+    /* Large padding to ensure content is scrollable above mobile keyboard */
+    /* iOS keyboard can take 200-300px, so we add significant space */
+    padding-bottom: 400px;
+    padding-bottom: calc(400px + env(safe-area-inset-bottom, 0px));
+    min-height: 100vh; /* Ensure content can extend */
   }
 }
 
