@@ -23,6 +23,11 @@ export default function MultiselectQuestion({ question, value, onChange }: Multi
           {question.required && <span className="text-error ml-1">*</span>}
         </span>
       </label>
+      {question.helperText && (
+        <label className="label pt-0">
+          <span className="label-text-alt text-base-content/60">{question.helperText}</span>
+        </label>
+      )}
       <div className="space-y-3 mt-2">
         {question.options?.map((option) => (
           <label key={option} className="label cursor-pointer justify-start gap-4 bg-base-200 rounded-lg p-4">
