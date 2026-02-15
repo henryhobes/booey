@@ -1,4 +1,4 @@
-import useCases from "@/data/use-cases.json";
+import { getAllUseCases } from "@/lib/use-cases";
 import ExploreContent from "@/components/explore/ExploreContent";
 
 export const metadata = {
@@ -15,6 +15,7 @@ const FEATURED_IDS = [
 ];
 
 export default function ExplorePage() {
+  const useCases = getAllUseCases();
   const allUseCases = useCases.map(
     ({ id, title, description, icon, category_label, addedDate, popular }) => ({
       id,

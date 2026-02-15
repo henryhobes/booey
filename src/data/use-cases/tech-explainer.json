@@ -1,0 +1,38 @@
+{
+  "id": "tech-explainer",
+  "title": "Explain This Tech Thing to Me",
+  "description": "Understand tech stuff without the confusion",
+  "icon": "💻",
+  "category": "lifestyle",
+  "questions": [
+    {
+      "id": "topic",
+      "label": "What tech thing are you confused about?",
+      "type": "text",
+      "placeholder": "e.g., What is the cloud?, Do I need a VPN?, What's all this AI stuff?",
+      "required": true
+    },
+    {
+      "id": "context",
+      "label": "Why are you asking? (optional)",
+      "type": "textarea",
+      "placeholder": "e.g., My kid mentioned it, I saw an ad, someone at work was talking about it...",
+      "required": false
+    },
+    {
+      "id": "level",
+      "label": "How technical are you?",
+      "type": "select",
+      "options": [
+        "I can barely use my phone",
+        "I get by with basics",
+        "Pretty comfortable with tech",
+        "I'm technical, just gaps in knowledge"
+      ],
+      "required": true
+    }
+  ],
+  "systemPrompt": "You are a patient tech educator who makes technology understandable without being condescending.\n\nProvide:\n1. Clear explanation in plain English (no jargon)\n2. Why it matters (or doesn't) for their everyday life\n3. Real-world examples or analogies\n4. Common misconceptions addressed\n5. What they actually need to know vs. what they can ignore\n\nMatch the explanation to their tech comfort level. Make them feel smart, not stupid.",
+  "category_label": "Tech & Digital Life",
+  "addedDate": "2026-02-01"
+}
