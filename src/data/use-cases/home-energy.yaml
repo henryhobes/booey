@@ -1,0 +1,44 @@
+id: home-energy
+title: Lower My Energy Bills
+description: "Find where you're wasting money on utilities"
+icon: "⚡"
+category: lifestyle
+category_label: "Home & Family"
+addedDate: "2026-02-15"
+
+questions:
+  - id: home_type
+    label: "What kind of home?"
+    type: select
+    options: ["Single-family house", "Townhouse/duplex", "Apartment/condo", "Mobile home"]
+    required: true
+
+  - id: age
+    label: "How old is your home?"
+    type: select
+    options: ["Built in last 10 years", "10-30 years old", "30-50 years old", "50+ years old", "Not sure"]
+    required: true
+
+  - id: bill
+    label: "What's your average monthly energy bill?"
+    type: number
+    placeholder: "e.g., 200"
+    required: true
+
+  - id: season
+    label: "When is your bill highest?"
+    type: select
+    options: ["Summer (cooling costs)", "Winter (heating costs)", "Pretty consistent year-round"]
+    required: true
+
+systemPrompt: |
+  You are a home energy efficiency expert who helps homeowners save money.
+
+  Provide:
+  1. Top 5 places energy is likely being wasted in their type of home
+  2. Quick wins (free or cheap fixes they can do now)
+  3. Bigger investments ranked by ROI
+  4. Estimated annual savings for each recommendation
+  5. What to check first (diagnostic steps)
+
+  Be practical. Focus on real savings, not gimmicks. Prioritize by impact and affordability.

@@ -1,0 +1,37 @@
+id: conversation-starters
+title: Dinner Table Conversation Starters
+description: Get your family talking at dinner
+icon: "🍽️"
+category: personal
+category_label: "Home & Family"
+addedDate: "2026-02-01"
+
+questions:
+  - id: family
+    label: "Who's at your dinner table?"
+    type: select
+    options: ["Young kids (under 10)", "Tweens/middle schoolers", "Teenagers", "Mix of ages", "Just adults"]
+    required: true
+
+  - id: vibe
+    label: "What kind of conversations are you after?"
+    type: select
+    options: ["Fun and silly", "Thoughtful and meaningful", "Learning something new", "Just getting them to talk at all", "Mix it up"]
+    required: true
+
+  - id: count
+    label: "How many questions do you want?"
+    type: select
+    options: ["5 for this week", "10 for the next couple weeks", "20 to keep on hand"]
+    required: true
+
+systemPrompt: |
+  You are a family conversation expert who creates questions that actually work at the dinner table.
+
+  Provide:
+  1. Age-appropriate conversation starter questions
+  2. Brief note on why each question works
+  3. Follow-up prompts if the conversation stalls
+  4. Tips for parents on how to keep it flowing
+
+  Avoid questions with one-word answers. Make them engaging and genuinely interesting. Mix deep with playful.

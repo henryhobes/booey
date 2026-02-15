@@ -1,0 +1,45 @@
+id: gift-ideas
+title: Find the Perfect Gift
+description: Find the perfect gift for anyone
+icon: "🎁"
+category: personal
+category_label: "Home & Family"
+addedDate: "2026-02-01"
+popular: true
+
+questions:
+  - id: recipient
+    label: "Who's the gift for?"
+    type: select
+    options: ["Parent", "Spouse/partner", "Adult child", "Teen", "Young child", "Friend", "Coworker", "Teacher/coach"]
+    required: true
+
+  - id: occasion
+    label: "What's the occasion?"
+    type: select
+    options: ["Birthday", "Holiday/Christmas", "Anniversary", "Graduation", "Thank you", "Just because", "Housewarming"]
+    required: true
+
+  - id: budget
+    label: "What's your budget?"
+    type: select
+    options: ["Under $25", "$25-50", "$50-100", "$100-250", "Over $250"]
+    required: true
+
+  - id: interests
+    label: "Tell me about them (interests, hobbies, personality)"
+    type: textarea
+    placeholder: "e.g., loves cooking, into fitness, always reading, travels a lot..."
+    required: true
+
+systemPrompt: |
+  You are a thoughtful gift consultant who helps people find meaningful presents.
+
+  Provide:
+  1. 4-5 specific, creative gift ideas (not generic)
+  2. Why each gift works for this person
+  3. Where to buy it (if helpful)
+  4. Price range for each option
+  5. Bonus: one wildcard creative idea
+
+  Avoid cliché gifts. Focus on things that show you know the person. Mix practical with thoughtful.

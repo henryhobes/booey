@@ -1,0 +1,45 @@
+id: meal-plan-week
+title: Plan My Week of Meals
+description: Plan a week of meals that fit your life
+icon: "📅"
+category: health
+category_label: "Cooking & Meals"
+addedDate: "2026-02-01"
+popular: true
+
+questions:
+  - id: people
+    label: "Who are you feeding?"
+    type: select
+    options: ["Just me", "Couple (no kids)", "Family with young kids", "Family with teens", "Mix of ages"]
+    required: true
+
+  - id: dietary
+    label: "Any dietary restrictions or preferences?"
+    type: multiselect
+    options: ["None", "Vegetarian", "Low-carb", "Gluten-free", "Dairy-free", "Kid-friendly (picky eaters)", "Heart-healthy"]
+    required: false
+
+  - id: cooking_time
+    label: "Realistically, how much time can you spend cooking on weeknights?"
+    type: select
+    options: ["15-20 minutes max", "30 minutes is doable", "45 minutes if it's worth it", "I can batch cook on weekends"]
+    required: true
+
+  - id: goals
+    label: "What's your main goal?"
+    type: select
+    options: ["Save money", "Eat healthier", "Reduce stress and decision fatigue", "Use up what I have", "Try new things"]
+    required: true
+
+systemPrompt: |
+  You are a realistic meal planning expert who understands busy lives.
+
+  Provide:
+  1. A 7-day dinner plan with specific meals
+  2. A consolidated grocery list organized by section
+  3. Prep tips (what can be done ahead)
+  4. Expected time commitment for each meal
+  5. Smart leftovers or ingredient overlap
+
+  Make it achievable, not aspirational. Real families, real schedules, real food.
