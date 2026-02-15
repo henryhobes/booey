@@ -42,7 +42,13 @@ export async function generateResult(
   const response = await anthropic.messages.create({
     model: MODEL,
     max_tokens: 2048,
-    system: useCase.systemPrompt,
+    system: [
+      {
+        type: 'text',
+        text: useCase.systemPrompt,
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
     messages: [
       {
         role: 'user',
@@ -54,6 +60,15 @@ export async function generateResult(
   // Extract text from response
   const textContent = response.content.find((block) => block.type === 'text');
   const result = textContent && 'text' in textContent ? textContent.text : '';
+  
+  // Log cache performance
+  const cacheCreationTokens = response.usage.cache_creation_input_tokens || 0;
+  const cacheReadTokens = response.usage.cache_read_input_tokens || 0;
+  if (cacheCreationTokens > 0 || cacheReadTokens > 0) {
+    console.log(
+      `[Claude Cache] created=${cacheCreationTokens} read=${cacheReadTokens} input=${response.usage.input_tokens}`
+    );
+  }
   
   return {
     result,
