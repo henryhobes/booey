@@ -1,4 +1,4 @@
-name: PR Review (Codex)
+name: PR Review (AI)
 
 on:
   pull_request:
@@ -7,9 +7,8 @@ on:
       - '**.md'
       - 'docs/**'
 
-# Prevent multiple reviews running simultaneously on same PR
 concurrency:
-  group: codex-review-${{ github.event.pull_request.number }}
+  group: ai-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -19,49 +18,61 @@ permissions:
 jobs:
   review:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Get PR diff
+      - name: Get PR diff and context
         run: |
           git diff origin/main...HEAD > /tmp/pr-diff.txt
-          echo "Diff size: $(wc -l < /tmp/pr-diff.txt) lines"
+          echo "Diff lines: $(wc -l < /tmp/pr-diff.txt)"
+          # Truncate if massive (keep under ~50k chars for API)
+          head -c 50000 /tmp/pr-diff.txt > /tmp/pr-diff-trimmed.txt
+          # Grab project context
+          cat CLAUDE.md > /tmp/context.txt
+          echo -e "\n---\n" >> /tmp/context.txt
+          cat docs/CONVENTIONS.md >> /tmp/context.txt 2>/dev/null || true
 
-      - name: Run Codex Review
+      - name: AI Review via OpenAI API
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          npx @openai/codex --approval-mode full-auto --quiet \
-            "You are a code reviewer for Booey, an AI web app (Next.js + Tailwind + Supabase + Claude API).
-
-            Read these files first:
-            - CLAUDE.md (project map)
-            - docs/CONVENTIONS.md (import boundaries, naming, patterns)
-
-            Then review the PR diff. The diff is between this branch and main.
-
-            Check for:
-            1. Import boundary violations (see CONVENTIONS.md)
-            2. TypeScript quality (no any types, proper error handling)
-            3. Security issues (XSS, injection, exposed secrets)
-            4. Accessibility (48px touch targets, contrast, labels)
-            5. Files over 300 lines
-            6. Dead code or unnecessary complexity
-
-            Write your review to /tmp/review-output.md using this format:
-            - 🚨 CRITICAL: must fix (security, crashes, data loss)
-            - ⚠️ WARNING: should fix (bugs, poor patterns)
-            - 💡 SUGGESTION: nice to have
-            - ✅ APPROVED if no critical/warning issues
-
-            Be specific with file paths and line numbers." 2>&1 || true
+          DIFF=$(cat /tmp/pr-diff-trimmed.txt | jq -Rs .)
+          CONTEXT=$(cat /tmp/context.txt | jq -Rs .)
+          
+          RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"model\": \"gpt-4o\",
+              \"max_tokens\": 4000,
+              \"messages\": [
+                {
+                  \"role\": \"system\",
+                  \"content\": \"You are a code reviewer for Booey, an AI web app for non-technical adults (40-60 year olds). Built with Next.js, Tailwind, DaisyUI, Supabase, Claude API, Vercel.\n\nHere is the project context (CLAUDE.md + CONVENTIONS.md):\n\n\" 
+                },
+                {
+                  \"role\": \"system\",
+                  \"content\": $CONTEXT
+                },
+                {
+                  \"role\": \"user\",
+                  \"content\": \"Review this PR diff. Check for:\\n1. Import boundary violations (per CONVENTIONS.md)\\n2. TypeScript quality (no any types, proper error handling)\\n3. Security issues (XSS, injection, exposed secrets)\\n4. Accessibility (48px touch targets, contrast, labels)\\n5. Files over 300 lines\\n6. Dead code or unnecessary complexity\\n\\nFormat:\\n- 🚨 CRITICAL: must fix before merge\\n- ⚠️ WARNING: should fix\\n- 💡 SUGGESTION: nice to have\\n- ✅ APPROVED: if no critical/warning issues\\n\\nBe specific with file paths and line numbers.\\n\\nDiff:\\n\" 
+                },
+                {
+                  \"role\": \"user\",
+                  \"content\": $DIFF
+                }
+              ]
+            }")
+          
+          # Extract the review text
+          echo "$RESPONSE" | jq -r '.choices[0].message.content // "⚠️ API returned no content. Raw response: \(.error.message // "unknown error")"' > /tmp/review-output.md
+          
+          echo "=== Review Output ==="
+          cat /tmp/review-output.md
 
       - name: Post Review Comment
         if: always()
@@ -73,14 +84,32 @@ jobs:
             try {
               review = fs.readFileSync('/tmp/review-output.md', 'utf8');
             } catch (e) {
-              review = '⚠️ Codex review did not produce output. Check the workflow logs.';
+              review = '⚠️ AI review did not produce output. Check the workflow logs.';
             }
 
-            const body = `## 🤖 Codex Review\n\n${review}\n\n---\n*Automated review by Codex CLI via GitHub Actions*`;
+            const body = `## 🤖 AI Code Review\n\n${review}\n\n---\n*Automated review via OpenAI API · Triggered on PR #${{ github.event.pull_request.number }}*`;
 
-            await github.rest.issues.createComment({
+            // Find and update existing review comment, or create new one
+            const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: body
             });
+            
+            const existing = comments.find(c => c.body?.includes('🤖 AI Code Review'));
+            
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
