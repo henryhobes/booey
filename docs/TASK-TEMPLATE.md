@@ -1,6 +1,6 @@
 # Task Template
 
-This is the standardized format Frank uses when assigning tasks to sub-agents. Every task spec follows this structure.
+Standardized format for agent task specs. Every task follows this structure.
 
 ---
 
@@ -12,7 +12,9 @@ This is the standardized format Frank uses when assigning tasks to sub-agents. E
 **Base:** `main`
 
 ### Context
-Brief description of project state and what's already been built. Always includes "Read `CLAUDE.md` in the repo root for full project context."
+Brief description of project state and what's already been built. Always includes:
+- "Read `CLAUDE.md` in the repo root for the project map."
+- Link to relevant docs (architecture, conventions, decisions) the agent should read.
 
 ### What to Build
 Numbered list of specific deliverables:
@@ -21,45 +23,42 @@ Numbered list of specific deliverables:
    - Props, routing, data flow
    - Edge cases to handle
 
-2. **Another Component** (`path/to/other.ts`)
-   - Same level of detail
-
 ### Design Notes
 - UX guidance (mobile-first, target demographic, tone)
 - Which theme/components to use
 - Accessibility requirements
 
 ### Success Criteria
-Explicit, measurable conditions that define "done":
-- [ ] Feature X works as described (specific behavior)
-- [ ] Dependencies installed with `npm install` (if adding new packages - verify package-lock.json updated)
-- [ ] `npm run build` passes with no errors (full Next.js build, not just tsc)
+- [ ] Feature works as described
+- [ ] `npm run build` passes (full Next.js build)
 - [ ] `npm run lint` passes clean
 - [ ] TypeScript strict mode — no `any` types
 - [ ] Responsive on mobile (min 375px width)
 - [ ] All edge cases handled (empty states, errors, loading)
-- [ ] PR description matches what was built
-- [ ] GitHub Actions CI check passes (green checkmark on PR)
-- [ ] Codex review passed (or all in-scope issues resolved)
+- [ ] Self-review completed (see workflow step 6)
+- [ ] PR description includes implementation notes + self-review summary
 
 ### Workflow
-1. Set up worktree: `cd /Users/henryhobin/Projects/booey && git worktree add /Users/henryhobin/Projects/booey-worktrees/<task-name> -b phase-X/<task-name>`
+1. Set up worktree: `git worktree add /Users/henryhobin/Projects/booey-worktrees/<task-name> -b phase-X/<task-name>`
 2. Work in the worktree directory (not the main checkout)
-3. Install dependencies: `cd /Users/henryhobin/Projects/booey-worktrees/<task-name> && npm install`
-4. Implement everything in "What to Build"
-5. **If adding new npm packages:** Run `npm install <package>` and verify `package-lock.json` is updated (commit it!)
-6. Run `npm run build` (full Next.js build) and `npm run lint` to verify
-7. Commit with descriptive message(s)
-8. Push and open PR against `main` with description of what was built
-9. **Wait for GitHub Actions CI to pass** (green checkmark) - do NOT proceed if it fails
-10. Write task doc at `docs/phases/phase-X/task-N-<name>.md` (spec, what was built, learnings)
-11. Update `docs/phases/phase-X/OVERVIEW.md` to reflect what was actually built
-12. Run Codex review: `npx @openai/codex --approval-mode full-auto "Review the diff on branch phase-X/<task-name> vs main. Check for: TypeScript errors, accessibility, responsive design, error handling, code quality. Give specific feedback."` (from worktree directory)
-13. If Codex flags issues, fix them, push, re-review (max 3 cycles)
-14. Report back with: PR number + link, CI status (✅ passed), Codex approval status, any remaining flags or blockers
+3. Install dependencies: `cd <worktree> && npm install`
+4. Read `CLAUDE.md` and any docs linked in Context above
+5. Implement everything in "What to Build"
+6. **Self-review before PR:**
+   - Run `git diff main...HEAD` and re-read your own changes
+   - Check against `docs/CONVENTIONS.md` (import boundaries, naming, patterns)
+   - Verify `npm run build` and `npm run lint` pass
+   - Fix any issues found
+7. Commit with descriptive messages (`feat:`, `fix:`, etc.)
+8. Push and open PR against `main`
+9. Include in PR description:
+   - What was built (summary)
+   - Self-review findings (what you checked, any concerns)
+   - `Fixes #<issue>` if applicable
+10. Wait for CI (GitHub Actions) to pass
+11. Write task doc at `docs/phases/phase-X/task-N-<name>.md`
 
 ### Return Format
-One of:
-- ✅ **"PR #X ready to merge"** — all success criteria met, Codex approved
-- ⚠️ **"PR #X needs guidance"** — implemented but hit a decision point or ambiguity
-- ❌ **"Blocked on X"** — can't proceed without external input/dependency
+- ✅ **"PR #X ready for review"** — all success criteria met, self-review done
+- ⚠️ **"PR #X needs guidance"** — hit a decision point or ambiguity
+- ❌ **"Blocked on X"** — can't proceed without external input

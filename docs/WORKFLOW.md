@@ -6,111 +6,112 @@
 - Confirms phase scope and priorities
 - Makes product/design decisions
 - Reviews progress at phase checkpoints
-- Tests user flows manually
 - Final go/no-go on deploys
 
 ### Frank (Project Manager / Orchestrator)
-- Breaks phases into granular tasks (30-60 min each)
-- Creates GitHub Issues and manages the project board
-- Spawns and manages Claude Code coding agents
-- Triggers Codex PR reviews
-- Decides when QA is needed after merge
-- Creates bug tasks from QA findings
-- Communicates progress to Henry (batched every 2-3 hours)
-- Acts as scope cop — vetoes non-critical features
+- Breaks phases into granular tasks
+- Creates task specs with acceptance criteria
+- Spawns and manages coding agents
+- Merges PRs (after agent review loops pass)
+- Decides when QA is needed
+- Communicates progress to Henry
 
-### Claude Code Agents (Developers)
-- Implement tasks based on issue descriptions
-- Include implementation notes/spec in the PR description
-- Submit PRs with `Fixes #<issue>` to auto-link
-- Address review comments and iterate until approved
+### Coding Agents (Developers)
+- Implement tasks based on specs
+- Self-review before opening PR
+- Address review feedback and iterate
 
-### Codex Agent (Code Reviewer)
-- Reviews PRs against the implementation spec
-- Checks for bugs, security issues, best practices
-- Approves or requests changes with specific comments
-- Coding agents iterate on feedback until approved
+### Review Agents (Code Reviewers)
+- Review PRs against conventions and architecture
+- Check for bugs, security issues, anti-patterns
+- Approve or request changes with specific, actionable comments
 
 ## Task Lifecycle
 
 ```
-1. Frank creates GitHub Issue (task description, acceptance criteria)
+1. Frank creates task spec (acceptance criteria, context, design notes)
            ↓
-2. Frank assigns Claude Code agent to the task
+2. Frank spawns coding agent with task spec
            ↓
-3. Agent implements on a feature branch
+3. Agent implements in git worktree on feature branch
            ↓
-4. Agent submits PR with implementation notes + `Fixes #<issue>`
+4. Agent self-reviews: re-reads own diff, checks against CONVENTIONS.md
            ↓
-5. Codex reviews PR → approves or comments
+5. Agent opens PR with implementation notes + `Fixes #<issue>` (if applicable)
            ↓
-6. If comments: agent addresses feedback, pushes updates, Codex re-reviews
+6. Agent-to-agent review loop begins (see below)
            ↓
-7. PR approved → merged to main
+7. All reviewers satisfied → Frank merges to main
            ↓
-8. Frank decides: QA needed?
-   - YES → Browser QA, create bug tasks if issues found
-   - NO → Mark task done
+8. Vercel auto-deploys. Frank QAs if user-facing change.
            ↓
-9. Frank checks dependency graph → spawns next available tasks
+9. Frank checks dependency graph → spawns next tasks
 ```
 
-## Two-Tier Task System
+## Agent-to-Agent Review Loop
 
-Not every task needs the full review cycle:
+Inspired by OpenAI's "Ralph Wiggum Loop" — agents review each other until all are satisfied, minimizing human review burden.
 
-### Large Tasks (full cycle)
-- New features, complex logic, AI integration
-- Spec/implementation notes in PR description
-- Full Codex review required
+### How It Works
 
-### Small Tasks (lightweight)
-- Styling tweaks, config changes, bug fixes
-- Implement directly, PR with brief description
-- Codex review only (no spec needed)
+1. **Self-Review (mandatory):** Before opening PR, the coding agent:
+   - Re-reads its own diff (`git diff main...HEAD`)
+   - Checks against `docs/CONVENTIONS.md` (import boundaries, naming, patterns)
+   - Verifies `npm run build` and `npm run lint` pass
+   - Writes a self-review summary in the PR description
 
-Frank decides which tier each task gets when creating it.
+2. **Peer Agent Review:** Frank spawns a review agent (Codex or Claude Code) with:
+   ```
+   Review PR #X on branch <branch> against main.
+   Read docs/CONVENTIONS.md and docs/ARCHITECTURE.md first.
+   Check: TypeScript correctness, import boundaries, accessibility,
+   responsive design, error handling, security, code quality.
+   Give specific, actionable feedback. Approve or request changes.
+   ```
 
-## Task Management
+3. **Iteration Loop:** If reviewer requests changes:
+   - Coding agent addresses each comment
+   - Pushes fixes
+   - Reviewer re-reviews
+   - Loop until reviewer approves (max 3 cycles)
 
-### GitHub Issues + Projects Board
-- **Single source of truth** for task status
-- Kanban columns: `Queued → In Progress → PR Review → Merged → QA → Done`
-- Labels: `phase-1`, `phase-2`, `feature`, `bug`, `blocked`, `small-task`
-- PRs auto-close issues via `Fixes #<number>` in PR body
-- Henry can check progress anytime on the GitHub Projects board
+4. **Frank's Role:** Reviews architecture-level decisions only. Does NOT review individual code lines unless flagged by agents.
 
-### Frank's Local State
-- `memory/projects/booey/state.md` — active agents, pipeline status, recent updates
-- `memory/projects/booey/dependencies.json` — task dependency graph for parallelization
-
-### Progress Communication
-- **Batched updates:** Every 2-3 hours or at phase milestones via Telegram
-- **Immediate alerts:** Only for blockers that need Henry's input
-- **Phase checkpoints:** Structured sync at end of each phase (what's done, what's next, any issues)
+### When Frank Reviews Directly
+- New architectural patterns or abstractions
+- Security-sensitive changes (auth, API, data access)
+- Changes to CLAUDE.md, docs/CONVENTIONS.md, or linter rules
+- When agents disagree (tie-breaker)
 
 ## Git Workflow
 
 - **Main branch:** `main` — always deployable
 - **Feature branches:** `phase-X/task-description` per task
-- **PRs merge to main** (no integration branches for MVP)
-- **Vercel auto-deploys** on every push to main (preview deploys on PRs)
+- **Worktrees:** Each agent gets `/Users/henryhobin/Projects/booey-worktrees/<task>/`
+- **Main checkout:** `/Users/henryhobin/Projects/booey/` stays on `main` (don't touch)
+- **PRs merge to main** (no integration branches)
+- **Vercel auto-deploys** on push to main (preview deploys on PRs)
 - **Commit convention:** `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`
 
 ## Quality Gates
 
-1. **TypeScript strict mode** — catches type errors before runtime
-2. **Build validation** — `npm run build` must pass before PR merge
-3. **Codex review** — catches bugs, security issues, anti-patterns
-4. **QA (Frank's discretion)** — browser testing for user-facing flows
-5. **Pre-deploy security check** — 15-min checklist before production deploy
+1. **`npm run build`** — must pass (enforced by CI)
+2. **`npm run lint`** — must pass clean (enforced by CI + custom rules)
+3. **Self-review** — agent reviews own diff before PR
+4. **Peer agent review** — separate agent reviews and approves
+5. **QA (Frank's discretion)** — browser testing for user-facing flows
+6. **Architecture review (rare)** — Frank reviews if new patterns introduced
 
-## Scope Creep Defense
+## Scope Discipline
 
-Every feature idea gets one question: **"Does this block the core demo?"**
+Every feature idea gets one question: **"Does this block the current phase goal?"**
 
 - **YES:** Build it now
-- **NO:** Add to v2 backlog in `docs/BACKLOG.md`
+- **NO:** Add to `docs/TECH-DEBT.md` or `docs/plans/` backlog
 - **MAYBE:** Can it be done in 15 minutes? If not, defer.
 
-Frank has veto power on non-critical additions.
+## Progress Communication
+
+- **Batched updates:** Every 2-3 hours or at phase milestones via Telegram
+- **Immediate alerts:** Only for blockers that need Henry's input
+- **Phase checkpoints:** Structured sync at end of each phase
