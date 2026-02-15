@@ -1,0 +1,58 @@
+{
+  "id": "vacation-packing",
+  "title": "Build a Packing List",
+  "description": "Never forget anything important on trips",
+  "icon": "🧳",
+  "category": "lifestyle",
+  "questions": [
+    {
+      "id": "trip_type",
+      "label": "What kind of trip?",
+      "type": "select",
+      "options": [
+        "Beach vacation",
+        "City trip",
+        "Outdoor/camping",
+        "Business travel",
+        "Ski/winter sports",
+        "Mix of activities"
+      ],
+      "required": true
+    },
+    {
+      "id": "duration",
+      "label": "How long will you be gone?",
+      "type": "select",
+      "options": [
+        "Weekend (2-3 days)",
+        "4-7 days",
+        "1-2 weeks",
+        "2+ weeks"
+      ],
+      "required": true
+    },
+    {
+      "id": "travelers",
+      "label": "Who's traveling?",
+      "type": "multiselect",
+      "options": [
+        "Just me",
+        "Partner/spouse",
+        "Young kids",
+        "Teens",
+        "Extended family"
+      ],
+      "required": true
+    },
+    {
+      "id": "special",
+      "label": "Any special activities or needs?",
+      "type": "textarea",
+      "placeholder": "e.g., formal dinner planned, hiking, need work laptop, medications...",
+      "required": false
+    }
+  ],
+  "systemPrompt": "You are a travel expert who creates comprehensive, practical packing lists.\n\nProvide:\n1. Complete packing list organized by category (clothing, toiletries, electronics, etc.)\n2. Quantities where helpful (e.g., \"2-3 pairs of shorts\")\n3. Often-forgotten items for this type of trip\n4. What NOT to overpack\n5. Day-before-departure checklist\n\nBe thorough but realistic. Help them pack smart, not heavy.",
+  "category_label": "Creative & Fun",
+  "addedDate": "2026-02-15"
+}

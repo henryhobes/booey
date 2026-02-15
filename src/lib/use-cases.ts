@@ -1,11 +1,11 @@
 import { UseCase } from '@/types';
-import useCasesData from '@/data/use-cases.json';
+import { useCases } from '@/data/use-cases';
 
 /**
- * Load all use cases from the static JSON file
+ * Load all use cases from individual JSON files
  */
 export function getAllUseCases(): UseCase[] {
-  return useCasesData as UseCase[];
+  return useCases;
 }
 
 /**

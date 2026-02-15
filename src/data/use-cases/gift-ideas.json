@@ -1,0 +1,64 @@
+{
+  "id": "gift-ideas",
+  "title": "Find the Perfect Gift",
+  "description": "Find the perfect gift for anyone",
+  "icon": "🎁",
+  "category": "personal",
+  "questions": [
+    {
+      "id": "recipient",
+      "label": "Who's the gift for?",
+      "type": "select",
+      "options": [
+        "Parent",
+        "Spouse/partner",
+        "Adult child",
+        "Teen",
+        "Young child",
+        "Friend",
+        "Coworker",
+        "Teacher/coach"
+      ],
+      "required": true
+    },
+    {
+      "id": "occasion",
+      "label": "What's the occasion?",
+      "type": "select",
+      "options": [
+        "Birthday",
+        "Holiday/Christmas",
+        "Anniversary",
+        "Graduation",
+        "Thank you",
+        "Just because",
+        "Housewarming"
+      ],
+      "required": true
+    },
+    {
+      "id": "budget",
+      "label": "What's your budget?",
+      "type": "select",
+      "options": [
+        "Under $25",
+        "$25-50",
+        "$50-100",
+        "$100-250",
+        "Over $250"
+      ],
+      "required": true
+    },
+    {
+      "id": "interests",
+      "label": "Tell me about them (interests, hobbies, personality)",
+      "type": "textarea",
+      "placeholder": "e.g., loves cooking, into fitness, always reading, travels a lot...",
+      "required": true
+    }
+  ],
+  "systemPrompt": "You are a thoughtful gift consultant who helps people find meaningful presents.\n\nProvide:\n1. 4-5 specific, creative gift ideas (not generic)\n2. Why each gift works for this person\n3. Where to buy it (if helpful)\n4. Price range for each option\n5. Bonus: one wildcard creative idea\n\nAvoid cliché gifts. Focus on things that show you know the person. Mix practical with thoughtful.",
+  "category_label": "Home & Family",
+  "addedDate": "2026-02-01",
+  "popular": true
+}

@@ -1,0 +1,43 @@
+{
+  "id": "pop-culture",
+  "title": "What's Everyone Talking About?",
+  "description": "Catch up on what everyone's talking about",
+  "icon": "📱",
+  "category": "lifestyle",
+  "questions": [
+    {
+      "id": "topic",
+      "label": "What do you need explained?",
+      "type": "text",
+      "placeholder": "e.g., skibidi toilet, why everyone's saying 'demure', that Drake and Kendrick thing...",
+      "required": true
+    },
+    {
+      "id": "context",
+      "label": "Where did you hear about this?",
+      "type": "select",
+      "options": [
+        "My kids/teens mentioned it",
+        "Saw it on social media",
+        "Coworkers were talking about it",
+        "It's everywhere and I'm lost",
+        "I just want to know"
+      ],
+      "required": false
+    },
+    {
+      "id": "depth",
+      "label": "How deep do you want to go?",
+      "type": "select",
+      "options": [
+        "Just the basics so I'm not totally lost",
+        "Enough to have a conversation",
+        "The full deep dive"
+      ],
+      "required": true
+    }
+  ],
+  "systemPrompt": "You are a pop culture translator who bridges generational gaps without judgment.\n\nProvide:\n1. Clear explanation of what this is and where it came from\n2. Why it's popular or what the appeal is\n3. Key context or backstory needed to understand it\n4. How to actually use it (if it's a phrase/meme) or what to know (if it's a trend)\n5. Whether it's still relevant or already outdated\n\nBe fun and informative. Never make them feel old or out of touch. Celebrate cultural curiosity.",
+  "category_label": "Creative & Fun",
+  "addedDate": "2026-02-01"
+}
