@@ -191,7 +191,7 @@ export default function Wizard({ useCase }: WizardProps) {
   
   // Refine result - append refinement and regenerate
   const handleRefine = async (refinementPrompt: string) => {
-    setIsGenerating(true);
+    setMode('generating');
     setError(null);
     
     try {
@@ -214,10 +214,10 @@ export default function Wizard({ useCase }: WizardProps) {
       }
       
       setResult(data.result);
+      setMode('result');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
-    } finally {
-      setIsGenerating(false);
+      setMode('result'); // Stay on result page even on error
     }
   };
   
