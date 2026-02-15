@@ -25,17 +25,9 @@ export default function Home() {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-base-content">
               Get things done faster. No tech skills needed.
             </h1>
-            <div className="py-6 text-lg md:text-xl text-base-content/80 max-w-2xl mx-auto">
-              <p className="mb-4">Here&apos;s how it works:</p>
-              <ul className="text-left space-y-2 mx-auto max-w-lg">
-                <li>• Answer a few simple questions</li>
-                <li>• We do the work for you</li>
-                <li>• Get your answer in seconds</li>
-              </ul>
-              <p className="mt-4 text-sm text-base-content/70">
-                No tricky words. No wrong answers. Just help when you need it.
-              </p>
-            </div>
+            <p className="py-6 text-lg md:text-xl text-base-content/70 max-w-xl mx-auto">
+              Pick a tool, answer a few simple questions, and get your result in seconds.
+            </p>
             <Link 
               href="#use-cases" 
               className="btn btn-primary btn-lg text-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:outline-none"
