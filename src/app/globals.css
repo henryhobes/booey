@@ -112,8 +112,8 @@ textarea {
   --rounded-box: 1rem;
   --rounded-btn: 0.5rem;
   --rounded-badge: 1.9rem;
-  --animation-btn: 0.25s;
-  --animation-input: 0.2s;
+  --animation-btn: 0.3s;       /* Slowed from 0.25s for older adults */
+  --animation-input: 0.3s;     /* Slowed from 0.2s for older adults */
   --btn-focus-scale: 0.95;
   --border-btn: 1px;
   --tab-border: 1px;
@@ -164,6 +164,43 @@ button:focus-visible,
 }
 
 /* ============================================
+   Button Interaction States (Task 9 P0)
+   ============================================ */
+
+/* All buttons get hover/active feedback */
+.btn:not(:disabled):not([disabled]):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn:not(:disabled):not([disabled]):active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+}
+
+/* Primary buttons get brightness boost on hover */
+.btn-primary:not(:disabled):not([disabled]):hover {
+  filter: brightness(1.1);
+}
+
+/* Secondary buttons get brightness boost on hover */
+.btn-secondary:not(:disabled):not([disabled]):hover {
+  filter: brightness(1.1);
+}
+
+/* Outline buttons get subtle background on hover */
+.btn-outline:not(:disabled):not([disabled]):hover {
+  background-color: rgba(44, 86, 130, 0.05);
+}
+
+/* Ghost buttons get subtle background on hover */
+.btn-ghost:not(:disabled):not([disabled]):hover {
+  background-color: rgba(44, 86, 130, 0.08);
+}
+
+/* ============================================
    Mobile Bottom Navigation
    ============================================ */
 
@@ -186,10 +223,10 @@ button:focus-visible,
   justify-content: center;
   padding: 8px;
   min-height: 56px;
-  font-size: 0.75rem;
+  font-size: 0.875rem;  /* Increased from 0.75rem (16px for 40-60 demo) */
   font-weight: 500;
   color: #4A4A4A;
-  gap: 2px;
+  gap: 4px;  /* Increased from 2px for better spacing */
   text-decoration: none;
   transition: color 0.15s;
 }
@@ -201,8 +238,8 @@ button:focus-visible,
 }
 
 .mobile-bottom-nav svg {
-  width: 24px;
-  height: 24px;
+  width: 32px;   /* Increased from 24px for 40-60 demo (better targeting) */
+  height: 32px;
 }
 
 /* Hide mobile nav when keyboard is open (input/textarea focused) */
