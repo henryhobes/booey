@@ -43,6 +43,33 @@ Add these in **Vercel Dashboard → Settings → Environment Variables:**
    - Assign custom domain (optional)
    - Monitor Vercel logs for errors
 
+## Custom SMTP Configuration (Required for Production)
+
+> ⚠️ **Critical:** Supabase's built-in SMTP is limited to **2 auth emails per hour** on the free tier. This will break sign-up/password-reset flows under any real usage. You **must** configure a custom SMTP provider before launch.
+
+### Option A: SendGrid (Recommended for free tier)
+1. Create a free SendGrid account (100 emails/day)
+2. Verify a sender identity (domain or single sender)
+3. Generate an API key
+4. In **Supabase Dashboard → Project Settings → Authentication → SMTP Settings:**
+   - Enable "Custom SMTP"
+   - Host: `smtp.sendgrid.net`
+   - Port: `587`
+   - Username: `apikey`
+   - Password: your SendGrid API key
+   - Sender email: your verified sender address
+
+### Option B: AWS SES
+1. Set up AWS SES and verify your domain
+2. Create SMTP credentials in the SES console
+3. Configure in Supabase SMTP Settings (same location as above)
+   - Host: `email-smtp.<region>.amazonaws.com`
+   - Port: `587`
+   - Username/Password: SES SMTP credentials
+
+### Verify
+After configuring, test by signing up a new user and confirming the email arrives promptly.
+
 ## Post-Deploy Verification
 
 - [ ] Test sign-in flow with Google OAuth
