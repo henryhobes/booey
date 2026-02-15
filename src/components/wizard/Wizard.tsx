@@ -91,7 +91,7 @@ export default function Wizard({ useCase }: WizardProps) {
   // Navigate to next question
   const handleNext = () => {
     if (!isCurrentQuestionValid()) {
-      setError('Just need your answer here 👆');
+      setError('Please answer this question to continue');
       return;
     }
     
@@ -170,8 +170,8 @@ export default function Wizard({ useCase }: WizardProps) {
     } catch (err) {
       setError(
         err instanceof Error 
-          ? `Hmm, something went wrong: ${err.message}. Mind trying again?`
-          : 'Oops! Something didn\'t work quite right. Could you give it another try?'
+          ? `We could not create your result: ${err.message}. Please try again. If this keeps happening, contact support.`
+          : 'We could not create your result. Please try again. If this keeps happening, contact support.'
       );
       setMode('review'); // Go back to review on error
       setIsSubmitting(false);
