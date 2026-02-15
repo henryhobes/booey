@@ -25,7 +25,7 @@ export default function Home() {
                 Explore Tools →
               </Link>
             </div>
-            <p className="text-sm mt-5 text-base-content/60">
+            <p className="text-base mt-5 text-base-content/60">
               ✓ Free to use &nbsp; ✓ No signup required &nbsp; ✓ Works on any
               device
             </p>

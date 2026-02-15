@@ -24,7 +24,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "I needed to write a tricky email to my landlord. Booey asked me a few questions and drafted something better than I could have written myself.",
     name: "Robert J.",
-    age: 61,
+    age: 59,
     occupation: "Retired Teacher",
     photoUrl: "https://i.pravatar.cc/300?img=68",
     rating: 5,
