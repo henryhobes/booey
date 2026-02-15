@@ -8,6 +8,7 @@ import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
 import LoadingScreen from './LoadingScreen';
 import Result from './Result';
 import WelcomeScreen from './WelcomeScreen';
+import { RateLimitError } from '@/lib/utils/errors';
 import ReviewScreen from './ReviewScreen';
 import QuestionScreen from './QuestionScreen';
 import GuestGateScreen from './GuestGateScreen';
@@ -151,6 +152,11 @@ export default function Wizard({ useCase }: WizardProps) {
       const data = await response.json();
       
       if (!response.ok) {
+        // Rate limit errors get a tailored message (don't say "try again")
+        if (data.rateLimited) {
+          const canRetry = data.minuteRemaining !== undefined && data.minuteRemaining <= 0;
+          throw new RateLimitError(data.error, canRetry);
+        }
         throw new Error(data.error || 'Failed to generate result');
       }
       
@@ -167,11 +173,19 @@ export default function Wizard({ useCase }: WizardProps) {
         });
       }
     } catch (err) {
-      setError(
-        err instanceof Error 
-          ? `We could not create your result: ${err.message}. Please try again. If this keeps happening, contact support.`
-          : 'We could not create your result. Please try again. If this keeps happening, contact support.'
-      );
+      if (err instanceof RateLimitError && !err.canRetry) {
+        // Daily limit — don't tell them to try again
+        setError(`${err.message} Come back tomorrow — your answers will be waiting.`);
+      } else if (err instanceof RateLimitError && err.canRetry) {
+        // Per-minute limit — they can try again shortly
+        setError(`${err.message} Wait a moment, then try again.`);
+      } else {
+        setError(
+          err instanceof Error 
+            ? `We could not create your result: ${err.message}. Please try again. If this keeps happening, contact support.`
+            : 'We could not create your result. Please try again. If this keeps happening, contact support.'
+        );
+      }
       setMode('review'); // Go back to review on error
       setIsSubmitting(false);
     }
