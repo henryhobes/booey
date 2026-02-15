@@ -10,6 +10,7 @@ export const GenerateRequestSchema = z.object({
       z.number().min(0).max(1000000),
     ])
   ),
+  refinement: z.string().max(1000).optional(),
 });
 
 export type ValidatedGenerateRequest = z.infer<typeof GenerateRequestSchema>;

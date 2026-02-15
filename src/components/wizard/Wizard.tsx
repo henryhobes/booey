@@ -182,6 +182,45 @@ export default function Wizard({ useCase }: WizardProps) {
     setError(null);
   };
   
+  // Edit inputs - go back to wizard with current answers
+  const handleEditInputs = () => {
+    setResult(null);
+    setCurrentStep(0);
+    setError(null);
+  };
+  
+  // Refine result - append refinement and regenerate
+  const handleRefine = async (refinementPrompt: string) => {
+    setIsGenerating(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          useCaseId: useCase.id,
+          answers,
+          refinement: refinementPrompt,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to refine result');
+      }
+      
+      setResult(data.result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+  
   // Guest gate: if guest has used free use and no result yet, block access
   if (!user && !canUseAsGuest() && !result) {
     return (
@@ -208,7 +247,14 @@ export default function Wizard({ useCase }: WizardProps) {
   if (mode === 'result' && result) {
     return (
       <>
-        <Result result={result} onStartOver={handleStartOver} />
+        <Result 
+          result={result} 
+          useCase={useCase}
+          answers={answers}
+          onStartOver={handleStartOver}
+          onEditInputs={handleEditInputs}
+          onRefine={handleRefine}
+        />
         {!user && hasUsedFreeUse && (
           <div className="w-full max-w-4xl mx-auto mt-6">
             <div className="alert alert-info">
