@@ -1,0 +1,110 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+  pull_request_review_comment:
+    types: [created]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: >
+      (github.event_name == 'pull_request' && !github.event.pull_request.draft) ||
+      (github.event_name == 'pull_request_review_comment') ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@claude'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          track_progress: true
+          use_sticky_comment: true
+          additional_permissions: |
+            actions: read
+          claude_args: >-
+            --model claude-sonnet-4-5-20250514
+            --max-turns 10
+            --allowedTools "Bash(npm run build)" "Bash(npm run lint)" "Bash(gh pr diff)" "Bash(gh pr view)" "Bash(gh pr comment)"
+          prompt: |
+            You are reviewing a PR for Booey — a guided AI tools web app for non-technical adults aged 40-60.
+
+            ## Setup
+            1. Read `CLAUDE.md` for the project map
+            2. Read `AGENTS.md` for review guidelines
+            3. Read `docs/CONVENTIONS.md` for code conventions and import boundaries
+
+            ## Review Priorities (in order)
+
+            ### a. Target Audience Lens
+            Would a 55-year-old understand all user-facing changes? Check reading level, jargon, and clarity. Flag anything confusing or overly technical in UI text.
+
+            ### b. Security (P0)
+            - XSS in AI output rendering
+            - Exposed secrets or API keys
+            - Missing auth checks or RLS bypasses
+            - Unsanitized input to AI prompts
+
+            ### c. UX/Design
+            - Touch targets: 48px minimum
+            - Font sizes: 16px minimum for body text
+            - WCAG 2.1 AA contrast compliance
+            - Mobile-first responsive design
+            - Error messages: specific and actionable
+            - Loading states present where needed
+
+            ### d. Use Case Quality (if `src/data/use-cases.json` changed)
+            - Outcome-oriented titles
+            - Conversational questions
+            - 2-4 questions max per use case
+            - 6th-7th grade reading level for descriptions
+
+            ### e. Prompt Quality (if `src/lib/ai/` changed)
+            - Warm, friendly output tone
+            - No AI jargon in user-facing output
+            - Structured results
+            - Defensive against harmful output
+
+            ### f. Code Quality
+            - Import boundaries: `types/ → lib/ → hooks/ → components/ → app/`
+            - No `any` types
+            - Files under 300 lines
+            - Zod validation at API boundaries
+
+            ### g. Architecture
+            - Check against ADRs in `docs/decisions/`
+            - Flag drift toward chatbot UX (ADR 001)
+            - Flag auth-gating that blocks try-before-signup (ADR 003)
+
+            ## Severity Levels
+            - 🚨 CRITICAL — must fix before merge
+            - ⚠️ WARNING — should fix
+            - 💡 SUGGESTION — nice to have
+            - ✅ APPROVED — looks good
+
+            ## Output Format
+            - Use **inline comments** for specific code issues
+            - Use a **top-level summary comment** for the overall review
+
+            ## Do NOT flag
+            - Minor style preferences (ESLint handles those)
+            - Commit message format
+            - Typos in code comments
