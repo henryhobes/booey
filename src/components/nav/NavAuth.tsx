@@ -4,6 +4,7 @@ import { useUser } from '@/hooks/useUser'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { QuotaBadge } from './QuotaBadge'
 
 export function NavAuth() {
   const { user, loading } = useUser()
@@ -27,6 +28,7 @@ export function NavAuth() {
   if (user) {
     return (
       <div className="flex items-center gap-4">
+        <QuotaBadge />
         <Link href="/history" className="btn btn-ghost btn-sm min-h-[44px]">
           History
         </Link>
