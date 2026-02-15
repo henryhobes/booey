@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GenerateRequest } from '@/types';
 import { getUseCaseById, validateRequiredAnswers } from '@/lib/use-cases';
 import { generateResult } from '@/lib/ai/claude';
 import { createClient } from '@/lib/supabase/server';
+import { GenerateRequestSchema } from '@/lib/validation';
 
 export async function POST(request: NextRequest) {
   try {
     // Parse JSON and handle malformed requests
-    let body: GenerateRequest;
+    let rawBody: unknown;
     try {
-      body = await request.json();
+      rawBody = await request.json();
     } catch {
       return NextResponse.json(
         { error: 'Invalid JSON in request body' },
@@ -17,15 +17,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { useCaseId, answers } = body;
-    
-    // Validate request body structure
-    if (!useCaseId || !answers || typeof answers !== 'object') {
+    // Validate request body with Zod
+    const validation = GenerateRequestSchema.safeParse(rawBody);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Invalid request: useCaseId and answers are required' },
+        { error: 'Invalid request', details: validation.error.flatten() },
         { status: 400 }
       );
     }
+
+    const { useCaseId, answers } = validation.data;
     
     // Validate use case exists
     const useCase = getUseCaseById(useCaseId);
