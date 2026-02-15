@@ -205,14 +205,19 @@ button:focus-visible,
   }
 }
 
-/* Bottom padding on mobile to prevent content overlap */
+/* Bottom padding on mobile to prevent content overlap with bottom nav */
 @media (max-width: 767px) {
   main {
-    /* Large padding to ensure content is scrollable above mobile keyboard */
-    /* iOS keyboard can take 200-300px, so we add significant space */
-    padding-bottom: 400px;
-    padding-bottom: calc(400px + env(safe-area-inset-bottom, 0px));
-    min-height: 100vh; /* Ensure content can extend */
+    /* Padding for mobile bottom nav (64px) + breathing room */
+    padding-bottom: 96px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+  
+  /* When keyboard is open (input focused), add extra space for scrolling */
+  body:has(input:focus, textarea:focus, select:focus) main {
+    padding-bottom: 320px;
+    padding-bottom: calc(320px + env(safe-area-inset-bottom, 0px));
+    min-height: 100vh;
   }
 }
 
