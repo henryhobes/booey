@@ -197,10 +197,21 @@ button:focus-visible,
   height: 24px;
 }
 
+/* Hide mobile nav when keyboard is open (input/textarea focused) */
+@media (max-width: 767px) {
+  body:has(input:focus, textarea:focus, select:focus) .mobile-bottom-nav {
+    transform: translateY(100%);
+    transition: transform 0.2s ease-in-out;
+  }
+}
+
 /* Bottom padding on mobile to prevent content overlap */
 @media (max-width: 767px) {
   main {
-    padding-bottom: 80px;
+    /* Increased from 80px to 140px to account for mobile keyboard overlap */
+    /* 56px nav height + 4px padding + 80px extra space for keyboard */
+    padding-bottom: 140px;
+    padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
   }
 }
 
