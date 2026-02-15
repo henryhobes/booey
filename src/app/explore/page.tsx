@@ -15,13 +15,17 @@ const FEATURED_IDS = [
 ];
 
 export default function ExplorePage() {
-  const allUseCases = useCases.map(({ id, title, description, icon, category_label }) => ({
-    id,
-    title,
-    description,
-    icon,
-    categoryLabel: category_label,
-  }));
+  const allUseCases = useCases.map(
+    ({ id, title, description, icon, category_label, addedDate, popular }) => ({
+      id,
+      title,
+      description,
+      icon,
+      categoryLabel: category_label,
+      addedDate: addedDate ?? "2026-02-01",
+      popular: popular ?? false,
+    })
+  );
 
   const featured = FEATURED_IDS.map((fid) => allUseCases.find((uc) => uc.id === fid)).filter(
     (uc): uc is NonNullable<typeof uc> => uc != null,
