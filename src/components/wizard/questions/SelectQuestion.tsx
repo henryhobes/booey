@@ -36,7 +36,7 @@ export default function SelectQuestion({ question, value, onChange }: SelectQues
       </select>
       {question.helperText && (
         <label className="label">
-          <span className="label-text-alt text-base-content/60">{question.helperText}</span>
+          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">{question.helperText}</span>
         </label>
       )}
     </div>
