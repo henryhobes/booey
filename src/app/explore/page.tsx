@@ -80,7 +80,7 @@ export default function ExplorePage() {
                   <p className="text-base text-base-content/70 line-clamp-1 mt-0.5">
                     {uc.description}
                   </p>
-                  <span className="badge badge badge-outline mt-1.5">
+                  <span className="badge badge-outline mt-1.5">
                     {uc.categoryLabel}
                   </span>
                 </div>
