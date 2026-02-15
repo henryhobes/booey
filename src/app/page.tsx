@@ -26,7 +26,7 @@ export default function Home() {
               Get things done faster. No tech skills needed.
             </h1>
             <div className="py-6 text-lg md:text-xl text-base-content/80 max-w-2xl mx-auto">
-              <p className="mb-4">Here's how it works:</p>
+              <p className="mb-4">Here&apos;s how it works:</p>
               <ul className="text-left space-y-2 mx-auto max-w-lg">
                 <li>• Answer a few simple questions</li>
                 <li>• We do the work for you</li>

@@ -80,7 +80,7 @@ export default function RefineModal({ isOpen, onClose, onSubmit }: RefineModalPr
         <div className="modal-box max-w-2xl" ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <h3 id="modal-title" className="font-bold text-2xl mb-4">Refine Your Results</h3>
         <p className="text-base opacity-70 mb-6">
-          Tell us what you'd like to change, or pick a quick option below.
+          Tell us what you&apos;d like to change, or pick a quick option below.
         </p>
 
         {/* Custom refinement input */}
