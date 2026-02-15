@@ -25,7 +25,6 @@ export default function TextQuestion({ question, value, onChange }: TextQuestion
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={question.required}
-        autoFocus
       />
       {question.helperText && (
         <label className="label">

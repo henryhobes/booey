@@ -23,7 +23,6 @@ export default function SelectQuestion({ question, value, onChange }: SelectQues
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={question.required}
-        autoFocus
       >
         <option value="" disabled>
           Choose an option...
