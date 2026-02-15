@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { getBaseUrl } from '@/lib/utils/get-base-url'
 
 export function SignIn() {
   const [loading, setLoading] = useState(false)
@@ -16,10 +17,14 @@ export function SignIn() {
       const params = new URLSearchParams(window.location.search)
       const next = params.get('next') || '/'
 
+      // Use dynamic base URL for preview deployments and production
+      const baseUrl = getBaseUrl(true)
+      const redirectTo = `${baseUrl}/auth/callback?next=${encodeURIComponent(next)}`
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+          redirectTo,
         },
       })
 
