@@ -61,11 +61,12 @@ export default function HistoryPage() {
   if (sessions.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-4xl text-center">
-        <h1 className="text-4xl font-bold mb-4">Your History</h1>
+        <div className="text-6xl mb-4">🎯</div>
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">Ready to try your first tool?</h1>
         <p className="text-base-content/70 text-lg mb-6">
-          You haven&apos;t used any tools yet.
+          Pick any tool from the home page. It only takes 2 minutes, and you can't break anything!
         </p>
-        <Link href="/" className="btn btn-primary">
+        <Link href="/" className="btn btn-primary btn-lg">
           Browse Tools
         </Link>
       </div>
