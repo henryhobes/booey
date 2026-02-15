@@ -29,10 +29,10 @@ export function NavAuth() {
     return (
       <div className="flex items-center gap-4">
         <QuotaBadge />
-        <Link href="/history" className="btn btn-ghost btn-sm min-h-[44px]">
+        <Link href="/history" className="btn btn-ghost btn-sm min-h-[48px]">
           History
         </Link>
-        <button onClick={handleSignOut} className="btn btn-ghost btn-sm min-h-[44px]">
+        <button onClick={handleSignOut} className="btn btn-ghost btn-sm min-h-[48px]">
           Sign Out
         </button>
       </div>
@@ -41,7 +41,7 @@ export function NavAuth() {
 
   return (
     <div className="flex gap-2">
-      <Link href="/auth/sign-in" className="btn btn-primary btn-sm min-h-[44px]">
+      <Link href="/auth/sign-in" className="btn btn-primary btn-sm min-h-[48px]">
         Sign In
       </Link>
     </div>
