@@ -44,7 +44,7 @@ jobs:
             actions: read
           claude_args: |
             --model claude-opus-4-6
-            --max-turns 10
+            --max-turns 25
             --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(npm run build),Bash(npm run lint),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
           prompt: |
             You are reviewing a PR for Booey — a guided AI tools web app for non-technical adults aged 40-60.
