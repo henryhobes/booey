@@ -5,11 +5,33 @@ import { generateResult } from '@/lib/ai/claude';
 import { createClient } from '@/lib/supabase/server';
 import { GenerateRequestSchema } from '@/lib/validation';
 import { checkRateLimit, incrementUsage } from '@/lib/rate-limit';
+import { isEmergencyStopped, checkBudget, recordSpend } from '@/lib/budget';
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export async function POST(request: NextRequest) {
   try {
+    // Kill switch — immediate shutoff
+    if (isEmergencyStopped()) {
+      return NextResponse.json(
+        { error: 'Service is temporarily under maintenance. Please try again later.' },
+        { status: 503 }
+      );
+    }
+
+    // Budget check — daily spend cap
+    const budget = await checkBudget();
+    if (!budget.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Daily budget exceeded. Service will resume tomorrow.',
+          budgetExceeded: true,
+          spent: budget.spent,
+          limit: budget.limit,
+        },
+        { status: 429 }
+      );
+    }
     // Parse JSON and handle malformed requests
     let rawBody: unknown;
     try {
@@ -118,6 +140,9 @@ export async function POST(request: NextRequest) {
 
     // Increment rate limit usage after successful generation
     await incrementUsage(userId);
+    
+    // Record cost for budget tracking
+    await recordSpend(result.inputTokens, result.outputTokens);
     
     // Save session to database for authenticated users
     let sessionId: string | null = null;

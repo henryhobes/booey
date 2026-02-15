@@ -18,8 +18,11 @@ Add these in **Vercel Dashboard → Settings → Environment Variables:**
 
 **Production only (sensitive):**
 - `ANTHROPIC_API_KEY`
-- `UPSTASH_REDIS_REST_URL` (when rate limiting is added)
-- `UPSTASH_REDIS_REST_TOKEN` (when rate limiting is added)
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+- `DAILY_BUDGET_USD` — Daily spend cap in USD (default: `5.00`)
+- `EMERGENCY_STOP` — Set to `true` to block all AI requests (kill switch)
+- `NTFY_TOPIC` — ntfy.sh topic for cost alerts (e.g. `booey-cost-alerts-abc123`)
 
 > ⚠️ **Important:** For Supabase vars, manually check "Preview" and "Development" boxes after adding. Vercel's Supabase integration defaults to Production-only.
 
@@ -88,6 +91,24 @@ git revert HEAD
 git push origin main
 # Vercel auto-deploys the reverted version
 ```
+
+## Cost Monitoring & Alerting
+
+Booey tracks daily API spend in Upstash Redis and enforces a configurable budget cap.
+
+### How it works
+- Every `/api/generate` call records token usage × Haiku 3.5 pricing
+- If daily spend exceeds `DAILY_BUDGET_USD` (default $5), new requests get 429
+- Push notifications via [ntfy.sh](https://ntfy.sh) fire at 50%, 75%, and 90% thresholds
+
+### Setup
+1. **Budget cap** — Set `DAILY_BUDGET_USD=5.00` in Vercel env vars (or your preferred limit)
+2. **ntfy.sh alerts** — Pick a random topic name and set `NTFY_TOPIC=booey-cost-alerts-<random>`. Subscribe on your phone via the ntfy app or at `https://ntfy.sh/<your-topic>`.
+3. **Kill switch** — In an emergency, set `EMERGENCY_STOP=true` in Vercel and redeploy. All AI requests will return 503 immediately.
+
+### Monitoring
+- Redis key `budget:YYYY-MM-DD` contains daily spend data (auto-expires after 25h)
+- Check current spend via the budget data in Redis or Vercel logs
 
 ## Troubleshooting
 
