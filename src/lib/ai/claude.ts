@@ -55,7 +55,7 @@ export async function generateResult(
     system: [
       {
         type: 'text',
-        text: useCase.systemPrompt,
+        text: useCase.systemPrompt + '\n\nIMPORTANT: Always format your response using proper Markdown. Use headings (##), bullet lists (- item), numbered lists (1. item), and **bold** for emphasis. Never use unicode bullets (•) or emoji as list markers. Each list item must be on its own line.',
         cache_control: { type: 'ephemeral' },
       },
     ],
