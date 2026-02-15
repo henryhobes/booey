@@ -43,9 +43,11 @@ export function MobileBottomNav() {
 
   return (
     <nav className="mobile-bottom-nav md:hidden" aria-label="Mobile navigation">
-      <div className="flex justify-center py-1">
-        <QuotaBadge />
-      </div>
+      {user && (
+        <div className="flex justify-center py-1">
+          <QuotaBadge />
+        </div>
+      )}
       <div className={`grid ${user ? 'grid-cols-3' : 'grid-cols-4'}`}>
         <Link
           href="/"
