@@ -1,6 +1,10 @@
 import Link from "next/link";
 import useCases from "@/data/use-cases.json";
 import UseCaseGrid from "@/components/UseCaseGrid";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import PrivacySection from "@/components/landing/PrivacySection";
+import FounderStory from "@/components/landing/FounderStory";
+import TrustBadges from "@/components/landing/TrustBadges";
 
 export default function Home() {
   // Strip sensitive data (systemPrompts) before passing to client component
@@ -49,6 +53,28 @@ export default function Home() {
             Pick any tool above to get started — no signup required for your first try
           </p>
         </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
+        <TestimonialsSection />
+      </section>
+
+      {/* Privacy Section */}
+      <section className="bg-base-200 py-12 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-5xl px-4 md:px-6 lg:px-8">
+          <PrivacySection />
+        </div>
+      </section>
+
+      {/* Founder Story Section */}
+      <section className="mx-auto max-w-4xl px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
+        <FounderStory />
+      </section>
+
+      {/* Trust Badges Section */}
+      <section className="mx-auto max-w-5xl px-4 md:px-6 lg:px-8 py-12 md:py-16">
+        <TrustBadges />
       </section>
 
       {/* Value Proposition Section */}
