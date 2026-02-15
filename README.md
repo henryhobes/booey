@@ -29,6 +29,31 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Claude API** (Anthropic)
 - **Vercel** (Hosting)
 
+## 🔐 Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+**Required:**
+- `NEXT_PUBLIC_SUPABASE_URL` — Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — Your Supabase anon/publishable key (safe to expose)
+- `ANTHROPIC_API_KEY` — Your Claude API key (**server-only, never expose**)
+
+**Optional (Phase 4+):**
+- `UPSTASH_REDIS_REST_URL` — Upstash Redis URL for rate limiting
+- `UPSTASH_REDIS_REST_TOKEN` — Upstash Redis token
+
+> ⚠️ **Security:** Never commit `.env.local`. API keys must never use the `NEXT_PUBLIC_` prefix — that exposes them to the browser.
+
+## 🚢 Deployment
+
+See [DEPLOY.md](DEPLOY.md) for the full deployment checklist and troubleshooting guide.
+
+Booey is designed for [Vercel](https://vercel.com). Push to `main` and Vercel auto-deploys.
+
 ## 📄 License
 
 MIT
