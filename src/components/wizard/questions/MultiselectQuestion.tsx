@@ -18,7 +18,7 @@ export default function MultiselectQuestion({ question, value, onChange }: Multi
   return (
     <div className="form-control w-full">
       <label className="label">
-        <span className="label-text text-lg font-medium">
+        <span className="label-text text-lg font-medium whitespace-normal break-words">
           {question.label}
           {question.required && <span className="text-error ml-1">*</span>}
         </span>

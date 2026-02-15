@@ -40,7 +40,7 @@ export default function NumberQuestion({ question, value, onChange }: NumberQues
   return (
     <div className="form-control w-full">
       <label htmlFor={inputId} className="label">
-        <span className="label-text text-lg font-medium">
+        <span className="label-text text-lg font-medium whitespace-normal break-words">
           {question.label}
           {question.required && <span className="text-error ml-1">*</span>}
         </span>

@@ -12,7 +12,7 @@ export default function TextQuestion({ question, value, onChange }: TextQuestion
   return (
     <div className="form-control w-full">
       <label htmlFor={inputId} className="label">
-        <span className="label-text text-lg font-medium">
+        <span className="label-text text-lg font-medium whitespace-normal break-words">
           {question.label}
           {question.required && <span className="text-error ml-1">*</span>}
         </span>
