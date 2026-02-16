@@ -5,7 +5,7 @@ import Link from "next/link";
 import CategoryPills from "./CategoryPills";
 
 const NEW_DAYS = 14;
-const SECTION_MAX = 5;
+const SECTION_MAX = 6;
 
 function isNew(addedDate: string): boolean {
   const added = new Date(addedDate);
@@ -36,7 +36,7 @@ function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean
     <Link
       href={`/use/${uc.id}`}
       aria-label={`Try ${uc.title}: ${uc.description}`}
-      className="flex items-start gap-4 p-4 rounded-2xl bg-base-200 hover:bg-base-300 transition-colors min-h-[64px] focus:ring-2 focus:ring-primary focus:outline-none"
+      className="flex items-start gap-4 p-4 rounded-2xl bg-base-200 hover:bg-base-300 lg:hover:shadow-md lg:hover:-translate-y-0.5 transition-all min-h-[64px] focus:ring-2 focus:ring-primary focus:outline-none"
     >
       <span className="text-[32px] leading-none shrink-0" aria-hidden="true">
         {uc.icon}
@@ -48,7 +48,7 @@ function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean
             <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
           )}
         </h3>
-        <p className="text-base text-base-content/70 line-clamp-1 mt-0.5">
+        <p className="text-base text-base-content/70 line-clamp-2 mt-0.5">
           {uc.description}
         </p>
         <span className="badge badge-accent text-primary mt-1.5">
@@ -100,16 +100,17 @@ export default function ExploreContent({
         onSelect={setSelectedCategory}
       />
 
-      <div className="mx-auto max-w-4xl px-4 py-8">
+      <div className="mx-auto max-w-4xl lg:max-w-6xl px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-8">
           Explore Tools
         </h1>
 
         {/* Featured Section */}
         {filteredFeatured.length > 0 && (
-          <section className="mb-10">
-            <h2 className="text-xl font-bold text-primary mb-4">⭐ Featured</h2>
-            <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <section className="mb-10 lg:mb-12 lg:rounded-2xl lg:bg-base-200/50 lg:p-6 lg:-mx-2">
+            <h2 className="text-xl font-bold text-primary mb-4">Featured</h2>
+            {/* Mobile: horizontal scroll strip */}
+            <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory lg:hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {filteredFeatured.map((uc) => (
                 <Link
                   key={uc.id}
@@ -124,6 +125,32 @@ export default function ExploreContent({
                     <h3 className="text-sm font-bold leading-tight mt-2">
                       {uc.title}
                     </h3>
+                    {isNew(uc.addedDate) && (
+                      <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            {/* Desktop: featured grid cards */}
+            <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              {filteredFeatured.map((uc) => (
+                <Link
+                  key={uc.id}
+                  href={`/use/${uc.id}`}
+                  aria-label={`Try ${uc.title}: ${uc.description}`}
+                  className="card bg-base-100 border border-accent shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all focus:ring-2 focus:ring-primary focus:outline-none"
+                >
+                  <div className="card-body p-5 items-center text-center gap-2">
+                    <span className="text-4xl" aria-hidden="true">
+                      {uc.icon}
+                    </span>
+                    <h3 className="text-base font-bold leading-tight">
+                      {uc.title}
+                    </h3>
+                    <p className="text-sm text-base-content/70 line-clamp-2">
+                      {uc.description}
+                    </p>
                     {isNew(uc.addedDate) && (
                       <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
                     )}
@@ -148,7 +175,7 @@ export default function ExploreContent({
                 </a>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" role="list" aria-label="New tools">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="New tools">
               {newUseCases.slice(0, SECTION_MAX).map((uc) => (
                 <div key={uc.id} role="listitem">
                   <UseCaseCard uc={uc} showNewBadge />
@@ -172,7 +199,7 @@ export default function ExploreContent({
                 </a>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" role="list" aria-label="Popular tools">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="Popular tools">
               {popularUseCases.slice(0, SECTION_MAX).map((uc) => (
                 <div key={uc.id} role="listitem">
                   <UseCaseCard uc={uc} showNewBadge={isNew(uc.addedDate)} />
@@ -192,7 +219,7 @@ export default function ExploreContent({
               No tools in this category yet.
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" role="list" aria-label="All tools">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="All tools">
               {filteredUseCases.map((uc) => (
                 <div key={uc.id} role="listitem">
                   <UseCaseCard uc={uc} showNewBadge={isNew(uc.addedDate)} />
