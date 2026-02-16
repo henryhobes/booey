@@ -11,6 +11,16 @@ npm run build        # Production build (MUST pass before PR merge)
 npm run lint         # ESLint
 ```
 
+## Pre-Push Checklist (MANDATORY)
+
+Before pushing ANY code, run all checks:
+
+```bash
+npm run lint && npm run typecheck && npm run build && npm test
+```
+
+Do NOT push code that fails any of these. Fix errors locally first. This prevents CI failures and wasted review cycles.
+
 ## What Is This?
 
 **Booey** (booey.ai) — guided AI tools for non-technical adults (40-60 year olds). Wizard-based UI, not chat. Users browse use cases → answer guided questions → get AI results.
@@ -83,7 +93,11 @@ types/ → lib/ → hooks/ → components/ → app/
 
 1. Agent gets task spec with acceptance criteria
 2. Work in git worktree (`/booey-worktrees/<task>/`)
-3. Implement → self-review → `npm run build && npm run lint`
+3. Implement → self-review → run ALL checks before committing:
+   ```bash
+   npm run lint && npm run typecheck && npm run build && npm test
+   ```
+   Fix ALL errors before pushing. Do NOT push code that fails any check.
 4. Push branch → open PR
 5. Run `./scripts/wait-for-pr-approval.sh <pr-number>` — polls CI + Codex review
 6. Fix CI failures and address Codex feedback (max 3 cycles)
