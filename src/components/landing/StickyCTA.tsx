@@ -38,7 +38,7 @@ export default function StickyCTA() {
     <div className="px-4 pt-3 pb-1 border-b border-base-300/30">
       <Link
         href="/explore"
-        className="btn btn-secondary btn-block text-lg min-h-[56px] text-white focus:ring-2 focus:ring-secondary focus:outline-none"
+        className="btn btn-secondary btn-block text-lg min-h-[56px] focus:ring-2 focus:ring-secondary focus:outline-none"
       >
         Explore Tools →
       </Link>

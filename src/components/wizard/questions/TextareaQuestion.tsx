@@ -28,7 +28,7 @@ export default function TextareaQuestion({ question, value, onChange }: Textarea
       />
       {question.helperText && (
         <label className="label">
-          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">{question.helperText}</span>
+          <span className="label-text-alt text-base-content/70 whitespace-normal break-words">{question.helperText}</span>
         </label>
       )}
     </div>

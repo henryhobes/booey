@@ -51,7 +51,7 @@ function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean
         <p className="text-base text-base-content/70 line-clamp-2 mt-0.5">
           {uc.description}
         </p>
-        <span className="badge badge-accent text-primary mt-1.5">
+        <span className="badge badge-accent text-base-content mt-1.5">
           {uc.categoryLabel}
         </span>
       </div>
@@ -215,7 +215,7 @@ export default function ExploreContent({
             {selectedCategory === "All" ? "All Tools" : selectedCategory}
           </h2>
           {filteredUseCases.length === 0 ? (
-            <p className="text-base text-base-content/60 py-8 text-center">
+            <p className="text-base text-base-content/70 py-8 text-center">
               No tools in this category yet.
             </p>
           ) : (

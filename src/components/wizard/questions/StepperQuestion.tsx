@@ -80,7 +80,7 @@ export default function StepperQuestion({
 
       {question.helperText && (
         <label className="label pt-0">
-          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">
+          <span className="label-text-alt text-base-content/70 whitespace-normal break-words">
             {question.helperText}
           </span>
         </label>

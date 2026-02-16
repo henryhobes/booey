@@ -105,7 +105,7 @@ function SessionCard({ session }: { session: Session }) {
         <div className="flex items-start justify-between">
           <div>
             <h3 className="card-title">{useCaseTitle}</h3>
-            <p className="text-sm text-base-content/60">{timestamp}</p>
+            <p className="text-sm text-base-content/70">{timestamp}</p>
           </div>
         </div>
 

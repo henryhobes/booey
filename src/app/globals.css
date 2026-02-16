@@ -89,7 +89,7 @@ textarea {
 
   /* Secondary: Rust Orange */
   --color-secondary: oklch(64.25% 0.155 39.62);  /* #D9663D */
-  --color-secondary-content: oklch(100% 0 0);
+  --color-secondary-content: oklch(35.64% 0.0391 248.99);
 
   /* Accent: Blush Peach */
   --color-accent: oklch(89.97% 0.0611 54.81);  /* #FFD4B8 */

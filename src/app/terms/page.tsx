@@ -18,7 +18,7 @@ export default function TermsPage() {
         <h1 className="text-3xl md:text-4xl font-bold mt-6 mb-2 text-base-content">
           Terms of Service
         </h1>
-        <p className="text-base text-base-content/60 mb-8">
+        <p className="text-base text-base-content/70 mb-8">
           Last updated: February 15, 2026
         </p>
 
