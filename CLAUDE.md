@@ -69,6 +69,10 @@ types/ → lib/ → hooks/ → components/ → app/
 | Google OAuth (not magic links) | `docs/decisions/004-google-oauth-over-magic-links.md` |
 | Haiku as default model | `docs/decisions/005-haiku-default-model.md` |
 
+## Use Case Prompts
+
+When creating or updating a `systemPrompt` in any use case YAML file, you MUST read `docs/USE-CASE-PROMPT-TEMPLATE.md` first. It contains the standard template, quality standards, best practices, and a pre-merge checklist. Use the `/use-case-prompt` skill to be guided through the process.
+
 ## Where to Look
 
 | Need to understand... | Read |
@@ -76,6 +80,7 @@ types/ → lib/ → hooks/ → components/ → app/
 | Product context, target users | `docs/OVERVIEW.md` |
 | Tech stack, DB schema, structure | `docs/ARCHITECTURE.md` |
 | Code patterns, naming, imports | `docs/CONVENTIONS.md` |
+| Use case prompt writing guide | `docs/USE-CASE-PROMPT-TEMPLATE.md` |
 | Current quality per domain | `docs/QUALITY.md` |
 | Known technical debt | `docs/TECH-DEBT.md` |
 | Testing & QA strategy | `docs/TESTING.md` |
