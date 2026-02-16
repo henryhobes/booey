@@ -56,6 +56,10 @@ concurrency:
 
 jobs:
   auto-merge:
+    # Skip check_suite events on main branch (triggered by merges, no PR to process)
+    if: >
+      github.event_name != 'check_suite' ||
+      github.event.check_suite.head_branch != 'main'
     runs-on: ubuntu-latest
 
     steps:
