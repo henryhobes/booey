@@ -56,7 +56,7 @@ export default function YesNoQuestion({
               <div className="text-lg font-medium">{option}</div>
               {descriptions[i] && (
                 <div
-                  className={`text-sm mt-1 ${
+                  className={`text-base mt-1 ${
                     isSelected ? "text-primary-content/80" : "opacity-60"
                   }`}
                 >

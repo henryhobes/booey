@@ -55,16 +55,16 @@ export default function SpectrumQuestion({
                   className="flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary rounded-xl p-1"
                 >
                   <div
-                    className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all ${
+                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
                       isSelected
                         ? "bg-primary text-primary-content scale-110 ring-2 ring-primary ring-offset-2 ring-offset-base-100"
                         : "bg-base-100 border-2 border-base-300 hover:border-primary/30"
                     }`}
                   >
-                    <span className="text-xs font-bold">{i + 1}</span>
+                    <span className="text-base font-bold">{i + 1}</span>
                   </div>
                   <span
-                    className={`text-xs md:text-sm text-center leading-tight max-w-[80px] ${
+                    className={`text-base text-center leading-tight max-w-[80px] ${
                       isSelected
                         ? "font-bold text-primary"
                         : isAnchor

@@ -57,7 +57,7 @@ export default function EmojiScaleQuestion({
                 <span className="text-3xl md:text-4xl">{icons[i]}</span>
               )}
               <span
-                className={`text-xs md:text-sm text-center leading-tight ${
+                className={`text-base text-center leading-tight ${
                   isSelected ? "font-bold text-primary" : "opacity-70"
                 }`}
               >

@@ -55,7 +55,7 @@ export default function TagCloudQuestion({
       setIsOtherMode(false);
       onChange(value.filter((v) => !isOtherEntry(v)));
       setOtherText("");
-    } else {
+    } else if (!atCap) {
       setIsOtherMode(true);
     }
   };
@@ -89,7 +89,7 @@ export default function TagCloudQuestion({
       )}
 
       {maxSelections && (
-        <div className="text-sm opacity-60 mb-2">
+        <div className="text-base opacity-60 mb-2">
           {value.length} of {maxSelections} selected
         </div>
       )}
@@ -124,11 +124,14 @@ export default function TagCloudQuestion({
             type="button"
             role="checkbox"
             aria-checked={isOtherMode}
+            disabled={!isOtherMode && atCap}
             onClick={handleOtherToggle}
             className={`rounded-full px-5 min-h-[48px] text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
               isOtherMode
                 ? "bg-primary text-primary-content font-bold"
-                : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
+                : !isOtherMode && atCap
+                  ? "bg-base-200 text-base-content/30 cursor-not-allowed"
+                  : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
             }`}
           >
             Other

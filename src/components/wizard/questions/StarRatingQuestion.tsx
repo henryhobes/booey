@@ -77,7 +77,7 @@ export default function StarRatingQuestion({
       </div>
 
       {value > 0 && (
-        <div className="text-center mt-2 text-sm opacity-60">
+        <div className="text-center mt-2 text-base opacity-60">
           {value} of {maxStars}
         </div>
       )}
