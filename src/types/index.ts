@@ -51,6 +51,13 @@ export interface Session {
   created_at: string;
 }
 
+// Citation from web search
+export interface Citation {
+  url: string;
+  title: string | null;
+  citedText: string;
+}
+
 // API types
 export interface GenerateRequest {
   useCaseId: string;
@@ -59,6 +66,7 @@ export interface GenerateRequest {
 
 export interface GenerateResponse {
   result: string;
+  citations: Citation[];
   model: string;
   inputTokens: number;
   outputTokens: number;
