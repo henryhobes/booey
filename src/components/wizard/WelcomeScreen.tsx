@@ -16,7 +16,7 @@ export default function WelcomeScreen({ useCase, onStart }: WelcomeScreenProps) 
       {/* Header */}
       <div className="text-center mb-8">
         <div className="text-6xl md:text-7xl mb-6">{useCase.icon}</div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">{useCase.title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4">{useCase.title}</h1>
         <p className="text-lg md:text-xl opacity-70 mb-8">{useCase.description}</p>
       </div>
       
@@ -52,15 +52,15 @@ export default function WelcomeScreen({ useCase, onStart }: WelcomeScreenProps) 
           </div>
           
           {/* Reassurance box */}
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-base text-primary">
+          <div className="bg-accent/30 border-2 border-accent rounded-lg p-4 mb-6">
+            <p className="text-base text-base-content">
               💡 <strong>Tip:</strong> There are no wrong answers. Just answer naturally, like you&apos;re talking to a friend.
             </p>
           </div>
           
           <button 
             onClick={onStart}
-            className="btn btn-primary btn-lg w-full text-lg min-h-[48px]"
+            className="btn btn-secondary btn-lg w-full text-lg min-h-[48px]"
           >
             Let&apos;s Get Started →
           </button>

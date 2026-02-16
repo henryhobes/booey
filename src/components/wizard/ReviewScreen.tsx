@@ -113,7 +113,7 @@ export default function ReviewScreen({
             </p>
             <button 
               onClick={onSubmit}
-              className={`btn btn-primary btn-lg w-full text-lg min-h-[48px] ${isSubmitting ? 'loading' : ''}`}
+              className={`btn btn-secondary btn-lg w-full text-lg min-h-[48px] ${isSubmitting ? 'loading' : ''}`}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Creating Your Answer...' : 'Create My Answer'}

@@ -101,7 +101,7 @@ export default function ExploreContent({
       />
 
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-base-content mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-8">
           Explore Tools
         </h1>
 
@@ -115,7 +115,7 @@ export default function ExploreContent({
                   key={uc.id}
                   href={`/use/${uc.id}`}
                   aria-label={`Try ${uc.title}`}
-                  className="snap-start shrink-0 w-44 card bg-base-200 shadow-md hover:shadow-lg transition-shadow focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="snap-start shrink-0 w-44 card bg-base-200 border border-accent shadow-md hover:shadow-lg transition-shadow focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   <div className="card-body p-4 items-center text-center">
                     <span className="text-4xl" aria-hidden="true">
