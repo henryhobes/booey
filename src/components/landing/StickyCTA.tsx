@@ -4,28 +4,38 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function StickyCTA() {
-  const [visible, setVisible] = useState(false);
+  const [heroHidden, setHeroHidden] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
 
   useEffect(() => {
-    // Depends on id="hero-cta" in src/app/page.tsx hero section
     const heroBtn = document.getElementById("hero-cta");
-    if (!heroBtn) return;
+    const footer = document.querySelector("footer");
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(!entry.isIntersecting);
-      },
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => setHeroHidden(!entry.isIntersecting),
       { threshold: 0 }
     );
 
-    observer.observe(heroBtn);
-    return () => observer.disconnect();
+    const footerObserver = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    if (heroBtn) heroObserver.observe(heroBtn);
+    if (footer) footerObserver.observe(footer);
+
+    return () => {
+      heroObserver.disconnect();
+      footerObserver.disconnect();
+    };
   }, []);
+
+  const visible = heroHidden && !footerVisible;
 
   return (
     <div
-      className={`fixed bottom-28 left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm border-t border-base-300 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-300 ${
-        visible ? "translate-y-0" : "translate-y-[calc(100%+7rem)]"
+      className={`fixed bottom-[calc(64px+env(safe-area-inset-bottom,0px))] left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm p-3 transition-transform duration-300 ${
+        visible ? "translate-y-0" : "translate-y-[calc(100%+64px+env(safe-area-inset-bottom,0px))]"
       }`}
       aria-hidden={!visible}
     >
