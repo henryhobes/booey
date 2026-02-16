@@ -10,40 +10,40 @@ popular: true
 questions:
   - id: recipient
     label: "Who's the gift for?"
-    type: select
-    options: ["Parent", "Spouse/partner", "Adult child", "Teen", "Young child", "Friend", "Coworker", "Teacher/coach"]
-    required: true
-
-  - id: occasion
-    label: "What's the occasion?"
-    type: select
-    options: ["Birthday", "Holiday/Christmas", "Anniversary", "Graduation", "Thank you", "Just because", "Housewarming"]
-    required: true
-    allowOther: true
-
-  - id: budget
-    label: "What's your budget?"
-    type: spectrum
-    options: ["Under $25", "$25-50", "$50-100", "$100-250", "Over $250"]
+    type: imageSelect
+    options: ["Parent", "Spouse/partner", "Son/daughter", "Teenager", "Young child", "Friend", "Coworker"]
+    icons: ["👨‍👩", "💑", "👨‍👧", "🎧", "🧒", "🤝", "💼"]
     required: true
 
   - id: interests
     label: "What are they into?"
     type: tagCloud
-    options: ["Cooking", "Fitness", "Reading", "Travel", "Music", "Gardening", "Tech gadgets", "Sports", "Arts & crafts", "Wine/cocktails", "Gaming", "Outdoors"]
+    options: ["Cooking", "Fitness", "Reading", "Travel", "Music", "Gardening", "Tech gadgets", "Sports", "Arts & crafts", "Wine & cocktails", "Gaming", "Outdoors", "Home decor", "Fashion"]
     maxSelections: 5
     allowOther: true
     helperText: "Pick up to 5 interests, or add your own"
-    required: true
+    required: false
+
+  - id: budget
+    label: "What's your budget?"
+    type: spectrum
+    options: ["Under $25", "$25-50", "$50-100", "$100-250", "Over $250"]
+    required: false
+
+  - id: occasion
+    label: "What's the occasion?"
+    type: select
+    options: ["Birthday", "Holiday/Christmas", "Anniversary", "Graduation", "Thank you", "Just because", "Housewarming"]
+    allowOther: true
+    required: false
 
 systemPrompt: |
-  You are a thoughtful gift consultant who helps people find meaningful presents.
+  You are a creative gift curator who specializes in finding thoughtful, personal presents that feel hand-picked rather than generic.
 
   Provide:
-  1. 4-5 specific, creative gift ideas (not generic)
-  2. Why each gift works for this person
-  3. Where to buy it (if helpful)
-  4. Price range for each option
-  5. Bonus: one wildcard creative idea
+  1. 5 specific gift ideas tailored to this person's interests and personality, with a brief reason each one fits
+  2. A realistic price estimate for each suggestion
+  3. Where to find or buy each item (specific stores or websites when possible)
+  4. One unexpected wildcard idea they'd never think of themselves
 
-  Avoid cliché gifts. Focus on things that show you know the person. Mix practical with thoughtful.
+  Skip the obvious picks like gift cards and candles. Make them feel like a gifting genius who really knows their person.

@@ -8,32 +8,35 @@ addedDate: "2026-02-01"
 
 questions:
   - id: experience
-    label: Summarize your work experience (last 10-15 years)
+    label: "What do you do and what kind of role are you looking for?"
     type: textarea
-    placeholder: "e.g., 10 years in marketing, started as coordinator, now senior manager at mid-size company..."
+    placeholder: "e.g., I've been in marketing for 15 years, currently a senior manager, looking to move into a director role..."
+    helperText: "Include your current or most recent role and what you want next"
     required: true
 
-  - id: target
-    label: "What kind of role are you targeting?"
-    type: text
-    placeholder: "e.g., marketing director, product manager, account executive..."
-    required: true
+  - id: goal
+    label: "What's the big career move here?"
+    type: imageSelect
+    options: ["Move up in my current field", "Switch to a new industry", "Get back into the workforce", "Pivot to a different role type", "Go freelance or consulting", "Just need a fresh, modern resume"]
+    icons: ["📈", "🔄", "🚪", "🔀", "💼", "✨"]
+    required: false
+    allowOther: true
 
-  - id: concern
-    label: "What's your main resume concern?"
-    type: select
-    options: ["It's been years since I updated it", "Gaps in employment", "Changing industries", "Too long/too much detail", "Not getting past ATS systems", "Not standing out"]
-    required: true
+  - id: concerns
+    label: "What's bugging you about your resume?"
+    type: tagCloud
+    options: ["It's been years since I updated it", "I have gaps in my employment", "It's too long", "Not getting callbacks", "Don't know the right keywords", "Not sure what to highlight"]
+    required: false
+    maxSelections: 3
 
 systemPrompt: |
-  You are a resume coach who helps mid-career professionals stand out.
+  You are a resume strategist who specializes in helping mid-career professionals reposition themselves for today's job market.
 
   Provide:
-  1. Specific advice on structure and format for today's market
-  2. How to position their experience for their target role
-  3. Keywords and phrases to include for ATS
-  4. What to emphasize vs. what to minimize
-  5. Common mistakes to avoid for someone at their career stage
-  6. A sample accomplishment bullet rewrite (before/after) if relevant
+  1. A recommended resume structure with specific sections and ordering tailored to their situation
+  2. 3-5 sample accomplishment bullets rewritten in strong, results-driven language they can adapt from their experience
+  3. Specific keywords and phrases to include for ATS systems in their field
+  4. What to cut, condense, or move to make the resume scannable in 6 seconds
+  5. One concrete next step they can do today to start updating
 
-  Be encouraging. Remind them their experience is valuable—it just needs better packaging.
+  Be direct and specific to their field — not generic resume advice. Make them feel like their experience is an asset that just needs sharper packaging.

@@ -14,41 +14,33 @@ questions:
     required: true
 
   - id: cost
-    label: "What's the total cost?"
-    type: stepper
-    step: 500
-    unit: "$"
-    min: 500
-    max: 100000
-    required: true
+    label: "Roughly how much does it cost?"
+    type: spectrum
+    options: ["Under $1,000", "$1,000–$5,000", "$5,000–$15,000", "$15,000–$50,000", "Over $50,000"]
+    required: false
 
-  - id: urgency
-    label: "How urgently do you need this?"
-    type: starRating
-    max: 5
-    helperText: "1 = no rush, 5 = need it now"
-    required: true
-
-  - id: why
+  - id: motivation
     label: "Why do you want it?"
-    type: textarea
-    placeholder: "e.g., current car is dying, want to get in better shape, been dreaming about it for years..."
-    required: true
+    type: tagCloud
+    options: ["Current one is broken or worn out", "Been wanting this for a long time", "Would improve my daily life", "Good deal I don't want to miss", "Health or safety reasons", "My family needs it", "I've earned a treat"]
+    required: false
+    maxSelections: 3
 
   - id: hesitation
     label: "What's making you hesitate?"
-    type: multiselect
-    options: ["The cost", "Not sure it's the right time", "Worried I won't use it", "Other financial priorities", "Partner isn't sure", "Just want to be smart about it"]
+    type: tagCloud
+    options: ["The price tag", "Not sure I'll actually use it", "Other bills or expenses right now", "Partner isn't on board", "Not sure it's the right time", "Don't know enough about my options"]
     required: false
+    maxSelections: 3
 
 systemPrompt: |
-  You are a financial decision coach who helps people think through big purchases without judgment.
+  You are a financial decision coach who helps people think through big purchases with honesty and zero judgment.
 
   Provide:
-  1. Framework for evaluating this decision (questions to ask yourself)
-  2. Financial impact assessment (can they afford it, what's the opportunity cost)
-  3. Practical considerations (maintenance, space, actual usage patterns)
-  4. Alternative options to consider
-  5. Clear recommendation or path forward
+  1. A clear, honest assessment of whether this purchase makes sense given what they shared — not just pros and cons, but a real take
+  2. The hidden costs they might not have considered (maintenance, insurance, installation, depreciation)
+  3. Smarter ways to buy it if they decide yes — timing, negotiation tips, financing vs. cash, refurbished options
+  4. One or two alternatives worth considering before pulling the trigger
+  5. A simple "go / wait / skip" recommendation with the reasoning behind it
 
-  Don't tell them yes or no—help them decide for themselves. Be realistic about money, but also acknowledge that life is for living.
+  Be straight about the money, but recognize that not every purchase has to be purely practical. Help them feel clear-headed and confident, not guilty.

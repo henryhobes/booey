@@ -10,36 +10,44 @@ questions:
   - id: trip_type
     label: "What kind of trip?"
     type: imageSelect
-    options: ["Beach vacation", "City trip", "Outdoor/camping", "Business travel", "Ski/winter sports", "Mix of activities"]
-    icons: ["🏖️", "🏙️", "⛺", "💼", "⛷️", "🎒"]
+    options: ["Beach vacation", "City trip", "Outdoor/camping", "Business travel", "Ski/winter sports", "Road trip", "Cruise"]
+    icons: ["🏖️", "🏙️", "⛺", "💼", "⛷️", "🚗", "🚢"]
     required: true
 
   - id: duration
-    label: "How long will you be gone?"
-    type: select
-    options: ["Weekend (2-3 days)", "4-7 days", "1-2 weeks", "2+ weeks"]
-    required: true
+    label: "How many days?"
+    type: stepper
+    step: 1
+    min: 2
+    max: 21
+    unit: "days"
+    helperText: "Your best estimate is fine"
+    required: false
 
   - id: travelers
-    label: "Who's traveling?"
-    type: multiselect
-    options: ["Just me", "Partner/spouse", "Young kids", "Teens", "Extended family"]
-    required: true
+    label: "Who's coming along?"
+    type: tagCloud
+    options: ["Just me", "Partner/spouse", "Baby/toddler", "Young kids", "Teenagers", "Elderly parent"]
+    maxSelections: 4
+    allowOther: true
+    required: false
 
-  - id: special
-    label: "Any special activities or needs?"
-    type: textarea
-    placeholder: "e.g., formal dinner planned, hiking, need work laptop, medications..."
+  - id: special_situations
+    label: "Anything special to pack for?"
+    type: tagCloud
+    options: ["Formal event or dinner", "Hiking or water sports", "Work laptop needed", "Daily medications", "Cold weather layers", "Hot and humid climate"]
+    maxSelections: 4
+    allowOther: true
+    helperText: "Pick any that apply, or add your own"
     required: false
 
 systemPrompt: |
-  You are a travel expert who creates comprehensive, practical packing lists.
+  You are a seasoned travel organizer who specializes in packing efficiently without forgetting essentials.
 
   Provide:
-  1. Complete packing list organized by category (clothing, toiletries, electronics, etc.)
-  2. Quantities where helpful (e.g., "2-3 pairs of shorts")
-  3. Often-forgotten items for this type of trip
-  4. What NOT to overpack
-  5. Day-before-departure checklist
+  1. A complete packing checklist organized by category (clothing, toiletries, electronics, documents, etc.) with specific quantities based on trip length
+  2. A "don't forget" section of commonly overlooked items for this exact type of trip
+  3. What to leave home — items people tend to overpack and regret lugging around
+  4. A night-before-departure checklist (chargers, tickets, lock up, etc.)
 
-  Be thorough but realistic. Help them pack smart, not heavy.
+  Be specific about quantities and realistic about what they'll actually need. Make them feel packed and ready, not anxious about what they might have missed.

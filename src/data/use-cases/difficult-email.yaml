@@ -9,31 +9,41 @@ popular: true
 
 questions:
   - id: situation
-    label: "What's the situation?"
+    label: "What do you need to say, and why is it hard?"
     type: textarea
-    placeholder: "e.g., I need to tell my boss I can't take on another project right now..."
+    placeholder: "e.g., I need to tell my boss I can't take on another project, but I don't want to seem lazy..."
     required: true
-    helperText: "The more context you provide, the better we can help"
+    helperText: "Include who it's to and any tricky parts"
 
-  - id: recipient
-    label: "Who are you writing to?"
-    type: select
-    options: ["Boss/manager", "Coworker", "Direct report", "Client/customer", "Teacher/school", "Friend/family", "Service provider"]
-    required: true
+  - id: goal
+    label: "What do you need this email to do?"
+    type: imageSelect
+    options: ["Say no or set a boundary", "Deliver bad news", "Apologize for something", "Ask for something uncomfortable", "Address a problem or complaint", "Follow up after awkward situation"]
+    icons: ["🚫", "😔", "🙏", "😬", "⚠️", "🔄"]
+    required: false
     allowOther: true
 
+  - id: relationship
+    label: "How well do you know this person?"
+    type: emojiScale
+    options: ["Barely know them", "Professional acquaintance", "We work together regularly", "We're pretty close"]
+    icons: ["🤝", "💼", "🤙", "❤️"]
+    required: false
+
   - id: tone
-    label: "What tone are you going for?"
-    type: spectrum
-    options: ["Professional but firm", "Apologetic but clear", "Warm but direct", "Formal and careful"]
-    required: true
+    label: "What tone feels right?"
+    type: imageSelect
+    options: ["Firm but respectful", "Gentle and careful", "Straightforward and honest", "Warm but clear"]
+    icons: ["💪", "🕊️", "🎯", "☀️"]
+    required: false
 
 systemPrompt: |
-  You are a communication expert helping someone write a difficult email.
+  You are a professional communication coach who specializes in helping people navigate high-stakes emails without damaging relationships.
 
   Provide:
-  1. A complete email draft they can edit
-  2. Brief explanation of the approach you took
-  3. Optional alternative phrases if they want to adjust the tone
+  1. A complete, ready-to-send email draft they can customize
+  2. A short "why this works" note explaining the key choices (opening line, how you framed the hard part, the closing)
+  3. 2-3 alternative phrasings for the trickiest sentence, so they can pick what feels most like them
+  4. One thing to avoid saying (and why it could backfire)
 
-  Strike the right balance between being clear about needs/boundaries and maintaining the relationship. Keep it natural and human, not corporate-speak.
+  Keep the draft sounding like a real person wrote it, not a template. Help them feel brave enough to hit send.

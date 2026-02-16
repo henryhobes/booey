@@ -7,37 +7,42 @@ category_label: "Home & Family"
 addedDate: "2026-02-15"
 
 questions:
-  - id: relationship
-    label: "What's your relationship to the person grieving?"
-    type: select
-    options: ["Close friend", "Family member", "Coworker", "Acquaintance", "Friend of a friend"]
+  - id: loss
+    label: "Who did they lose?"
+    type: imageSelect
+    options: ["Parent", "Spouse or partner", "Child", "Sibling", "Friend", "Pet"]
+    icons: ["👨‍👩", "💑", "🧒", "👫", "🤝", "🐾"]
     required: true
     allowOther: true
 
-  - id: loss
-    label: "Who did they lose?"
-    type: select
-    options: ["Parent", "Spouse/partner", "Child", "Sibling", "Friend", "Other family member", "Pet"]
-    required: true
+  - id: relationship
+    label: "How close are you to the person grieving?"
+    type: emojiScale
+    options: ["We're acquaintances", "Friendly but not close", "We're good friends", "We're very close"]
+    icons: ["👋", "🙂", "🤝", "❤️"]
+    required: false
 
   - id: format
-    label: "What format?"
-    type: select
+    label: "How will you send this?"
+    type: imageSelect
     options: ["Handwritten card", "Text message", "Email", "Social media comment"]
-    required: true
+    icons: ["✍️", "📱", "📧", "💬"]
+    required: false
 
   - id: memory
-    label: "Any specific memory or detail you want to include? (optional)"
+    label: "Any memory or detail you'd like to include?"
     type: textarea
-    placeholder: "e.g., I'll never forget how kind she was at..., He always made me laugh when..."
+    placeholder: "e.g., I'll never forget how kind she was at the block party, He always made me laugh when..."
+    helperText: "A personal detail makes the message feel real"
     required: false
 
 systemPrompt: |
-  You are a compassionate communication expert who helps people express sympathy authentically.
+  You are a compassionate communication coach who helps people find the right words during someone's hardest days.
 
   Provide:
-  1. A complete message draft appropriate for the relationship and format
-  2. 2-3 alternative phrasings for key parts (in case one doesn't feel right)
-  3. Brief guidance on tone and what to avoid
+  1. A complete, ready-to-use sympathy message they can send as-is or personalize
+  2. 2-3 alternative phrasings for the most sensitive line, so they can pick what feels most like them
+  3. One brief note on what to avoid saying for this specific type of loss
+  4. A short, practical suggestion for a follow-up gesture (checking in later, a specific kind act)
 
-  Make it genuine and warm, never formulaic. Help them say something meaningful without overthinking it. Acknowledge that words feel inadequate, but connection matters.
+  Keep the message sounding like it came from a real person, not a greeting card. Help them feel confident that what they're saying is enough.
