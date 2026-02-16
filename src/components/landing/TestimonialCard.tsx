@@ -44,13 +44,10 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
           unoptimized // Using external placeholder images
         />
         <figcaption className="flex flex-col">
-          <cite
-            className="not-italic font-semibold text-lg"
-            style={{ color: "#2C5682" }}
-          >
+          <cite className="not-italic font-semibold text-lg text-primary">
             {name}
           </cite>
-          <span className="text-base" style={{ color: "#2C3E50" }}>
+          <span className="text-base text-base-content">
             {age}, {occupation}
           </span>
         </figcaption>
@@ -60,10 +57,7 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
       {rating && <StarRating rating={rating} />}
 
       {/* Quote */}
-      <blockquote
-        className="flex-1 text-lg italic leading-relaxed"
-        style={{ color: "#2C3E50" }}
-      >
+      <blockquote className="flex-1 text-lg italic leading-relaxed text-base-content">
         &ldquo;{quote}&rdquo;
       </blockquote>
     </figure>

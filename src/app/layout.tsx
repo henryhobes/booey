@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import { NavAuth } from "@/components/nav/NavAuth";
 import { MobileBottomNav } from "@/components/nav/MobileBottomNav";
@@ -19,6 +20,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Booey - Get Things Done Faster, No Tech Skills Needed",
   description: "Simple, guided tools that help you write, plan, create, and organize. Answer a few questions, get helpful results. No confusing prompts, no wrong answers.",
+  icons: {
+    icon: '/favicon.png',
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -50,7 +58,15 @@ export default function RootLayout({
           {/* Navigation */}
           <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8" aria-label="Main navigation">
             <div className="flex-1">
-              <Link href="/" className="text-2xl font-bold text-primary">
+              <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+                <Image
+                  src="/logo.png"
+                  alt="Booey"
+                  width={32}
+                  height={46}
+                  className="h-7 w-auto md:h-8"
+                  priority
+                />
                 Booey
               </Link>
             </div>
