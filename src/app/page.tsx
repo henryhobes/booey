@@ -1,7 +1,6 @@
 import Link from "next/link";
 import HowItWorks from "@/components/landing/HowItWorks";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
-import StickyCTA from "@/components/landing/StickyCTA";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -61,8 +60,7 @@ export default function Home() {
       {/* Footer */}
       <Footer />
 
-      {/* Sticky mobile CTA */}
-      <StickyCTA />
+      {/* Sticky mobile CTA is rendered inside MobileBottomNav */}
     </div>
   );
 }
