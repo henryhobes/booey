@@ -403,6 +403,18 @@ jobs:
               ].join('\n')
             });
 
+      - name: Add agent-approved label
+        if: steps.review.outputs.passed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr.outputs.number }},
+              labels: ['agent-approved']
+            });
+
       ##########################################################################
       # STEP 5: Merge! 🎉
       ##########################################################################
