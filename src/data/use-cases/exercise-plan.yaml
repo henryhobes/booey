@@ -18,6 +18,7 @@ questions:
     type: select
     options: ["Lose weight", "Build strength", "Feel better/more energy", "Improve health markers", "Stay active as I age", "Just be consistent"]
     required: true
+    allowOther: true
 
   - id: time
     label: "How much time can you realistically commit?"

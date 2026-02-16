@@ -20,6 +20,7 @@ questions:
     type: select
     options: ["Boss/manager", "Coworker", "Direct report", "Client/customer", "Teacher/school", "Friend/family", "Service provider"]
     required: true
+    allowOther: true
 
   - id: tone
     label: "What tone are you going for?"

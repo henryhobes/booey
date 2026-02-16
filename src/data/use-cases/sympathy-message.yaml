@@ -12,6 +12,7 @@ questions:
     type: select
     options: ["Close friend", "Family member", "Coworker", "Acquaintance", "Friend of a friend"]
     required: true
+    allowOther: true
 
   - id: loss
     label: "Who did they lose?"

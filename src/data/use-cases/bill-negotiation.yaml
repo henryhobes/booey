@@ -13,6 +13,7 @@ questions:
     type: select
     options: ["Cable/internet", "Cell phone", "Car insurance", "Home insurance", "Credit card interest rate", "Gym membership"]
     required: true
+    allowOther: true
 
   - id: current_cost
     label: "What are you currently paying per month?"
