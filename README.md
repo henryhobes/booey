@@ -17,7 +17,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - [Project Overview](docs/OVERVIEW.md) — What Booey is and who it's for
 - [Architecture](docs/ARCHITECTURE.md) — Tech stack, design decisions, project structure
-- [Build Phases](docs/BUILD-PHASES.md) — Implementation roadmap
+- [Deployment](DEPLOY.md) — Deploy checklist and troubleshooting
 - [Workflow](docs/WORKFLOW.md) — How development is managed
 - [Cost Model](docs/COST-MODEL.md) — API costs, projections, and controls
 

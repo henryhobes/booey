@@ -29,6 +29,8 @@ Implementation notes, decisions, context.
 
 ## Task Index
 
+> **Note:** This index is no longer maintained. Tasks 0001–0021 exist as individual files in this directory. Check the files directly for current status.
+
 | # | Task | Status | PR |
 |---|------|--------|----|
 | 0001 | Mobile quota badge | DONE | #35 |

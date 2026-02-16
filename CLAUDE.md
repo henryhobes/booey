@@ -84,10 +84,11 @@ types/ → lib/ → hooks/ → components/ → app/
 | Task spec template | `docs/TASK-TEMPLATE.md` |
 | Supabase setup & production | `docs/infrastructure/SUPABASE.md` |
 | Vercel deployment | `docs/infrastructure/VERCEL.md` |
-| UX research & audit | `docs/UX-AUDIT.md` |
+| Deployment runbook | `DEPLOY.md` |
+| Architectural decisions | `docs/decisions/` |
 | Active work plans | `docs/plans/active/` |
 | One-off tasks | `docs/plans/tasks/` |
-| Completed phase history | `docs/phases/` |
+| Historical docs & audits | `docs/archive/` |
 
 ## Workflow Summary
 
