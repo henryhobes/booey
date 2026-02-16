@@ -39,7 +39,7 @@ export default function CategoryPills({ categories, selected, onSelect }: Catego
               className={`shrink-0 rounded-full px-5 min-h-[48px] text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary whitespace-nowrap ${
                 isSelected
                   ? "bg-primary text-primary-content font-bold"
-                  : "border-2 border-base-300 text-base-content/60 hover:border-base-content/40 hover:text-base-content/80"
+                  : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
               }`}
             >
               {category}

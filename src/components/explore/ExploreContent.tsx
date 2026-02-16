@@ -45,13 +45,13 @@ function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean
         <h3 className="text-lg font-bold text-base-content leading-tight flex items-center gap-2 flex-wrap">
           {uc.title}
           {showNewBadge && (
-            <span className="badge badge-success badge-sm text-xs font-bold">NEW</span>
+            <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
           )}
         </h3>
         <p className="text-base text-base-content/70 line-clamp-1 mt-0.5">
           {uc.description}
         </p>
-        <span className="badge badge-outline mt-1.5">
+        <span className="badge badge-accent text-primary mt-1.5">
           {uc.categoryLabel}
         </span>
       </div>
@@ -108,7 +108,7 @@ export default function ExploreContent({
         {/* Featured Section */}
         {filteredFeatured.length > 0 && (
           <section className="mb-10">
-            <h2 className="text-xl font-bold text-base-content mb-4">⭐ Featured</h2>
+            <h2 className="text-xl font-bold text-primary mb-4">⭐ Featured</h2>
             <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {filteredFeatured.map((uc) => (
                 <Link
@@ -125,7 +125,7 @@ export default function ExploreContent({
                       {uc.title}
                     </h3>
                     {isNew(uc.addedDate) && (
-                      <span className="badge badge-success badge-sm text-xs font-bold">NEW</span>
+                      <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
                     )}
                   </div>
                 </Link>
@@ -138,7 +138,7 @@ export default function ExploreContent({
         {newUseCases.length > 0 && (
           <section className="mb-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-base-content">🆕 New This Week</h2>
+              <h2 className="text-xl font-bold text-primary">🆕 New This Week</h2>
               {newUseCases.length > SECTION_MAX && (
                 <a
                   href="#all-tools"
@@ -162,7 +162,7 @@ export default function ExploreContent({
         {popularUseCases.length > 0 && (
           <section className="mb-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-base-content">🔥 Popular</h2>
+              <h2 className="text-xl font-bold text-primary">🔥 Popular</h2>
               {popularUseCases.length > SECTION_MAX && (
                 <a
                   href="#all-tools"
@@ -184,7 +184,7 @@ export default function ExploreContent({
 
         {/* All Tools Section */}
         <section id="all-tools">
-          <h2 className="text-xl font-bold text-base-content mb-4">
+          <h2 className="text-xl font-bold text-primary mb-4">
             {selectedCategory === "All" ? "All Tools" : selectedCategory}
           </h2>
           {filteredUseCases.length === 0 ? (

@@ -31,7 +31,7 @@ export default function StickyCTA() {
     >
       <Link
         href="/explore"
-        className="btn btn-primary btn-block text-lg min-h-[56px] focus:ring-2 focus:ring-primary focus:outline-none"
+        className="btn btn-secondary btn-block text-lg min-h-[56px] focus:ring-2 focus:ring-secondary focus:outline-none"
         tabIndex={visible ? 0 : -1}
       >
         Explore Tools →

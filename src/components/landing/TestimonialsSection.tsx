@@ -10,7 +10,7 @@ export default function TestimonialsSection() {
       <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <h2
           id="testimonials-heading"
-          className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12 text-base-content"
+          className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12 text-primary"
         >
           Real people, real results
         </h2>
