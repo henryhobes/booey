@@ -377,7 +377,7 @@ jobs:
               }
 
               // Claude didn't push after our last request — nothing more to fix. Merge.
-              core.info('Claude did not push new commits after fix request. Merging with remaining warnings.');
+              core.info('Claude did not push new commits after fix request. Merging with remaining issues.');
               core.setOutput('passed', 'true');
               core.setOutput('comment_id', reviewComment.id);
               return;
@@ -412,7 +412,7 @@ jobs:
                 '<!-- pr-lifecycle-fix-request -->',
                 `🔄 **Review has issues** — ${process.env.FIX_SUMMARY}`,
                 '',
-                '@claude Please address the CRITICAL and WARNING items from the review above. If you believe any are false positives, you can skip them — the PR will be merged on the next cycle.',
+                '@claude Please address the review issues noted above. If any are false positives, you can skip them — the PR will be merged on the next cycle.',
               ].join('\n')
             });
 
@@ -467,7 +467,7 @@ jobs:
                 '| Check | Status |',
                 '|-------|--------|',
                 '| CI | ✅ All checks passed |',
-                '| Review | ✅ Approved (no critical/warning issues) |',
+                '| Review | ✅ Approved (Approved or issues addressed) |',
                 '| Safety | ✅ No sensitive files, commit count OK |',
                 '',
                 '<!-- pr-lifecycle-merged -->'
