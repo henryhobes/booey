@@ -42,6 +42,7 @@ export default function QuestionScreen({
       case 'text':
         return (
           <TextQuestion
+            key={currentQuestion.id}
             question={currentQuestion}
             value={currentValue as string}
             onChange={onChange}
@@ -50,6 +51,7 @@ export default function QuestionScreen({
       case 'textarea':
         return (
           <TextareaQuestion
+            key={currentQuestion.id}
             question={currentQuestion}
             value={currentValue as string}
             onChange={onChange}
@@ -58,6 +60,7 @@ export default function QuestionScreen({
       case 'select':
         return (
           <SelectQuestion
+            key={currentQuestion.id}
             question={currentQuestion}
             value={currentValue as string}
             onChange={onChange}
@@ -66,6 +69,7 @@ export default function QuestionScreen({
       case 'multiselect':
         return (
           <MultiselectQuestion
+            key={currentQuestion.id}
             question={currentQuestion}
             value={currentValue as string[]}
             onChange={onChange}
@@ -74,6 +78,7 @@ export default function QuestionScreen({
       case 'number':
         return (
           <NumberQuestion
+            key={currentQuestion.id}
             question={currentQuestion}
             value={currentValue as string | number}
             onChange={onChange}

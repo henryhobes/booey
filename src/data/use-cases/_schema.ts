@@ -10,6 +10,7 @@ const questionSchema = z.object({
   min: z.number().optional(),
   max: z.number().optional(),
   helperText: z.string().optional(),
+  allowOther: z.boolean().optional(),
 });
 
 export const useCaseSchema = z.object({

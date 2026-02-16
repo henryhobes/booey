@@ -19,6 +19,7 @@ questions:
     type: select
     options: ["Birthday", "Holiday/Christmas", "Anniversary", "Graduation", "Thank you", "Just because", "Housewarming"]
     required: true
+    allowOther: true
 
   - id: budget
     label: "What's your budget?"
