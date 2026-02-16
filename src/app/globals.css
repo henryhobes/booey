@@ -77,47 +77,47 @@ textarea {
 [data-theme="booey"] {
   color-scheme: light;
 
-  /* Primary: Ocean Blue (text variant, AAA on Sand) */
-  --p: 207 49% 34%;  /* #2C5682 - 7.07:1 on Sand */
-  --pc: 0 0% 100%;   /* White text on Ocean Blue */
+  /* Base: Sand backgrounds */
+  --color-base-100: oklch(97.52% 0.017 67.55);  /* #FFF5EB Sand */
+  --color-base-200: oklch(94.52% 0.017 67.55);  /* slightly darker Sand */
+  --color-base-300: oklch(90.52% 0.017 67.55);  /* even darker Sand */
+  --color-base-content: oklch(35.64% 0.0391 248.99);  /* #2C3E50 Charcoal Navy */
 
-  /* Secondary: Rust Orange (interactive, AA on Sand with white text) */
-  --s: 14 62% 54%;   /* #D9663D - 4.87:1 on Sand */
-  --sc: 0 0% 100%;   /* White text on Rust Orange */
+  /* Primary: Ocean Blue */
+  --color-primary: oklch(44.43% 0.0868 251.34);  /* #2C5682 */
+  --color-primary-content: oklch(100% 0 0);
 
-  /* Accent: Blush Peach (decorative only) */
-  --a: 24 100% 87%;  /* #FFD4B8 */
-  --ac: 215 25% 27%; /* Charcoal Navy text on light accent */
+  /* Secondary: Rust Orange */
+  --color-secondary: oklch(64.25% 0.155 39.62);  /* #D9663D */
+  --color-secondary-content: oklch(100% 0 0);
+
+  /* Accent: Blush Peach */
+  --color-accent: oklch(89.97% 0.0611 54.81);  /* #FFD4B8 */
+  --color-accent-content: oklch(35.64% 0.0391 248.99);  /* Charcoal Navy */
 
   /* Neutral: Charcoal Navy */
-  --n: 210 29% 24%;  /* #2C3E50 - body text */
-  --nc: 0 0% 100%;   /* White text on Charcoal Navy */
+  --color-neutral: oklch(35.64% 0.0391 248.99);  /* #2C3E50 */
+  --color-neutral-content: oklch(100% 0 0);
 
-  /* Base colors: Sand backgrounds */
-  --b1: 33 100% 97%; /* #FFF5EB - Sand (main background) */
-  --b2: 33 80% 94%;  /* Slightly darker sand */
-  --b3: 33 60% 90%;  /* Even darker sand */
-  --bc: 210 29% 24%; /* #2C3E50 - Charcoal Navy for text */
+  /* Status colors */
+  --color-info: oklch(44.43% 0.0868 251.34);  /* Ocean Blue */
+  --color-info-content: oklch(100% 0 0);
+  --color-success: oklch(55% 0.15 163);  /* Green */
+  --color-success-content: oklch(100% 0 0);
+  --color-warning: oklch(82% 0.189 84.429);  /* Amber */
+  --color-warning-content: oklch(30% 0.05 60);
+  --color-error: oklch(60% 0.2 25);  /* Red */
+  --color-error-content: oklch(100% 0 0);
 
-  /* Status colors - adjusted for Sand background */
-  --in: 207 49% 34%;  /* Ocean Blue */
-  --inc: 0 0% 100%;
-  --su: 158 64% 30%;  /* Green (AAA compliant) */
-  --suc: 0 0% 100%;
-  --wa: 43 96% 40%;   /* Yellow/amber */
-  --wac: 0 0% 10%;
-  --er: 0 70% 40%;    /* Red (AAA compliant) */
-  --erc: 0 0% 100%;
-
-  --rounded-box: 1rem;
-  --rounded-btn: 0.5rem;
-  --rounded-badge: 1.9rem;
-  --animation-btn: 0.3s;       /* Slowed from 0.25s for older adults */
-  --animation-input: 0.3s;     /* Slowed from 0.2s for older adults */
-  --btn-focus-scale: 0.95;
-  --border-btn: 1px;
-  --tab-border: 1px;
-  --tab-radius: 0.5rem;
+  /* Radius & sizing */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
 }
 
 /* ============================================
@@ -209,8 +209,8 @@ button:focus-visible,
   bottom: 0;
   left: 0;
   right: 0;
-  background: hsl(var(--b1));
-  border-top: 1px solid hsl(var(--bc) / 0.1);
+  background: var(--color-base-100);
+  border-top: 1px solid oklch(35.64% 0.0391 248.99 / 0.1);
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   z-index: 50;
   padding: 4px 0 env(safe-area-inset-bottom, 0);
@@ -225,7 +225,7 @@ button:focus-visible,
   min-height: 56px;
   font-size: 0.875rem;  /* Increased from 0.75rem (16px for 40-60 demo) */
   font-weight: 500;
-  color: hsl(var(--bc));
+  color: var(--color-base-content);
   gap: 4px;  /* Increased from 2px for better spacing */
   text-decoration: none;
   transition: color 0.15s;
@@ -233,7 +233,7 @@ button:focus-visible,
 
 .mobile-bottom-nav a:hover,
 .mobile-bottom-nav a[aria-current="page"] {
-  color: hsl(var(--p));
+  color: var(--color-primary);
   font-weight: 600;
 }
 
@@ -310,7 +310,7 @@ button:focus-visible,
   font-weight: 700;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
-  color: hsl(var(--p));
+  color: var(--color-primary);
 }
 
 .markdown-content h1 {
@@ -348,7 +348,7 @@ button:focus-visible,
 }
 
 .markdown-content code {
-  background-color: hsl(var(--b2));
+  background-color: var(--color-base-200);
   padding: 0.2em 0.4em;
   border-radius: 3px;
   font-size: 0.9em;
@@ -356,7 +356,7 @@ button:focus-visible,
 }
 
 .markdown-content pre {
-  background-color: hsl(var(--b2));
+  background-color: var(--color-base-200);
   padding: 1em;
   border-radius: 0.5rem;
   overflow-x: auto;
@@ -369,7 +369,7 @@ button:focus-visible,
 }
 
 .markdown-content blockquote {
-  border-left: 4px solid hsl(var(--p));
+  border-left: 4px solid var(--color-primary);
   padding-left: 1em;
   margin-left: 0;
   margin-bottom: 1em;
@@ -378,7 +378,7 @@ button:focus-visible,
 }
 
 .markdown-content a {
-  color: hsl(var(--p));
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
@@ -394,19 +394,19 @@ button:focus-visible,
 
 .markdown-content th,
 .markdown-content td {
-  border: 1px solid hsl(var(--b3));
+  border: 1px solid var(--color-base-300);
   padding: 0.5em;
   text-align: left;
 }
 
 .markdown-content th {
-  background-color: hsl(var(--b2));
+  background-color: var(--color-base-200);
   font-weight: 600;
 }
 
 .markdown-content hr {
   border: none;
-  border-top: 1px solid hsl(var(--b3));
+  border-top: 1px solid var(--color-base-300);
   margin: 2em 0;
 }
 
