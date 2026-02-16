@@ -139,7 +139,7 @@ export default function ExploreContent({
                   key={uc.id}
                   href={`/use/${uc.id}`}
                   aria-label={`Try ${uc.title}: ${uc.description}`}
-                  className="card bg-base-200 border border-accent shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="card bg-base-100 border border-accent shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   <div className="card-body p-5 items-center text-center gap-2">
                     <span className="text-4xl" aria-hidden="true">
