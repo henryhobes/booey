@@ -3,7 +3,11 @@ import { z } from 'zod';
 const questionSchema = z.object({
   id: z.string(),
   label: z.string(),
-  type: z.enum(['text', 'textarea', 'select', 'multiselect', 'number']),
+  type: z.enum([
+    'text', 'textarea', 'select', 'multiselect', 'number',
+    'imageSelect', 'yesNo', 'tagCloud', 'stepper',
+    'emojiScale', 'starRating', 'spectrum',
+  ]),
   placeholder: z.string().optional(),
   options: z.array(z.string()).optional(),
   required: z.boolean(),
@@ -11,6 +15,11 @@ const questionSchema = z.object({
   max: z.number().optional(),
   helperText: z.string().optional(),
   allowOther: z.boolean().optional(),
+  icons: z.array(z.string()).optional(),
+  step: z.number().optional(),
+  unit: z.string().optional(),
+  maxSelections: z.number().optional(),
+  descriptions: z.array(z.string()).optional(),
 });
 
 export const useCaseSchema = z.object({

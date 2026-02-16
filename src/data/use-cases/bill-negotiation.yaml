@@ -17,8 +17,11 @@ questions:
 
   - id: current_cost
     label: "What are you currently paying per month?"
-    type: number
-    placeholder: "e.g., 150"
+    type: stepper
+    step: 10
+    unit: "$"
+    min: 10
+    max: 500
     required: true
 
   - id: leverage

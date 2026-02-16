@@ -53,6 +53,9 @@ export default function Wizard({ useCase }: WizardProps) {
 
     // Default values for each type
     if (currentQuestion.type === 'multiselect') return [];
+    if (currentQuestion.type === 'tagCloud') return [];
+    if (currentQuestion.type === 'stepper') return currentQuestion.min ?? 0;
+    if (currentQuestion.type === 'starRating') return 0;
     if (currentQuestion.type === 'number') return '';
     return '';
   };
@@ -65,6 +68,7 @@ export default function Wizard({ useCase }: WizardProps) {
 
     if (value === undefined || value === null || value === '') return false;
     if (Array.isArray(value) && value.length === 0) return false;
+    if (currentQuestion.type === 'starRating' && value === 0) return false;
 
     return true;
   };

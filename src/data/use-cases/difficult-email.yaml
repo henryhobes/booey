@@ -24,7 +24,7 @@ questions:
 
   - id: tone
     label: "What tone are you going for?"
-    type: select
+    type: spectrum
     options: ["Professional but firm", "Apologetic but clear", "Warm but direct", "Formal and careful"]
     required: true
 

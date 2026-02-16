@@ -21,8 +21,9 @@ questions:
 
   - id: level
     label: "How technical are you?"
-    type: select
+    type: emojiScale
     options: ["I can barely use my phone", "I get by with basics", "Pretty comfortable with tech", "I'm technical, just gaps in knowledge"]
+    icons: ["😰", "🤔", "😊", "🤓"]
     required: true
 
 systemPrompt: |

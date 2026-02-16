@@ -21,8 +21,9 @@ questions:
 
   - id: depth
     label: "How deep do you want to go?"
-    type: select
+    type: emojiScale
     options: ["Just the basics so I'm not totally lost", "Enough to have a conversation", "The full deep dive"]
+    icons: ["🏊‍♂️", "🤿", "🐙"]
     required: true
 
 systemPrompt: |

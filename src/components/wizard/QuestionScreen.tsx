@@ -7,6 +7,13 @@ import TextareaQuestion from './questions/TextareaQuestion';
 import SelectQuestion from './questions/SelectQuestion';
 import MultiselectQuestion from './questions/MultiselectQuestion';
 import NumberQuestion from './questions/NumberQuestion';
+import ImageSelectQuestion from './questions/ImageSelectQuestion';
+import YesNoQuestion from './questions/YesNoQuestion';
+import TagCloudQuestion from './questions/TagCloudQuestion';
+import StepperQuestion from './questions/StepperQuestion';
+import EmojiScaleQuestion from './questions/EmojiScaleQuestion';
+import StarRatingQuestion from './questions/StarRatingQuestion';
+import SpectrumQuestion from './questions/SpectrumQuestion';
 
 interface QuestionScreenProps {
   useCase: UseCase;
@@ -81,6 +88,69 @@ export default function QuestionScreen({
             key={currentQuestion.id}
             question={currentQuestion}
             value={currentValue as string | number}
+            onChange={onChange}
+          />
+        );
+      case 'imageSelect':
+        return (
+          <ImageSelectQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as string}
+            onChange={onChange}
+          />
+        );
+      case 'yesNo':
+        return (
+          <YesNoQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as string}
+            onChange={onChange}
+          />
+        );
+      case 'tagCloud':
+        return (
+          <TagCloudQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as string[]}
+            onChange={onChange}
+          />
+        );
+      case 'stepper':
+        return (
+          <StepperQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as number}
+            onChange={onChange}
+          />
+        );
+      case 'emojiScale':
+        return (
+          <EmojiScaleQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as string}
+            onChange={onChange}
+          />
+        );
+      case 'starRating':
+        return (
+          <StarRatingQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as number}
+            onChange={onChange}
+          />
+        );
+      case 'spectrum':
+        return (
+          <SpectrumQuestion
+            key={currentQuestion.id}
+            question={currentQuestion}
+            value={currentValue as string}
             onChange={onChange}
           />
         );

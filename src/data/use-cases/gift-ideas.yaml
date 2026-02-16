@@ -23,14 +23,17 @@ questions:
 
   - id: budget
     label: "What's your budget?"
-    type: select
+    type: spectrum
     options: ["Under $25", "$25-50", "$50-100", "$100-250", "Over $250"]
     required: true
 
   - id: interests
-    label: "Tell me about them (interests, hobbies, personality)"
-    type: textarea
-    placeholder: "e.g., loves cooking, into fitness, always reading, travels a lot..."
+    label: "What are they into?"
+    type: tagCloud
+    options: ["Cooking", "Fitness", "Reading", "Travel", "Music", "Gardening", "Tech gadgets", "Sports", "Arts & crafts", "Wine/cocktails", "Gaming", "Outdoors"]
+    maxSelections: 5
+    allowOther: true
+    helperText: "Pick up to 5 interests, or add your own"
     required: true
 
 systemPrompt: |

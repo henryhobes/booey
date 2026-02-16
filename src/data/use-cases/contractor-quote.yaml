@@ -21,7 +21,7 @@ questions:
 
   - id: concerns
     label: "Any specific concerns?"
-    type: multiselect
+    type: tagCloud
     options: ["Price seems high", "Scope seems incomplete", "Timeline unclear", "Warranty questions", "Materials quality", "Just want a second opinion"]
     required: false
 

@@ -15,8 +15,18 @@ questions:
 
   - id: cost
     label: "What's the total cost?"
-    type: number
-    placeholder: "e.g., 5000"
+    type: stepper
+    step: 500
+    unit: "$"
+    min: 500
+    max: 100000
+    required: true
+
+  - id: urgency
+    label: "How urgently do you need this?"
+    type: starRating
+    max: 5
+    helperText: "1 = no rush, 5 = need it now"
     required: true
 
   - id: why
