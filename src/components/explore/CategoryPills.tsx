@@ -24,7 +24,7 @@ export default function CategoryPills({ categories, selected, onSelect }: Catego
     <div className="sticky top-0 z-30 bg-base-100/95 backdrop-blur-sm border-b border-base-200">
       <div
         ref={scrollRef}
-        className="mx-auto max-w-4xl lg:max-w-6xl flex gap-2 overflow-x-auto lg:flex-wrap lg:overflow-x-visible px-4 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        className="mx-auto max-w-4xl lg:max-w-6xl flex gap-2 overflow-x-auto md:flex-wrap md:overflow-x-visible px-4 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         role="tablist"
         aria-label="Filter by category"
       >
@@ -36,7 +36,7 @@ export default function CategoryPills({ categories, selected, onSelect }: Catego
               role="tab"
               aria-selected={isSelected}
               onClick={() => handleSelect(category)}
-              className={`shrink-0 rounded-full px-5 min-h-[48px] text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary whitespace-nowrap ${
+              className={`shrink-0 md:shrink rounded-full px-5 md:px-4 min-h-[48px] md:min-h-[40px] text-base md:text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary whitespace-nowrap ${
                 isSelected
                   ? "bg-primary text-primary-content font-bold"
                   : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
