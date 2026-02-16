@@ -1,6 +1,11 @@
-Create a pull request for the current branch.
+---
+name: create-pr
+description: Create a pull request with knowledge-capturing description
+allowed-tools: Bash(git *), Bash(gh *)
+argument-hint: "[optional PR title]"
+---
 
-Before creating the PR, follow these steps precisely:
+Create a pull request for the current branch.
 
 ## 1. Gather context
 
@@ -16,7 +21,7 @@ If there are uncommitted changes, commit them first with an appropriate message 
 
 ## 2. Push the branch
 
-Push the current branch to origin with `-u` to set upstream tracking:
+Confirm the current branch is not `main`. Then push with `-u` to set upstream tracking:
 ```
 git push -u origin <branch-name>
 ```
@@ -24,6 +29,8 @@ git push -u origin <branch-name>
 ## 3. Write the PR description
 
 Analyze all the commits and changes, then write the PR using this exact template. Every section is required. Short answers are valid — the point is to capture what's non-obvious, not to be verbose.
+
+If $ARGUMENTS is provided, use it as the PR title. Otherwise, derive an appropriate title from the branch name and commits.
 
 ```
 gh pr create --title "<short title under 70 chars>" --body "$(cat <<'EOF'
@@ -56,5 +63,4 @@ EOF
 - The three learning questions are the most important part. Think carefully about each one. Do not fill them with generic boilerplate.
 - If you genuinely have nothing non-obvious to report, say so briefly. Do not fabricate complexity.
 - Do not skip any section. Every section must be present in the PR body.
-- Use the `gh pr create` command directly. Do not use the GitHub web UI.
 - After creating the PR, print the PR URL so the user can see it.
