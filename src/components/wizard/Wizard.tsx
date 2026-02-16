@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { UseCase } from '@/types';
+import { UseCase, Citation } from '@/types';
 import { useUser } from '@/hooks/useUser';
 import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
 import LoadingScreen from './LoadingScreen';
@@ -24,6 +24,7 @@ export default function Wizard({ useCase }: WizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
   const [result, setResult] = useState<string | null>(null);
+  const [citations, setCitations] = useState<Citation[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -127,6 +128,7 @@ export default function Wizard({ useCase }: WizardProps) {
       }
 
       setResult(data.result);
+      setCitations(data.citations ?? []);
       setMode('result');
       setIsSubmitting(false);
 
@@ -163,12 +165,14 @@ export default function Wizard({ useCase }: WizardProps) {
     setCurrentStep(0);
     setAnswers({});
     setResult(null);
+    setCitations([]);
     setError(null);
   };
 
   // Edit inputs - go back to wizard with current answers
   const handleEditInputs = () => {
     setResult(null);
+    setCitations([]);
     setCurrentStep(0);
     setError(null);
     setMode('questions');
@@ -199,6 +203,7 @@ export default function Wizard({ useCase }: WizardProps) {
       }
 
       setResult(data.result);
+      setCitations(data.citations ?? []);
       setMode('result');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -217,6 +222,7 @@ export default function Wizard({ useCase }: WizardProps) {
       <>
         <Result
           result={result}
+          citations={citations}
           useCase={useCase}
           answers={answers}
           onStartOver={handleStartOver}

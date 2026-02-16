@@ -38,7 +38,7 @@ describe('checkBudget', () => {
   beforeEach(() => {
     vi.stubEnv('UPSTASH_REDIS_REST_URL', 'https://fake.upstash.io');
     vi.stubEnv('UPSTASH_REDIS_REST_TOKEN', 'fake-token');
-    vi.stubEnv('DAILY_BUDGET_USD', '5.00');
+    vi.stubEnv('DAILY_BUDGET_USD', '30.00');
     mockGet.mockReset();
     mockSet.mockReset();
   });
@@ -48,18 +48,18 @@ describe('checkBudget', () => {
     const result = await checkBudget();
     expect(result.allowed).toBe(true);
     expect(result.spent).toBe(0);
-    expect(result.remaining).toBe(5);
+    expect(result.remaining).toBe(30);
   });
 
   it('blocks when budget exceeded', async () => {
-    mockGet.mockResolvedValue({ spent: 5.50, interactions: 100, lastReset: Date.now() });
+    mockGet.mockResolvedValue({ spent: 30.50, interactions: 100, lastReset: Date.now() });
     const result = await checkBudget();
     expect(result.allowed).toBe(false);
     expect(result.remaining).toBe(0);
   });
 
   it('calculates percentUsed correctly', async () => {
-    mockGet.mockResolvedValue({ spent: 2.50, interactions: 50, lastReset: Date.now() });
+    mockGet.mockResolvedValue({ spent: 15.00, interactions: 50, lastReset: Date.now() });
     const result = await checkBudget();
     expect(result.percentUsed).toBe(50);
     expect(result.allowed).toBe(true);
@@ -87,30 +87,30 @@ describe('recordSpend', () => {
     mockSet.mockResolvedValue('OK');
 
     // 1000 input tokens + 500 output tokens
-    // Cost = 1000 * 0.00000025 + 500 * 0.00000125 = 0.00025 + 0.000625 = 0.000875
+    // Cost = 1000 * 0.000001 + 500 * 0.000005 = 0.001 + 0.0025 = 0.0035
     await recordSpend(1000, 500);
 
     expect(mockSet).toHaveBeenCalledWith(
       expect.stringContaining('budget:'),
       expect.objectContaining({
-        spent: expect.closeTo(1.000875, 5),
+        spent: expect.closeTo(1.0035, 4),
         interactions: 11,
       }),
       { ex: 90000 } // 25 hours
     );
   });
 
-  it('calculates cost accurately for Haiku pricing', async () => {
+  it('calculates cost accurately for Haiku 4.5 pricing', async () => {
     mockGet.mockResolvedValue(null);
     mockSet.mockResolvedValue('OK');
 
-    // 1M input + 1M output = $0.25 + $1.25 = $1.50
+    // 1M input + 1M output = $1.00 + $5.00 = $6.00
     await recordSpend(1_000_000, 1_000_000);
 
     expect(mockSet).toHaveBeenCalledWith(
       expect.stringContaining('budget:'),
       expect.objectContaining({
-        spent: expect.closeTo(1.50, 2),
+        spent: expect.closeTo(6.00, 2),
       }),
       { ex: 90000 }
     );

@@ -4,11 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { UseCase } from '@/types';
+import { UseCase, Citation } from '@/types';
 import RefineModal from './RefineModal';
 
 interface ResultProps {
   result: string;
+  citations: Citation[];
   useCase: UseCase;
   answers: Record<string, string | string[] | number>;
   onStartOver: () => void;
@@ -16,13 +17,14 @@ interface ResultProps {
   onRefine: (refinementPrompt: string) => void;
 }
 
-export default function Result({ 
-  result, 
-  useCase, 
-  answers, 
-  onStartOver, 
+export default function Result({
+  result,
+  citations,
+  useCase,
+  answers,
+  onStartOver,
   onEditInputs,
-  onRefine 
+  onRefine
 }: ResultProps) {
   const [copied, setCopied] = useState(false);
   const [showRefineModal, setShowRefineModal] = useState(false);
@@ -161,6 +163,27 @@ export default function Result({
             <div className="prose prose-lg max-w-none print:prose-sm markdown-content">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
             </div>
+
+            {/* Sources from web search */}
+            {citations.length > 0 && (
+              <div className="mt-8 pt-6 border-t border-base-300">
+                <h3 className="text-lg font-semibold mb-3">Sources</h3>
+                <ul className="space-y-2">
+                  {citations.map((citation, index) => (
+                    <li key={index} className="text-base">
+                      <a
+                        href={citation.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link link-primary hover:link-hover break-all"
+                      >
+                        {citation.title || citation.url}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10 print:hidden">

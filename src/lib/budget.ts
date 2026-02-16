@@ -2,12 +2,13 @@ import { Redis } from '@upstash/redis';
 
 // ── Configuration ──────────────────────────────────────────────────────────
 
-const DAILY_BUDGET_USD = parseFloat(process.env.DAILY_BUDGET_USD || '5.00');
+const DAILY_BUDGET_USD = parseFloat(process.env.DAILY_BUDGET_USD || '30.00');
 const NTFY_TOPIC = process.env.NTFY_TOPIC; // e.g. "booey-cost-alerts-abc123"
 
-// Haiku 3.5 pricing
-const INPUT_COST_PER_TOKEN = 0.00000025; // $0.25 / MTok
-const OUTPUT_COST_PER_TOKEN = 0.00000125; // $1.25 / MTok
+// Haiku 4.5 pricing
+const INPUT_COST_PER_TOKEN = 0.000001; // $1.00 / MTok
+const OUTPUT_COST_PER_TOKEN = 0.000005; // $5.00 / MTok
+const WEB_SEARCH_COST = 0.01; // $10.00 / 1K searches
 
 const ALERT_THRESHOLDS = [50, 75, 90] as const;
 
@@ -93,11 +94,11 @@ export async function checkBudget(): Promise<BudgetStatus> {
 
 // ── Record spend (call AFTER generation) ───────────────────────────────────
 
-export async function recordSpend(inputTokens: number, outputTokens: number): Promise<void> {
+export async function recordSpend(inputTokens: number, outputTokens: number, webSearches: number = 0): Promise<void> {
   const r = getRedis();
   if (!r) return;
 
-  const cost = inputTokens * INPUT_COST_PER_TOKEN + outputTokens * OUTPUT_COST_PER_TOKEN;
+  const cost = inputTokens * INPUT_COST_PER_TOKEN + outputTokens * OUTPUT_COST_PER_TOKEN + webSearches * WEB_SEARCH_COST;
 
   try {
     const key = todayKey();

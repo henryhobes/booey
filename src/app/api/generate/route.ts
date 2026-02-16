@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { GenerateRequestSchema } from '@/lib/validation';
 import { checkRateLimit, incrementUsage } from '@/lib/rate-limit';
 import { isEmergencyStopped, checkBudget, recordSpend } from '@/lib/budget';
+import { Citation } from '@/types';
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { useCaseId, answers, refinement } = validation.data;
-    
+
     // Validate use case exists
     const useCase = getUseCaseById(useCaseId);
     if (!useCase) {
@@ -62,31 +63,31 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Validate required answers are present
     const missingFields = validateRequiredAnswers(useCase, answers);
     if (missingFields.length > 0) {
       return NextResponse.json(
-        { 
-          error: 'Missing required answers', 
-          missingFields 
+        {
+          error: 'Missing required answers',
+          missingFields
         },
         { status: 400 }
       );
     }
-    
+
     // Check rate limits
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     const userId = user?.id || 'guest';
-    
+
     const limits = await checkRateLimit(userId);
     if (!limits.allowed) {
       const isMinuteLimit = limits.minuteRemaining <= 0;
       const message = isMinuteLimit
         ? 'Too many requests. Please wait a moment before trying again.'
         : "You've reached your daily limit of 20 interactions. Your quota resets on a rolling 24-hour basis.";
-      
+
       return NextResponse.json(
         {
           error: message,
@@ -98,7 +99,7 @@ export async function POST(request: NextRequest) {
         { status: 429 }
       );
     }
-    
+
     // Check response cache (only for non-refinement requests)
     const cacheKey = crypto
       .createHash('sha256')
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     const { data: cached } = await supabase
       .from('response_cache')
-      .select('result')
+      .select('result, citations')
       .eq('cache_key', cacheKey)
       .gte('created_at', new Date(Date.now() - CACHE_TTL_MS).toISOString())
       .single();
@@ -116,6 +117,7 @@ export async function POST(request: NextRequest) {
       console.log(`[Cache] HIT for ${useCaseId} key=${cacheKey.slice(0, 8)}`);
       return NextResponse.json({
         result: cached.result,
+        citations: (cached.citations as Citation[]) ?? [],
         model: 'cache',
         inputTokens: 0,
         outputTokens: 0,
@@ -125,7 +127,7 @@ export async function POST(request: NextRequest) {
 
     // Generate result using Claude
     const result = await generateResult(useCase, answers, refinement);
-    
+
     // Cache the response (fire-and-forget, don't block response)
     supabase
       .from('response_cache')
@@ -133,6 +135,7 @@ export async function POST(request: NextRequest) {
         cache_key: cacheKey,
         use_case_id: useCaseId,
         result: result.result,
+        citations: result.citations,
       })
       .then(({ error }) => {
         if (error) console.error('[Cache] Failed to store:', error.message);
@@ -140,13 +143,13 @@ export async function POST(request: NextRequest) {
 
     // Increment rate limit usage after successful generation
     await incrementUsage(userId);
-    
+
     // Record cost for budget tracking
-    await recordSpend(result.inputTokens, result.outputTokens);
-    
+    await recordSpend(result.inputTokens, result.outputTokens, result.searchRequests);
+
     // Save session to database for authenticated users
     let sessionId: string | null = null;
-    
+
     if (user) {
       // Save to database for authenticated users
       const { data: session, error } = await supabase
@@ -162,20 +165,20 @@ export async function POST(request: NextRequest) {
         })
         .select('id')
         .single();
-      
+
       if (!error && session) {
         sessionId = session.id;
       }
     }
-    
+
     return NextResponse.json({
       ...result,
       sessionId,
     });
-    
+
   } catch (error) {
     console.error('Generate API error:', error);
-    
+
     // Check for Anthropic API errors
     if (error && typeof error === 'object' && 'status' in error) {
       const apiError = error as { status?: number; message?: string };
@@ -184,7 +187,7 @@ export async function POST(request: NextRequest) {
         { status: apiError.status || 500 }
       );
     }
-    
+
     // Generic error response
     return NextResponse.json(
       { error: 'Internal server error' },
