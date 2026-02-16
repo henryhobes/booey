@@ -5,9 +5,9 @@ import { Redis } from '@upstash/redis';
 const DAILY_BUDGET_USD = parseFloat(process.env.DAILY_BUDGET_USD || '30.00');
 const NTFY_TOPIC = process.env.NTFY_TOPIC; // e.g. "booey-cost-alerts-abc123"
 
-// Sonnet 4.5 pricing
-const INPUT_COST_PER_TOKEN = 0.000003; // $3.00 / MTok
-const OUTPUT_COST_PER_TOKEN = 0.000015; // $15.00 / MTok
+// Haiku 4.5 pricing
+const INPUT_COST_PER_TOKEN = 0.000001; // $1.00 / MTok
+const OUTPUT_COST_PER_TOKEN = 0.000005; // $5.00 / MTok
 const WEB_SEARCH_COST = 0.01; // $10.00 / 1K searches
 
 const ALERT_THRESHOLDS = [50, 75, 90] as const;

@@ -87,30 +87,30 @@ describe('recordSpend', () => {
     mockSet.mockResolvedValue('OK');
 
     // 1000 input tokens + 500 output tokens
-    // Cost = 1000 * 0.000003 + 500 * 0.000015 = 0.003 + 0.0075 = 0.0105
+    // Cost = 1000 * 0.000001 + 500 * 0.000005 = 0.001 + 0.0025 = 0.0035
     await recordSpend(1000, 500);
 
     expect(mockSet).toHaveBeenCalledWith(
       expect.stringContaining('budget:'),
       expect.objectContaining({
-        spent: expect.closeTo(1.0105, 4),
+        spent: expect.closeTo(1.0035, 4),
         interactions: 11,
       }),
       { ex: 90000 } // 25 hours
     );
   });
 
-  it('calculates cost accurately for Sonnet 4.5 pricing', async () => {
+  it('calculates cost accurately for Haiku 4.5 pricing', async () => {
     mockGet.mockResolvedValue(null);
     mockSet.mockResolvedValue('OK');
 
-    // 1M input + 1M output = $3.00 + $15.00 = $18.00
+    // 1M input + 1M output = $1.00 + $5.00 = $6.00
     await recordSpend(1_000_000, 1_000_000);
 
     expect(mockSet).toHaveBeenCalledWith(
       expect.stringContaining('budget:'),
       expect.objectContaining({
-        spent: expect.closeTo(18.00, 2),
+        spent: expect.closeTo(6.00, 2),
       }),
       { ex: 90000 }
     );

@@ -5,8 +5,10 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const MODEL = 'claude-sonnet-4-5-20250929';
-const MAX_SEARCH_USES = 3;
+const MODEL = 'claude-haiku-4-5-20251001';
+const MAX_SEARCH_USES = 5;
+const THINKING_BUDGET_TOKENS = 4096;
+const MAX_TOKENS = 8192;
 
 /**
  * Format user answers into a clear, readable message for Claude
@@ -38,8 +40,8 @@ function formatAnswersForPrompt(
 
 /**
  * Extract text and citations from Claude's response content blocks.
- * Text blocks with citations get their text concatenated normally;
- * unique citations are collected for display as a sources section.
+ * Skips thinking/redacted_thinking blocks. Text blocks with citations
+ * get their text concatenated; unique citations are collected for display.
  */
 function extractTextAndCitations(content: Anthropic.Messages.ContentBlock[]): {
   text: string;
@@ -73,7 +75,41 @@ function extractTextAndCitations(content: Anthropic.Messages.ContentBlock[]): {
 }
 
 /**
- * Generate AI result using Claude API with web search
+ * Build the common request parameters for Claude API calls
+ */
+function buildRequestParams(systemPromptText: string, userMessage: string) {
+  return {
+    model: MODEL,
+    max_tokens: MAX_TOKENS,
+    thinking: {
+      type: 'enabled' as const,
+      budget_tokens: THINKING_BUDGET_TOKENS,
+    },
+    system: [
+      {
+        type: 'text' as const,
+        text: systemPromptText,
+        cache_control: { type: 'ephemeral' as const },
+      },
+    ],
+    tools: [
+      {
+        type: 'web_search_20250305' as const,
+        name: 'web_search' as const,
+        max_uses: MAX_SEARCH_USES,
+      },
+    ],
+    messages: [
+      {
+        role: 'user' as const,
+        content: userMessage,
+      },
+    ],
+  };
+}
+
+/**
+ * Generate AI result using Claude API with extended thinking and web search
  * @param useCase - The use case containing the system prompt
  * @param answers - User's answers to the questions
  * @param refinement - Optional refinement instruction to modify the output
@@ -85,58 +121,24 @@ export async function generateResult(
   refinement?: string
 ): Promise<GenerateResponse> {
   const userMessage = formatAnswersForPrompt(useCase, answers, refinement);
+  const systemPromptText = useCase.systemPrompt + '\n\nIMPORTANT: Always format your response using proper Markdown. Use headings (##), bullet lists (- item), numbered lists (1. item), and **bold** for emphasis. Never use unicode bullets (•) or emoji as list markers. Each list item must be on its own line.';
 
-  let response = await anthropic.messages.create({
-    model: MODEL,
-    max_tokens: 4096,
-    system: [
-      {
-        type: 'text',
-        text: useCase.systemPrompt + '\n\nIMPORTANT: Always format your response using proper Markdown. Use headings (##), bullet lists (- item), numbered lists (1. item), and **bold** for emphasis. Never use unicode bullets (•) or emoji as list markers. Each list item must be on its own line.',
-        cache_control: { type: 'ephemeral' },
-      },
-    ],
-    tools: [
-      {
-        type: 'web_search_20250305',
-        name: 'web_search',
-        max_uses: MAX_SEARCH_USES,
-      },
-    ],
-    messages: [
-      {
-        role: 'user',
-        content: userMessage,
-      },
-    ],
-  });
+  let response = await anthropic.messages.create(
+    buildRequestParams(systemPromptText, userMessage)
+  );
 
-  // Handle pause_turn: Claude may pause mid-search and need continuation
+  // Handle pause_turn: Claude may pause mid-search and need continuation.
+  // Must pass back full content (including thinking blocks) to preserve reasoning.
   while (response.stop_reason === 'pause_turn') {
     response = await anthropic.messages.create({
-      model: MODEL,
-      max_tokens: 4096,
-      system: [
-        {
-          type: 'text',
-          text: useCase.systemPrompt + '\n\nIMPORTANT: Always format your response using proper Markdown. Use headings (##), bullet lists (- item), numbered lists (1. item), and **bold** for emphasis. Never use unicode bullets (•) or emoji as list markers. Each list item must be on its own line.',
-          cache_control: { type: 'ephemeral' },
-        },
-      ],
-      tools: [
-        {
-          type: 'web_search_20250305',
-          name: 'web_search',
-          max_uses: MAX_SEARCH_USES,
-        },
-      ],
+      ...buildRequestParams(systemPromptText, userMessage),
       messages: [
         {
-          role: 'user',
+          role: 'user' as const,
           content: userMessage,
         },
         {
-          role: 'assistant',
+          role: 'assistant' as const,
           content: response.content,
         },
       ],
