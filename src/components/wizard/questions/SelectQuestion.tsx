@@ -19,6 +19,9 @@ export default function SelectQuestion({
   const [isOtherMode, setIsOtherMode] = useState(
     value !== "" && !isPredefined,
   );
+  const [otherText, setOtherText] = useState(
+    value !== "" && !isPredefined ? value : "",
+  );
   const otherInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export default function SelectQuestion({
 
   function enterOtherMode() {
     setIsOtherMode(true);
-    onChange("");
+    onChange(otherText);
   }
 
   return (
@@ -95,7 +98,10 @@ export default function SelectQuestion({
           className="input input-bordered input-lg w-full mt-3 text-lg"
           placeholder="Type your answer..."
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            setOtherText(e.target.value);
+            onChange(e.target.value);
+          }}
         />
       )}
 
