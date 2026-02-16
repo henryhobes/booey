@@ -24,8 +24,8 @@ export default function StickyCTA() {
 
   return (
     <div
-      className={`fixed bottom-28 left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm border-t border-base-300 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-300 ${
-        visible ? "translate-y-0" : "translate-y-[calc(100%+7rem)]"
+      className={`fixed bottom-[calc(64px+env(safe-area-inset-bottom,0px))] left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm p-3 transition-transform duration-300 ${
+        visible ? "translate-y-0" : "translate-y-[calc(100%+64px+env(safe-area-inset-bottom,0px))]"
       }`}
       aria-hidden={!visible}
     >
