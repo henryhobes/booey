@@ -58,16 +58,15 @@ export default function RootLayout({
           {/* Navigation */}
           <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8" aria-label="Main navigation">
             <div className="flex-1">
-              <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+              <Link href="/" className="flex items-center">
                 <Image
-                  src="/logo.png"
+                  src="/text-logo.png"
                   alt="Booey"
-                  width={32}
-                  height={46}
-                  className="h-7 w-auto md:h-8"
+                  width={403}
+                  height={174}
+                  className="h-8 w-auto md:h-9"
                   priority
                 />
-                Booey
               </Link>
             </div>
             <div className="flex-none hidden md:flex items-center gap-4">
