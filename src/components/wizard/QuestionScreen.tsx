@@ -82,7 +82,7 @@ export default function QuestionScreen({
       {/* Header */}
       <div className="text-center mb-8">
         <div className="text-5xl md:text-6xl mb-4">{useCase.icon}</div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">{useCase.title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">{useCase.title}</h1>
         <p className="text-lg md:text-xl opacity-70">{useCase.description}</p>
       </div>
       

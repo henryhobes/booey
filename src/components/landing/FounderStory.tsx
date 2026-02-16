@@ -3,11 +3,11 @@ import Image from "next/image";
 export default function FounderStory() {
   return (
     <section
-      className="py-12 md:py-16 lg:py-24 bg-base-100"
+      className="py-12 md:py-16 lg:py-24 bg-base-200"
       aria-labelledby="founder-heading"
     >
       <div className="mx-auto max-w-5xl px-4 md:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-12">
+        <div className="bg-base-100 rounded-2xl shadow-lg p-6 md:p-12">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
             {/* Photo */}
             <div className="flex-shrink-0">
@@ -25,7 +25,7 @@ export default function FounderStory() {
             <div className="text-center md:text-left">
               <h2
                 id="founder-heading"
-                className="text-2xl md:text-3xl font-bold mb-6 text-base-content"
+                className="text-2xl md:text-3xl font-bold mb-6 text-primary"
               >
                 Built by Someone Like You
               </h2>

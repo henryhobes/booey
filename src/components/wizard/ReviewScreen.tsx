@@ -30,7 +30,7 @@ export default function ReviewScreen({
       {/* Header */}
       <div className="text-center mb-8">
         <div className="text-5xl md:text-6xl mb-4">{useCase.icon}</div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">{useCase.title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">{useCase.title}</h1>
       </div>
       
       {/* Progress */}

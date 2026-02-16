@@ -11,7 +11,7 @@ export default function Home() {
       <section className="hero min-h-[70vh] bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10">
         <div className="hero-content text-center">
           <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-base-content">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-primary">
               Get things done faster. No tech skills needed.
             </h1>
             <p className="py-6 text-lg md:text-xl text-base-content/70 max-w-xl mx-auto">
@@ -21,7 +21,7 @@ export default function Home() {
             <div id="hero-cta">
               <Link
                 href="/explore"
-                className="btn btn-primary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:outline-none"
+                className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
               >
                 Explore Tools →
               </Link>
@@ -43,12 +43,12 @@ export default function Home() {
       {/* Second CTA */}
       <section className="py-16 md:py-24 text-center">
         <div className="mx-auto max-w-2xl px-4">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-base-content">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-primary">
             Ready to try?
           </h2>
           <Link
             href="/explore"
-            className="btn btn-primary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:outline-none"
+            className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
           >
             Explore Tools →
           </Link>

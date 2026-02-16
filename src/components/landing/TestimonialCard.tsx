@@ -15,7 +15,7 @@ function StarRating({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
-          className={star <= rating ? "text-yellow-500" : "text-gray-300"}
+          className={star <= rating ? "text-warning" : "text-base-content/20"}
           aria-hidden="true"
         >
           ★
@@ -30,7 +30,7 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
 
   return (
     <figure
-      className="bg-white rounded-2xl p-6 md:p-8 shadow-lg flex flex-col h-full"
+      className="bg-base-100 rounded-2xl p-6 md:p-8 shadow-lg flex flex-col h-full"
       style={{ minHeight: "280px" }}
     >
       {/* Photo */}

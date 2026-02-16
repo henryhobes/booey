@@ -23,7 +23,7 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-5xl px-4 md:px-6 lg:px-8">
         <h2
           id="how-it-works-heading"
-          className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12 md:mb-16 text-base-content"
+          className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-12 md:mb-16 text-primary"
         >
           How it works
         </h2>
@@ -35,7 +35,7 @@ export default function HowItWorks() {
                 {step.icon}
               </div>
               <h3 className="text-xl md:text-2xl font-semibold mb-3 text-base-content">
-                {index + 1}. {step.link ? (
+                <span className="text-secondary font-bold">{index + 1}.</span>{" "}{step.link ? (
                   <a href={step.link} className="hover:text-primary transition-colors">
                     {step.title}
                   </a>
