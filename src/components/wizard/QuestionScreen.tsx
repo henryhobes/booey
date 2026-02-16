@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { UseCase, UseCaseQuestion } from '@/types';
 import TextQuestion from './questions/TextQuestion';
 import TextareaQuestion from './questions/TextareaQuestion';
@@ -15,6 +16,7 @@ interface QuestionScreenProps {
   currentQuestion: UseCaseQuestion;
   currentValue: string | string[] | number;
   error: string | null;
+  isSubmitting: boolean;
   onBack: () => void;
   onNext: () => void;
   onChange: (value: string | string[] | number) => void;
@@ -28,10 +30,13 @@ export default function QuestionScreen({
   currentQuestion,
   currentValue,
   error,
+  isSubmitting,
   onBack,
   onNext,
   onChange,
 }: QuestionScreenProps) {
+  const isLastQuestion = currentStep === totalQuestions - 1;
+
   const renderQuestion = () => {
     switch (currentQuestion.type) {
       case 'text':
@@ -85,7 +90,7 @@ export default function QuestionScreen({
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">{useCase.title}</h1>
         <p className="text-lg md:text-xl opacity-70">{useCase.description}</p>
       </div>
-      
+
       {/* Progress */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
@@ -100,12 +105,12 @@ export default function QuestionScreen({
           max="100"
         ></progress>
       </div>
-      
+
       {/* Question Card */}
       <div className="card bg-base-100 shadow-xl mb-6">
         <div className="card-body p-4 md:p-8">
           {renderQuestion()}
-          
+
           {error && (
             <div className="alert alert-error mt-6">
               <svg
@@ -126,21 +131,35 @@ export default function QuestionScreen({
           )}
         </div>
       </div>
-      
+
       {/* Navigation */}
       <div className="flex flex-col-reverse md:flex-row gap-4 md:justify-between">
+        {currentStep === 0 ? (
+          <Link
+            href="/explore"
+            className="btn btn-outline btn-lg w-full md:w-auto min-h-[48px]"
+          >
+            ← Back
+          </Link>
+        ) : (
+          <button
+            onClick={onBack}
+            className="btn btn-outline btn-lg w-full md:w-auto min-h-[48px]"
+          >
+            Back
+          </button>
+        )}
+
         <button
-          onClick={onBack}
-          className="btn btn-outline btn-lg w-full md:w-auto min-h-[48px]"
+          onClick={onNext}
+          className={`btn ${isLastQuestion ? 'btn-secondary' : 'btn-primary'} btn-lg w-full md:w-auto min-h-[48px] ${isSubmitting ? 'loading' : ''}`}
+          disabled={isSubmitting}
         >
-          Back
-        </button>
-        
-        <button 
-          onClick={onNext} 
-          className="btn btn-primary btn-lg w-full md:w-auto min-h-[48px]"
-        >
-          {currentStep === totalQuestions - 1 ? 'Review Answers →' : 'Next'}
+          {isLastQuestion
+            ? isSubmitting
+              ? 'Creating Your Answer...'
+              : 'Create My Answer'
+            : 'Next'}
         </button>
       </div>
     </div>

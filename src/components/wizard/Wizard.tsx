@@ -7,9 +7,7 @@ import { useUser } from '@/hooks/useUser';
 import { useTryBeforeSignup } from '@/hooks/useTryBeforeSignup';
 import LoadingScreen from './LoadingScreen';
 import Result from './Result';
-import WelcomeScreen from './WelcomeScreen';
 import { RateLimitError } from '@/lib/utils/errors';
-import ReviewScreen from './ReviewScreen';
 import QuestionScreen from './QuestionScreen';
 import GuestGateScreen from './GuestGateScreen';
 
@@ -17,126 +15,94 @@ interface WizardProps {
   useCase: UseCase;
 }
 
-type WizardMode = 'welcome' | 'questions' | 'review' | 'generating' | 'result';
+type WizardMode = 'questions' | 'generating' | 'result';
 
 export default function Wizard({ useCase }: WizardProps) {
   const { user } = useUser();
   const { canUseAsGuest, markGuestUseComplete, hasUsedFreeUse } = useTryBeforeSignup();
-  const [mode, setMode] = useState<WizardMode>('welcome');
+  const [mode, setMode] = useState<WizardMode>('questions');
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const currentQuestion = useCase.questions[currentStep];
   const totalQuestions = useCase.questions.length;
-  
+
   // Scroll to top when entering loading/generating state
   useEffect(() => {
     if (mode === 'generating') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [mode]);
-  
-  // Calculate progress including welcome and review screens
+
+  // Calculate progress based on questions answered
   const getProgress = () => {
-    const totalSteps = totalQuestions + 2; // +2 for welcome and review
-    let currentStepNum = 0;
-    
-    if (mode === 'welcome') currentStepNum = 0;
-    else if (mode === 'questions') currentStepNum = currentStep + 1;
-    else if (mode === 'review') currentStepNum = totalQuestions + 1;
-    else currentStepNum = totalSteps;
-    
-    return (currentStepNum / totalSteps) * 100;
+    if (mode === 'questions') {
+      return ((currentStep + 1) / totalQuestions) * 100;
+    }
+    return 100;
   };
-  
+
   // Get current answer value (initialize based on question type)
   const getCurrentValue = () => {
     const value = answers[currentQuestion.id];
     if (value !== undefined) return value;
-    
+
     // Default values for each type
     if (currentQuestion.type === 'multiselect') return [];
     if (currentQuestion.type === 'number') return '';
     return '';
   };
-  
+
   // Validate current question
   const isCurrentQuestionValid = () => {
     if (!currentQuestion.required) return true;
-    
+
     const value = answers[currentQuestion.id];
-    
+
     if (value === undefined || value === null || value === '') return false;
     if (Array.isArray(value) && value.length === 0) return false;
-    
+
     return true;
   };
-  
+
   // Handle answer change
   const handleAnswerChange = (value: string | string[] | number) => {
     setAnswers({ ...answers, [currentQuestion.id]: value });
     setError(null);
   };
-  
-  // Start the wizard from welcome screen
-  const handleStart = () => {
-    setMode('questions');
-    setCurrentStep(0);
-    setError(null);
-  };
-  
-  // Navigate to next question
+
+  // Navigate to next question or submit on last question
   const handleNext = () => {
     if (!isCurrentQuestionValid()) {
       setError('Please answer this question to continue');
       return;
     }
-    
-    // Check if last question - go to review
+
     if (currentStep === totalQuestions - 1) {
-      setMode('review');
-      setError(null);
+      handleSubmit();
     } else {
       setCurrentStep(currentStep + 1);
       setError(null);
     }
   };
-  
+
   // Navigate to previous question
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
       setError(null);
-    } else {
-      // Go back to welcome screen
-      setMode('welcome');
-      setError(null);
     }
   };
-  
-  // Go back from review to last question
-  const handleBackFromReview = () => {
-    setMode('questions');
-    setCurrentStep(totalQuestions - 1);
-    setError(null);
-  };
-  
-  // Edit a specific answer from review screen
-  const handleEditAnswer = (questionIndex: number) => {
-    setMode('questions');
-    setCurrentStep(questionIndex);
-    setError(null);
-  };
-  
+
   // Submit and generate result
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setMode('generating');
     setError(null);
-    
+
     try {
       const response = await fetch('/api/generate', {
         method: 'POST',
@@ -148,9 +114,9 @@ export default function Wizard({ useCase }: WizardProps) {
           answers,
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         // Rate limit errors get a tailored message (don't say "try again")
         if (data.rateLimited) {
@@ -159,11 +125,11 @@ export default function Wizard({ useCase }: WizardProps) {
         }
         throw new Error(data.error || 'Failed to generate result');
       }
-      
+
       setResult(data.result);
       setMode('result');
       setIsSubmitting(false);
-      
+
       // Track guest usage
       if (!user) {
         markGuestUseComplete({
@@ -181,31 +147,25 @@ export default function Wizard({ useCase }: WizardProps) {
         setError(`${err.message} Wait a moment, then try again.`);
       } else {
         setError(
-          err instanceof Error 
+          err instanceof Error
             ? `We could not create your result: ${err.message}. Please try again. If this keeps happening, contact support.`
             : 'We could not create your result. Please try again. If this keeps happening, contact support.'
         );
       }
-      setMode('review'); // Go back to review on error
+      setMode('questions'); // Go back to last question on error
       setIsSubmitting(false);
     }
   };
-  
-  // Retry after error
-  const handleRetry = () => {
-    setError(null);
-    handleSubmit();
-  };
-  
+
   // Start over
   const handleStartOver = () => {
-    setMode('welcome');
+    setMode('questions');
     setCurrentStep(0);
     setAnswers({});
     setResult(null);
     setError(null);
   };
-  
+
   // Edit inputs - go back to wizard with current answers
   const handleEditInputs = () => {
     setResult(null);
@@ -213,12 +173,12 @@ export default function Wizard({ useCase }: WizardProps) {
     setError(null);
     setMode('questions');
   };
-  
+
   // Refine result - append refinement and regenerate
   const handleRefine = async (refinementPrompt: string) => {
     setMode('generating');
     setError(null);
-    
+
     try {
       const response = await fetch('/api/generate', {
         method: 'POST',
@@ -231,13 +191,13 @@ export default function Wizard({ useCase }: WizardProps) {
           refinement: refinementPrompt,
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error || 'Failed to refine result');
       }
-      
+
       setResult(data.result);
       setMode('result');
     } catch (err) {
@@ -245,7 +205,7 @@ export default function Wizard({ useCase }: WizardProps) {
       setMode('result'); // Stay on result page even on error
     }
   };
-  
+
   // Guest gate: if guest has used free use and no result yet, block access
   if (!user && !canUseAsGuest() && !result) {
     return <GuestGateScreen useCase={useCase} />;
@@ -255,8 +215,8 @@ export default function Wizard({ useCase }: WizardProps) {
   if (mode === 'result' && result) {
     return (
       <>
-        <Result 
-          result={result} 
+        <Result
+          result={result}
           useCase={useCase}
           answers={answers}
           onStartOver={handleStartOver}
@@ -279,34 +239,12 @@ export default function Wizard({ useCase }: WizardProps) {
       </>
     );
   }
-  
+
   // Render loading state
   if (mode === 'generating') {
     return <LoadingScreen />;
   }
-  
-  // Render welcome screen
-  if (mode === 'welcome') {
-    return <WelcomeScreen useCase={useCase} onStart={handleStart} />;
-  }
-  
-  // Render review screen
-  if (mode === 'review') {
-    return (
-      <ReviewScreen
-        useCase={useCase}
-        answers={answers}
-        progress={getProgress()}
-        error={error}
-        isSubmitting={isSubmitting}
-        onBack={handleBackFromReview}
-        onEdit={handleEditAnswer}
-        onSubmit={handleSubmit}
-        onRetry={handleRetry}
-      />
-    );
-  }
-  
+
   // Render question screen
   return (
     <QuestionScreen
@@ -317,6 +255,7 @@ export default function Wizard({ useCase }: WizardProps) {
       currentQuestion={currentQuestion}
       currentValue={getCurrentValue()}
       error={error}
+      isSubmitting={isSubmitting}
       onBack={handleBack}
       onNext={handleNext}
       onChange={handleAnswerChange}
