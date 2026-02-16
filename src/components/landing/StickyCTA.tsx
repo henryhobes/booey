@@ -49,7 +49,7 @@ export default function StickyCTA() {
 
   return (
     <div
-      className={`fixed left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm p-3 transition-transform duration-300 ${
+      className={`fixed left-0 right-0 z-50 md:hidden bg-base-100/95 backdrop-blur-sm px-4 pb-3 pt-4 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] transition-transform duration-300 ${
         visible ? "translate-y-0" : "translate-y-[200%]"
       }`}
       style={{ bottom: `${navHeight}px` }}
