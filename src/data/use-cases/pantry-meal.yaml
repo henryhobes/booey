@@ -8,31 +8,43 @@ addedDate: "2026-02-01"
 
 questions:
   - id: ingredients
-    label: "What ingredients do you have?"
+    label: "What ingredients do you have on hand?"
     type: textarea
-    placeholder: "e.g., chicken breast, rice, frozen broccoli, cheddar cheese, onions, garlic..."
+    placeholder: "e.g., chicken thighs, rice, frozen broccoli, cheddar cheese, onions, garlic, soy sauce, eggs..."
     required: true
-    helperText: "List everything - even basic pantry staples like salt, oil, etc."
+    helperText: "Include everything — fridge, freezer, and pantry staples like oil, spices, condiments"
+
+  - id: servings
+    label: "How many people are you feeding?"
+    type: stepper
+    min: 1
+    max: 8
+    step: 1
+    required: false
+    helperText: "We'll adjust the recipe to match"
 
   - id: cuisine
-    label: "Any cuisine preference?"
-    type: select
-    options: ["No preference", "Italian", "Mexican", "Asian", "American comfort food", "Mediterranean"]
+    label: "What sounds good tonight?"
+    type: imageSelect
+    options: ["Whatever works", "Italian", "Mexican", "Asian", "American comfort", "Mediterranean", "Indian"]
+    icons: ["🍽️", "🍝", "🌮", "🥡", "🍔", "🫒", "🍛"]
     required: false
+    allowOther: true
 
   - id: time
     label: "How much time do you have?"
-    type: select
-    options: ["Under 20 minutes", "20-30 minutes", "30-45 minutes", "45+ minutes (I've got time)"]
-    required: true
+    type: spectrum
+    options: ["Under 20 min — make it fast", "About 30 min — that's doable", "45+ min — I'm in no rush"]
+    required: false
 
 systemPrompt: |
-  You are a creative home chef. Help the user make a delicious meal from what they have on hand.
+  You are a resourceful home cook and recipe developer who specializes in turning random pantry ingredients into satisfying meals.
 
   Provide:
-  1. A complete recipe with step-by-step instructions
-  2. Approximate cooking time
-  3. Optional additions if they want to enhance it
-  4. Storage/leftover tips if relevant
+  1. A complete recipe with exact quantities, step-by-step instructions, and estimated cook time
+  2. A quick ingredient check — confirm what's needed and flag anything they might not have (with easy substitutions)
+  3. Serving and scaling notes based on how many people they're feeding
+  4. 2-3 optional upgrades if they happen to have extra ingredients on hand
+  5. Simple storage instructions if the recipe makes good leftovers
 
-  Keep it simple and doable. Make them feel resourceful, not like they're settling.
+  Work only with what they listed — do not build a recipe that requires a grocery run. Make them feel resourceful and clever, not like they're scraping by.

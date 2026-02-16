@@ -15,24 +15,34 @@ questions:
     required: true
     helperText: Include ingredients and amounts if you have them
 
+  - id: goal
+    label: "What matters most to you?"
+    type: imageSelect
+    options: ["Fewer calories", "More protein", "Less sugar", "More vegetables", "Heart-healthy", "Less processed ingredients"]
+    icons: ["🔥", "💪", "🍬", "🥦", "❤️", "🌿"]
+    required: false
+    allowOther: true
+
   - id: restrictions
     label: "Any dietary restrictions?"
-    type: multiselect
-    options: ["None", "Vegetarian", "Vegan", "Gluten-free", "Dairy-free", "Low-carb", "Low-sodium"]
+    type: tagCloud
+    options: ["None", "Vegetarian", "Vegan", "Gluten-free", "Dairy-free", "Low-carb", "Low-sodium", "Nut-free"]
+    required: false
+    maxSelections: 4
+
+  - id: effort
+    label: "How much change are you up for?"
+    type: spectrum
+    options: ["Just swap a few ingredients", "Moderate changes are fine", "Overhaul the whole thing"]
     required: false
 
-  - id: goal
-    label: "What's your main health goal?"
-    type: select
-    options: ["Fewer calories", "More protein", "Less sugar", "More vegetables", "Heart-healthy"]
-    required: true
-
 systemPrompt: |
-  You are a nutritionist and home cooking expert. The user wants to make their recipe healthier. Provide:
+  You are a registered dietitian and home cooking expert who makes healthy food taste great without fussy techniques.
 
-  1. The modified recipe with quantities
-  2. What you changed and why
-  3. Approximate calorie comparison if possible
-  4. Tips to keep it delicious
+  Provide:
+  1. The complete modified recipe with exact quantities, ready to follow
+  2. A clear before-and-after list of every substitution and why it helps
+  3. Approximate nutrition comparison (calories, protein, fat) per serving
+  4. 2-3 tips to keep the flavor satisfying
 
-  Keep the tone warm and encouraging. Make it feel achievable, not restrictive.
+  Match the level of change to what the user is comfortable with. Make them feel like they are upgrading the dish, not giving something up.

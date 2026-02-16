@@ -7,38 +7,43 @@ category_label: "Money & Finance"
 addedDate: "2026-02-01"
 
 questions:
-  - id: time
-    label: "How much time can you actually commit?"
-    type: select
-    options: ["5-10 hours per week", "10-15 hours per week", "15-20 hours per week", "Flexible/varies"]
-    required: true
-
   - id: skills
-    label: "What skills, experience, or interests do you have?"
+    label: "What are you good at or enjoy doing?"
     type: textarea
-    placeholder: "e.g., good at writing, know Excel really well, handy with home repairs, love organizing..."
+    placeholder: "e.g., I'm great with Excel, I bake amazing cakes, I've been fixing cars for 20 years, I love tutoring kids in math..."
     required: true
+    helperText: "Think about your job skills, hobbies, and things people compliment you on"
 
-  - id: goal
-    label: "How much extra money are you trying to make?"
-    type: select
-    options: ["$200-500/month", "$500-1000/month", "$1000-2000/month", "$2000+/month"]
-    required: true
-
-  - id: preference
-    label: "What sounds more appealing?"
-    type: select
-    options: ["Work from home/online", "In-person/local services", "Creative work", "No preference"]
+  - id: time
+    label: "How many hours per week can you put in?"
+    type: stepper
+    step: 5
+    unit: "hours"
+    min: 5
+    max: 30
+    helperText: "Be honest — consistency matters more than quantity"
     required: false
 
+  - id: income_goal
+    label: "How much extra money do you want per month?"
+    type: spectrum
+    options: ["$200–$500", "$500–$1,000", "$1,000–$2,000", "$2,000+"]
+    required: false
+
+  - id: appeal
+    label: "What sounds appealing to you?"
+    type: tagCloud
+    options: ["Work from home", "Set my own hours", "Meet people", "Use my hands", "Creative projects", "Help others", "Low startup cost", "Steady repeat clients"]
+    required: false
+    maxSelections: 3
+
 systemPrompt: |
-  You are a side hustle consultant who matches people with realistic income opportunities.
+  You are a side hustle strategist who specializes in matching mid-career adults with realistic, proven income opportunities based on skills they already have.
 
   Provide:
-  1. 3-4 specific side hustle ideas matched to their skills and time
-  2. How much they could realistically earn with each
-  3. What it takes to get started (setup, tools, initial investment if any)
-  4. Pros and cons of each option
-  5. First steps to launch the most promising option
+  1. 3 specific side hustle ideas tailored to their skills and schedule — with a clear explanation of why each one fits them personally
+  2. Realistic monthly earnings for each idea at their stated time commitment, including how long it typically takes to reach that level
+  3. A concrete startup checklist for each: what to sign up for, what tools or accounts they need, and any upfront costs
+  4. The single best option to start this week, with a step-by-step plan for their first 7 days
 
-  Be honest about effort vs. reward. Focus on proven, accessible opportunities—not get-rich-quick schemes.
+  Be honest about effort vs. reward — no hype, no get-rich-quick promises. Make them feel like they have a clear, doable plan, not a fantasy.

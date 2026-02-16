@@ -14,41 +14,38 @@ questions:
     descriptions: ["I can make permanent changes and upgrades", "I need landlord-friendly solutions"]
     required: true
 
-  - id: home_type
-    label: "What kind of home?"
-    type: select
-    options: ["Single-family house", "Townhouse/duplex", "Apartment/condo", "Mobile home"]
-    required: true
-
-  - id: age
-    label: "How old is your home?"
-    type: select
-    options: ["Built in last 10 years", "10-30 years old", "30-50 years old", "50+ years old", "Not sure"]
-    required: true
-
   - id: bill
     label: "What's your average monthly energy bill?"
     type: stepper
     step: 25
     unit: "$"
     min: 50
-    max: 1000
-    required: true
+    max: 500
+    helperText: "Your best guess is fine"
+    required: false
 
-  - id: season
-    label: "When is your bill highest?"
-    type: select
-    options: ["Summer (cooling costs)", "Winter (heating costs)", "Pretty consistent year-round"]
-    required: true
+  - id: heating_cooling
+    label: "How do you heat and cool your home?"
+    type: imageSelect
+    options: ["Central AC and furnace", "Heat pump", "Window units", "Space heaters", "Radiators/boiler", "Not sure"]
+    icons: ["🏠", "♻️", "🪟", "🔥", "🔲", "❓"]
+    required: false
+
+  - id: pain_points
+    label: "What bugs you about your energy costs?"
+    type: tagCloud
+    options: ["Summer bills are brutal", "Winter heating costs too much", "Drafty windows or doors", "Old appliances", "House never stays comfortable", "Electric bill keeps climbing", "Water heater costs a lot", "No idea where the money goes"]
+    maxSelections: 3
+    required: false
 
 systemPrompt: |
-  You are a home energy efficiency expert who helps homeowners save money.
+  You are a home energy auditor who specializes in finding hidden savings for everyday homeowners.
 
   Provide:
-  1. Top 5 places energy is likely being wasted in their type of home
-  2. Quick wins (free or cheap fixes they can do now)
-  3. Bigger investments ranked by ROI
-  4. Estimated annual savings for each recommendation
-  5. What to check first (diagnostic steps)
+  1. The 3-5 most likely energy wasters in their home, ranked by how much money each is probably costing them
+  2. Quick wins they can do this weekend for free or under $50 with realistic annual savings estimates
+  3. Bigger upgrades worth considering, with approximate cost, payback period, and whether rebates or tax credits may apply
+  4. A simple checklist for a DIY energy walk-through they can do room by room
+  5. One thing most people overlook that could be costing them $200+ per year
 
-  Be practical. Focus on real savings, not gimmicks. Prioritize by impact and affordability.
+  Be specific to their situation — not a generic list. Make them feel like they have a clear plan, not a homework assignment.

@@ -13,10 +13,12 @@ questions:
     placeholder: "e.g., skibidi toilet, why everyone's saying 'demure', that Drake and Kendrick thing..."
     required: true
 
-  - id: context
-    label: "Where did you hear about this?"
+  - id: kind
+    label: "What kind of thing is it?"
     type: select
-    options: ["My kids/teens mentioned it", "Saw it on social media", "Coworkers were talking about it", "It's everywhere and I'm lost", "I just want to know"]
+    options: ["A slang word or phrase", "A meme or internet joke", "Celebrity news or drama", "A TV show, movie, or song", "A social media trend", "Honestly, I have no idea"]
+    allowOther: true
+    helperText: "Your best guess is fine — it helps us give you a better answer"
     required: false
 
   - id: depth
@@ -24,16 +26,16 @@ questions:
     type: emojiScale
     options: ["Just the basics so I'm not totally lost", "Enough to have a conversation", "The full deep dive"]
     icons: ["🏊‍♂️", "🤿", "🐙"]
-    required: true
+    required: false
 
 systemPrompt: |
-  You are a pop culture translator who bridges generational gaps without judgment.
+  You are a pop culture translator who explains trends, memes, and slang across generational lines.
 
   Provide:
-  1. Clear explanation of what this is and where it came from
-  2. Why it's popular or what the appeal is
-  3. Key context or backstory needed to understand it
-  4. How to actually use it (if it's a phrase/meme) or what to know (if it's a trend)
-  5. Whether it's still relevant or already outdated
+  1. A plain-English explanation of what this is and where it came from
+  2. Why it caught on — the appeal or humor behind it
+  3. How to use it correctly if it's a phrase, or what to know if it's a trend or event
+  4. Whether it's still current or already fading out
+  5. Related things they might also hear about
 
-  Be fun and informative. Never make them feel old or out of touch. Celebrate cultural curiosity.
+  Be fun and specific. Make them feel in-the-know, never out of touch.

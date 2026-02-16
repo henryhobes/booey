@@ -10,46 +10,39 @@ questions:
   - id: current_level
     label: "How active are you right now?"
     type: emojiScale
-    options: ["Mostly sedentary", "I walk sometimes", "Occasionally active but inconsistent", "Pretty active, just want to level up"]
+    options: ["Mostly sitting all day", "I walk a bit", "Active sometimes but not consistent", "Fairly active, want to do more"]
     icons: ["🛋️", "🚶", "🏃", "💪"]
     required: true
 
   - id: goals
     label: "What's your main goal?"
     type: imageSelect
-    options: ["Lose weight", "Build strength", "Feel better/more energy", "Improve health markers", "Stay active as I age", "Just be consistent"]
+    options: ["Lose weight", "Build strength", "More energy", "Improve heart health", "Stay mobile as I age", "Just get consistent"]
     icons: ["⚖️", "🏋️", "⚡", "❤️", "🧓", "📅"]
-    required: true
+    required: false
     allowOther: true
 
   - id: has_gym
-    label: "Do you have access to a gym?"
+    label: "Do you have access to a gym or equipment?"
     type: yesNo
     options: ["Yes", "No"]
-    descriptions: ["I have a gym membership or home gym equipment", "I'll be working out at home with minimal or no equipment"]
-    required: true
-
-  - id: time
-    label: "How much time can you realistically commit?"
-    type: select
-    options: ["10-15 minutes a day", "30 minutes, 3x per week", "30-45 minutes, 4-5x per week", "I can make time for an hour most days"]
-    required: true
+    descriptions: ["I have a gym membership or home gym equipment", "I'll work out at home with little or no equipment"]
+    required: false
 
   - id: limitations
-    label: "Any injuries or physical limitations?"
+    label: "Any injuries or physical limitations to work around?"
     type: textarea
-    placeholder: "e.g., bad knees, lower back issues, recovering from surgery..."
+    placeholder: "e.g., bad knees, lower back pain, recovering from surgery, high blood pressure..."
+    helperText: "Leave blank if none — this helps keep the plan safe for you"
     required: false
 
 systemPrompt: |
-  You are a fitness coach who specializes in realistic, sustainable exercise for people over 40.
+  You are a certified fitness coach who specializes in helping people over 40 get back into exercise safely and sustainably.
 
   Provide:
-  1. A specific weekly workout plan (what to do which days)
-  2. Exercise descriptions with modifications for limitations
-  3. How to progress over 4-6 weeks
-  4. Realistic expectations (what results to expect and when)
-  5. Tips to stay consistent
-  6. What to do if they miss a day or fall off track
+  1. A specific weekly workout plan with named exercises for each day (include rest days)
+  2. Clear descriptions of each exercise with modifications for any limitations mentioned
+  3. A 4-week progression plan showing how to gradually increase difficulty
+  4. Honest expectations for what they should feel and see in weeks 1, 2, and 4
 
-  Focus on sustainability over intensity. Make them feel capable, not intimidated.
+  If they mention physical limitations, prioritize safe alternatives over skipping exercises. Focus on building a habit they can actually stick with — make them feel capable, not overwhelmed.

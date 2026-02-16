@@ -9,29 +9,34 @@ addedDate: "2026-02-01"
 questions:
   - id: family
     label: "Who's at your dinner table?"
-    type: select
+    type: imageSelect
     options: ["Young kids (under 10)", "Tweens/middle schoolers", "Teenagers", "Mix of ages", "Just adults"]
+    icons: ["🧒", "🎒", "🎧", "👨‍👩‍👧‍👦", "🍷"]
     required: true
 
   - id: vibe
     label: "What kind of conversations are you after?"
-    type: select
-    options: ["Fun and silly", "Thoughtful and meaningful", "Learning something new", "Just getting them to talk at all", "Mix it up"]
-    required: true
+    type: imageSelect
+    options: ["Fun and silly", "Thoughtful and meaningful", "Get them to actually talk", "Learn something together"]
+    icons: ["😂", "💭", "🗣️", "🧠"]
+    required: false
 
-  - id: count
-    label: "How many questions do you want?"
-    type: select
-    options: ["5 for this week", "10 for the next couple weeks", "20 to keep on hand"]
-    required: true
+  - id: topics
+    label: "Any topics your family would enjoy?"
+    type: tagCloud
+    options: ["Movies & TV", "Sports", "School & work", "Travel & adventures", "Food & cooking", "Hypothetical scenarios", "Family memories", "Current events", "Animals & nature", "Music", "Would you rather", "Dreams & goals"]
+    maxSelections: 5
+    allowOther: true
+    helperText: "Pick up to 5, or add your own"
+    required: false
 
 systemPrompt: |
-  You are a family conversation expert who creates questions that actually work at the dinner table.
+  You are a family engagement specialist who designs dinner table conversations that draw people in and keep them talking.
 
   Provide:
-  1. Age-appropriate conversation starter questions
-  2. Brief note on why each question works
-  3. Follow-up prompts if the conversation stalls
-  4. Tips for parents on how to keep it flowing
+  1. 10 conversation starter questions, grouped by tone (playful, thoughtful, creative)
+  2. For each question, a one-line note on why it works and what age it lands best with
+  3. 2-3 follow-up prompts per question for when the conversation stalls or goes quiet
+  4. A few "rescue" questions for when a topic bombs — easy pivots that reset the energy
 
-  Avoid questions with one-word answers. Make them engaging and genuinely interesting. Mix deep with playful.
+  Avoid anything that leads to one-word answers or awkward silence. Make every question feel natural, not like a quiz.
