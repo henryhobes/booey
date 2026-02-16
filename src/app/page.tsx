@@ -1,6 +1,5 @@
 import Link from "next/link";
 import HowItWorks from "@/components/landing/HowItWorks";
-import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -20,12 +19,12 @@ export default function Home() {
             <div id="hero-cta">
               <Link
                 href="/explore"
-                className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
+                className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 motion-safe:hover:scale-105 motion-safe:transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
               >
                 Explore Tools →
               </Link>
             </div>
-            <p className="text-base mt-5 text-base-content/60">
+            <p className="text-base mt-5 text-base-content/70">
               ✓ Free to use &nbsp; ✓ No signup required &nbsp; ✓ Works on any
               device
             </p>
@@ -36,9 +35,6 @@ export default function Home() {
       {/* How It Works */}
       <HowItWorks />
 
-      {/* Testimonials */}
-      <TestimonialsSection />
-
       {/* Second CTA */}
       <section className="py-16 md:py-24 text-center">
         <div className="mx-auto max-w-2xl px-4">
@@ -47,11 +43,11 @@ export default function Home() {
           </h2>
           <Link
             href="/explore"
-            className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
+            className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 motion-safe:hover:scale-105 motion-safe:transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
           >
             Explore Tools →
           </Link>
-          <p className="text-base text-base-content/60 mt-5">
+          <p className="text-base text-base-content/70 mt-5">
             No account needed — try your first tool right now
           </p>
         </div>

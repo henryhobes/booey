@@ -64,7 +64,7 @@ export default function Result({
       <div className="w-full max-w-4xl mx-auto">
         {/* Header with action buttons */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 print:hidden">
-          <Link href="/" className="btn btn-ghost btn-sm min-h-[48px]">
+          <Link href="/explore" className="btn btn-ghost btn-sm min-h-[48px]">
             ← Back to Browse
           </Link>
           <div className="flex gap-2">
@@ -80,6 +80,7 @@ export default function Result({
                 strokeWidth={1.5}
                 stroke="currentColor"
                 className="w-5 h-5"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -103,6 +104,7 @@ export default function Result({
                     strokeWidth={1.5}
                     stroke="currentColor"
                     className="w-5 h-5"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -121,6 +123,7 @@ export default function Result({
                     strokeWidth={1.5}
                     stroke="currentColor"
                     className="w-5 h-5"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -198,6 +201,7 @@ export default function Result({
                   strokeWidth={1.5}
                   stroke="currentColor"
                   className="w-5 h-5"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -218,6 +222,7 @@ export default function Result({
                   strokeWidth={1.5}
                   stroke="currentColor"
                   className="w-5 h-5"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -234,7 +239,7 @@ export default function Result({
               <button onClick={onStartOver} className="btn btn-ghost btn-sm min-h-[48px]">
                 Start Over
               </button>
-              <Link href="/" className="btn btn-ghost btn-sm min-h-[48px]">
+              <Link href="/explore" className="btn btn-ghost btn-sm min-h-[48px]">
                 Try Another Use Case
               </Link>
             </div>

@@ -12,8 +12,21 @@ const LOADING_MESSAGES = [
   "Almost there..."
 ];
 
+function getReducedMotion() {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 export default function LoadingScreen() {
   const [messageIndex, setMessageIndex] = useState(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(getReducedMotion);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,12 +42,15 @@ export default function LoadingScreen() {
         <div className="card-body items-center text-center p-12">
           <Lottie
             animationData={booeyAnimation}
-            loop
+            loop={!prefersReducedMotion}
+            autoplay={!prefersReducedMotion}
             className="w-[120px] sm:w-[160px]"
             aria-hidden="true"
           />
-          <h2 className="text-2xl font-bold mt-6 mb-2">{LOADING_MESSAGES[messageIndex]}</h2>
-          <p className="text-lg opacity-70">This usually takes 10-15 seconds</p>
+          <div aria-live="polite">
+            <h2 className="text-2xl font-bold mt-6 mb-2">{LOADING_MESSAGES[messageIndex]}</h2>
+          </div>
+          <p className="text-lg text-base-content/70">This usually takes 10-15 seconds</p>
         </div>
       </div>
     </div>

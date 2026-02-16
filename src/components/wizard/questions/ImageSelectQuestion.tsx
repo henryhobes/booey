@@ -27,7 +27,7 @@ export default function ImageSelectQuestion({
 
       {question.helperText && (
         <label className="label pt-0">
-          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">
+          <span className="label-text-alt text-base-content/70 whitespace-normal break-words">
             {question.helperText}
           </span>
         </label>
@@ -50,7 +50,7 @@ export default function ImageSelectQuestion({
               className={`rounded-xl p-4 min-h-[48px] flex flex-col items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                 isSelected
                   ? "bg-primary text-primary-content font-bold"
-                  : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
+                  : "bg-accent text-base-content border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
               }`}
             >
               {icons[i] && (

@@ -66,7 +66,7 @@ export default function SelectQuestion({
               className={`rounded-full px-5 min-h-[48px] text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                 isSelected
                   ? "bg-primary text-primary-content font-bold"
-                  : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
+                  : "bg-accent text-base-content border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
               }`}
             >
               {option}
@@ -83,7 +83,7 @@ export default function SelectQuestion({
             className={`rounded-full px-5 min-h-[48px] text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
               isOtherMode
                 ? "bg-primary text-primary-content font-bold"
-                : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
+                : "bg-accent text-base-content border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
             }`}
           >
             Other
@@ -107,7 +107,7 @@ export default function SelectQuestion({
 
       {question.helperText && (
         <label className="label">
-          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">
+          <span className="label-text-alt text-base-content/70 whitespace-normal break-words">
             {question.helperText}
           </span>
         </label>

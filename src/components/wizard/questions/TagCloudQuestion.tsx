@@ -82,7 +82,7 @@ export default function TagCloudQuestion({
 
       {question.helperText && (
         <label className="label pt-0">
-          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">
+          <span className="label-text-alt text-base-content/70 whitespace-normal break-words">
             {question.helperText}
           </span>
         </label>
@@ -111,7 +111,7 @@ export default function TagCloudQuestion({
                   ? "bg-primary text-primary-content font-bold"
                   : isDisabled
                     ? "bg-base-200 text-base-content/30 cursor-not-allowed"
-                    : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
+                    : "bg-accent text-base-content border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
               }`}
             >
               {option}
@@ -131,7 +131,7 @@ export default function TagCloudQuestion({
                 ? "bg-primary text-primary-content font-bold"
                 : !isOtherMode && atCap
                   ? "bg-base-200 text-base-content/30 cursor-not-allowed"
-                  : "bg-accent text-primary border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
+                  : "bg-accent text-base-content border-2 border-accent hover:border-primary/30 hover:bg-accent/80"
             }`}
           >
             Other

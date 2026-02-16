@@ -37,7 +37,7 @@ export default function StarRatingQuestion({
 
       {question.helperText && (
         <label className="label pt-0">
-          <span className="label-text-alt text-base-content/60 whitespace-normal break-words">
+          <span className="label-text-alt text-base-content/70 whitespace-normal break-words">
             {question.helperText}
           </span>
         </label>
@@ -62,7 +62,7 @@ export default function StarRatingQuestion({
               aria-label={`${starNum} star${starNum > 1 ? "s" : ""}`}
               onClick={() => handleClick(starNum)}
               onMouseEnter={() => setHoverIndex(starNum)}
-              className="min-h-[48px] min-w-[48px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg transition-transform hover:scale-110"
+              className="min-h-[48px] min-w-[48px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg motion-safe:transition-transform motion-safe:hover:scale-110"
             >
               <span
                 className={`text-3xl md:text-4xl transition-colors ${

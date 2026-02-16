@@ -51,7 +51,7 @@ export default function HistoryPage() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="alert alert-error">
+        <div className="alert alert-error" role="alert">
           <span>Error: {error}</span>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function HistoryPage() {
         <p className="text-base-content/70 text-lg mb-6">
           Pick any tool from the home page. It only takes 2 minutes, and you can&apos;t break anything!
         </p>
-        <Link href="/" className="btn btn-primary btn-lg">
+        <Link href="/explore" className="btn btn-primary btn-lg">
           Browse Tools
         </Link>
       </div>
@@ -105,7 +105,7 @@ function SessionCard({ session }: { session: Session }) {
         <div className="flex items-start justify-between">
           <div>
             <h3 className="card-title">{useCaseTitle}</h3>
-            <p className="text-sm text-base-content/60">{timestamp}</p>
+            <p className="text-sm text-base-content/70">{timestamp}</p>
           </div>
         </div>
 
