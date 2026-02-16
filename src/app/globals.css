@@ -209,8 +209,8 @@ button:focus-visible,
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
-  border-top: 1px solid #e5e7eb;
+  background: hsl(var(--b1));
+  border-top: 1px solid hsl(var(--bc) / 0.1);
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   z-index: 50;
   padding: 4px 0 env(safe-area-inset-bottom, 0);
@@ -225,7 +225,7 @@ button:focus-visible,
   min-height: 56px;
   font-size: 0.875rem;  /* Increased from 0.75rem (16px for 40-60 demo) */
   font-weight: 500;
-  color: #4A4A4A;
+  color: hsl(var(--bc));
   gap: 4px;  /* Increased from 2px for better spacing */
   text-decoration: none;
   transition: color 0.15s;
@@ -233,7 +233,7 @@ button:focus-visible,
 
 .mobile-bottom-nav a:hover,
 .mobile-bottom-nav a[aria-current="page"] {
-  color: #2C5682; /* Ocean Blue */
+  color: hsl(var(--p));
   font-weight: 600;
 }
 
