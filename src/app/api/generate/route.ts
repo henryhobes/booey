@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
     await incrementUsage(userId);
 
     // Record cost for budget tracking
-    await recordSpend(result.inputTokens, result.outputTokens);
+    await recordSpend(result.inputTokens, result.outputTokens, result.searchRequests);
 
     // Save session to database for authenticated users
     let sessionId: string | null = null;

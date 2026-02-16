@@ -70,6 +70,7 @@ export interface GenerateResponse {
   model: string;
   inputTokens: number;
   outputTokens: number;
+  searchRequests: number;
   sessionId?: string | null;
 }
 

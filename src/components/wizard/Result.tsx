@@ -170,7 +170,7 @@ export default function Result({
                 <h3 className="text-lg font-semibold mb-3">Sources</h3>
                 <ul className="space-y-2">
                   {citations.map((citation, index) => (
-                    <li key={index} className="text-sm">
+                    <li key={index} className="text-base">
                       <a
                         href={citation.url}
                         target="_blank"

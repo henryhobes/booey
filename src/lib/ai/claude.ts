@@ -170,5 +170,6 @@ export async function generateResult(
     model: MODEL,
     inputTokens: response.usage.input_tokens,
     outputTokens: response.usage.output_tokens,
+    searchRequests,
   };
 }
