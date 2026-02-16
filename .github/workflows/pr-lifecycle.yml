@@ -334,25 +334,7 @@ jobs:
             const warningCount = (body.match(/⚠️ WARNING/g) || []).length;
             const criticalCount = (body.match(/🚨 CRITICAL/g) || []).length;
 
-            // CRITICALs ALWAYS require human review — no auto-merge ever
-            if (criticalCount > 0) {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                labels: ['needs-human']
-              });
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: '🚨 **Auto-merge blocked**: Review found ' + criticalCount + ' CRITICAL issue(s). A human must review and merge manually.'
-              });
-              core.info('CRITICAL issues found — requires human review');
-              return;
-            }
-
-            if (warningCount > 0) {
+            if (criticalCount > 0 || warningCount > 0) {
               const allComments = await github.rest.issues.listComments({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -367,9 +349,9 @@ jobs:
               
               if (fixRequests.length === 0) {
                 // Never asked — request fix
-                core.info(`Found ${warningCount} warning issue(s). Requesting fixes.`);
+                core.info(`Found ${criticalCount} critical and ${warningCount} warning issue(s). Requesting fixes.`);
                 core.setOutput('needs_fix', 'true');
-                core.setOutput('fix_summary', `Found ${warningCount} warning issue(s).`);
+                core.setOutput('fix_summary', `Found ${criticalCount} critical and ${warningCount} warning issue(s).`);
                 return;
               }
 
@@ -388,9 +370,9 @@ jobs:
 
               if (lastCommitTime > lastFixRequestTime) {
                 // Claude pushed after our request, but review still has issues — ask again
-                core.info(`Claude pushed after fix request but review still has ${warningCount} warning(s). Requesting another round.`);
+                core.info(`Claude pushed after fix request but review still has ${criticalCount} critical and ${warningCount} warning(s). Requesting another round.`);
                 core.setOutput('needs_fix', 'true');
-                core.setOutput('fix_summary', `Still ${warningCount} warning(s) after fix attempt.`);
+                core.setOutput('fix_summary', `Still ${criticalCount} critical and ${warningCount} warning(s) after fix attempt.`);
                 return;
               }
 
