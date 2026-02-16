@@ -321,7 +321,7 @@ jobs:
 
             // BLOCK: Review still in progress (Claude Code Action uses status markers)
             const hasProgressMarker = body.includes('<!-- status: in_progress -->') ||
-              (body.includes('🔄') && !body.includes('✅'));
+              (body.includes('🔄') && !body.includes('✅') && !body.includes('<!-- pr-lifecycle-fix-request -->'));
             if (hasProgressMarker) {
               // Check if it also has completion markers
               if (!body.includes('<!-- status: completed -->') && !body.includes('✅ APPROVED')) {
@@ -334,7 +334,25 @@ jobs:
             const warningCount = (body.match(/⚠️ WARNING/g) || []).length;
             const criticalCount = (body.match(/🚨 CRITICAL/g) || []).length;
 
-            if (criticalCount > 0 || warningCount > 0) {
+            // CRITICALs ALWAYS require human review — no auto-merge ever
+            if (criticalCount > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                labels: ['needs-human']
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: '🚨 **Auto-merge blocked**: Review found ' + criticalCount + ' CRITICAL issue(s). A human must review and merge manually.'
+              });
+              core.info('CRITICAL issues found — requires human review');
+              return;
+            }
+
+            if (warningCount > 0) {
               const allComments = await github.rest.issues.listComments({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -349,9 +367,9 @@ jobs:
               
               if (fixRequests.length === 0) {
                 // Never asked — request fix
-                core.info(`Found ${criticalCount} critical and ${warningCount} warning issues. Requesting fixes.`);
+                core.info(`Found ${warningCount} warning issue(s). Requesting fixes.`);
                 core.setOutput('needs_fix', 'true');
-                core.setOutput('fix_summary', `Found ${criticalCount} critical and ${warningCount} warning issues.`);
+                core.setOutput('fix_summary', `Found ${warningCount} warning issue(s).`);
                 return;
               }
 
@@ -370,9 +388,9 @@ jobs:
 
               if (lastCommitTime > lastFixRequestTime) {
                 // Claude pushed after our request, but review still has issues — ask again
-                core.info(`Claude pushed after fix request but review still has ${criticalCount} critical and ${warningCount} warning. Requesting another round.`);
+                core.info(`Claude pushed after fix request but review still has ${warningCount} warning(s). Requesting another round.`);
                 core.setOutput('needs_fix', 'true');
-                core.setOutput('fix_summary', `Still ${criticalCount} critical and ${warningCount} warning after fix attempt.`);
+                core.setOutput('fix_summary', `Still ${warningCount} warning(s) after fix attempt.`);
                 return;
               }
 
@@ -441,23 +459,13 @@ jobs:
         if: steps.review.outputs.passed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         run: |
-          PR_NUMBER="${{ steps.pr.outputs.number }}"
           echo "🚀 Auto-merging PR #${PR_NUMBER}"
-
-          # Squash merge with auto-generated commit message
-          gh pr merge "${PR_NUMBER}" \
-            --squash \
-            --auto \
-            --delete-branch
-
-          # If --auto doesn't work (no branch protection), try direct merge
+          gh pr merge "${PR_NUMBER}" --squash --auto --delete-branch
           if [ $? -ne 0 ]; then
             echo "Auto-merge flag failed, trying direct merge..."
-            gh pr merge "${PR_NUMBER}" \
-              --squash \
-              --delete-branch \
-              --body "Auto-merged by pr-lifecycle.yml after CI ✅ and review ✅"
+            gh pr merge "${PR_NUMBER}" --squash --delete-branch --body "Auto-merged by pr-lifecycle.yml after CI ✅ and review ✅"
           fi
 
       - name: Comment merge confirmation
@@ -489,11 +497,11 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         run: |
-          PR_NUMBER="${{ steps.pr.outputs.number }}"
-          PR_TITLE=$(gh pr view "${PR_NUMBER}" --json title --jq .title 2>/dev/null || echo "PR #${PR_NUMBER}")
-          MESSAGE="🤖 Auto-merged PR #${PR_NUMBER}: ${PR_TITLE}"
+          TITLE=$(gh pr view "${PR_NUMBER}" --json title --jq .title 2>/dev/null || echo "PR #${PR_NUMBER}")
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            -d chat_id="${TELEGRAM_CHAT_ID}" \
-            -d text="${MESSAGE}" \
-            -d parse_mode="HTML" || true
+            --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=🤖 Auto-merged PR #${PR_NUMBER}: ${TITLE}" \
+            || true
