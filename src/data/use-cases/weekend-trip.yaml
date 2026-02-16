@@ -15,13 +15,14 @@ questions:
 
   - id: vibe
     label: "What kind of vibe are you after?"
-    type: select
+    type: imageSelect
     options: ["Relaxing and low-key", "Adventure and activities", "Food and culture", "Nature and outdoors", "City exploration"]
+    icons: ["🧘", "🧗", "🍽️", "🌲", "🏙️"]
     required: true
 
   - id: budget
     label: "What's your budget range?"
-    type: select
+    type: spectrum
     options: ["Budget-friendly (under $500 total)", "Moderate ($500-1000)", "Comfortable ($1000-2000)", "Splurge (sky's the limit)"]
     required: true
 

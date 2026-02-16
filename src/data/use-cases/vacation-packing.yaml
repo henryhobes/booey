@@ -9,8 +9,9 @@ addedDate: "2026-02-15"
 questions:
   - id: trip_type
     label: "What kind of trip?"
-    type: select
+    type: imageSelect
     options: ["Beach vacation", "City trip", "Outdoor/camping", "Business travel", "Ski/winter sports", "Mix of activities"]
+    icons: ["🏖️", "🏙️", "⛺", "💼", "⛷️", "🎒"]
     required: true
 
   - id: duration

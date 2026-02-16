@@ -7,6 +7,13 @@ category_label: "Home & Family"
 addedDate: "2026-02-15"
 
 questions:
+  - id: own_or_rent
+    label: "Do you own or rent your home?"
+    type: yesNo
+    options: ["I own", "I rent"]
+    descriptions: ["I can make permanent changes and upgrades", "I need landlord-friendly solutions"]
+    required: true
+
   - id: home_type
     label: "What kind of home?"
     type: select
@@ -21,8 +28,11 @@ questions:
 
   - id: bill
     label: "What's your average monthly energy bill?"
-    type: number
-    placeholder: "e.g., 200"
+    type: stepper
+    step: 25
+    unit: "$"
+    min: 50
+    max: 1000
     required: true
 
   - id: season

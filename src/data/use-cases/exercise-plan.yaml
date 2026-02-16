@@ -9,16 +9,25 @@ addedDate: "2026-02-01"
 questions:
   - id: current_level
     label: "How active are you right now?"
-    type: select
+    type: emojiScale
     options: ["Mostly sedentary", "I walk sometimes", "Occasionally active but inconsistent", "Pretty active, just want to level up"]
+    icons: ["🛋️", "🚶", "🏃", "💪"]
     required: true
 
   - id: goals
     label: "What's your main goal?"
-    type: select
+    type: imageSelect
     options: ["Lose weight", "Build strength", "Feel better/more energy", "Improve health markers", "Stay active as I age", "Just be consistent"]
+    icons: ["⚖️", "🏋️", "⚡", "❤️", "🧓", "📅"]
     required: true
     allowOther: true
+
+  - id: has_gym
+    label: "Do you have access to a gym?"
+    type: yesNo
+    options: ["Yes", "No"]
+    descriptions: ["I have a gym membership or home gym equipment", "I'll be working out at home with minimal or no equipment"]
+    required: true
 
   - id: time
     label: "How much time can you realistically commit?"

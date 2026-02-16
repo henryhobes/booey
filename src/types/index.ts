@@ -1,5 +1,8 @@
 // Use Case types
-export type QuestionType = "text" | "textarea" | "select" | "multiselect" | "number";
+export type QuestionType =
+  | "text" | "textarea" | "select" | "multiselect" | "number"
+  | "imageSelect" | "yesNo" | "tagCloud" | "stepper"
+  | "emojiScale" | "starRating" | "spectrum";
 
 export type UseCaseCategory = "health" | "work" | "lifestyle" | "personal";
 
@@ -14,6 +17,11 @@ export interface UseCaseQuestion {
   max?: number;
   helperText?: string;
   allowOther?: boolean;
+  icons?: string[];
+  step?: number;
+  unit?: string;
+  maxSelections?: number;
+  descriptions?: string[];
 }
 
 export interface UseCase {
