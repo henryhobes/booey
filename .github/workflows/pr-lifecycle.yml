@@ -325,7 +325,6 @@ jobs:
             const criticalCount = (body.match(/CRITICAL/g) || []).length;
 
             if (criticalCount > 0 || warningCount > 0) {
-              // Check if we already posted a fix request
               const allComments = await github.rest.issues.listComments({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -333,20 +332,42 @@ jobs:
                 per_page: 100
               });
 
-              const alreadyRequested = allComments.data.some(c =>
+              // Find the most recent fix request comment
+              const fixRequests = allComments.data.filter(c =>
                 c.body && c.body.includes('<!-- pr-lifecycle-fix-request -->')
               );
-
-              if (!alreadyRequested) {
-                // First time seeing issues — ask Claude to fix
+              
+              if (fixRequests.length === 0) {
+                // Never asked — request fix
                 core.info(`Found ${criticalCount} critical and ${warningCount} warning issues. Requesting fixes.`);
                 core.setOutput('needs_fix', 'true');
                 core.setOutput('fix_summary', `Found ${criticalCount} critical and ${warningCount} warning issues.`);
                 return;
               }
 
-              // Already asked once — Claude either fixed what it could or disagreed. Merge anyway.
-              core.info('Already requested fixes once. Merging despite remaining warnings.');
+              // We've asked before. Did Claude push new commits since?
+              const lastFixRequest = fixRequests[fixRequests.length - 1];
+              const lastFixRequestTime = new Date(lastFixRequest.created_at);
+
+              const commits = await github.rest.pulls.listCommits({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                per_page: 100
+              });
+              const lastCommit = commits.data[commits.data.length - 1];
+              const lastCommitTime = new Date(lastCommit.commit.committer.date);
+
+              if (lastCommitTime > lastFixRequestTime) {
+                // Claude pushed after our request, but review still has issues — ask again
+                core.info(`Claude pushed after fix request but review still has ${criticalCount} critical and ${warningCount} warning. Requesting another round.`);
+                core.setOutput('needs_fix', 'true');
+                core.setOutput('fix_summary', `Still ${criticalCount} critical and ${warningCount} warning after fix attempt.`);
+                return;
+              }
+
+              // Claude didn't push after our last request — nothing more to fix. Merge.
+              core.info('Claude did not push new commits after fix request. Merging with remaining warnings.');
               core.setOutput('passed', 'true');
               core.setOutput('comment_id', reviewComment.id);
               return;
