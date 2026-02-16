@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Lottie from 'lottie-react';
+import booeyAnimation from '@/assets/booey-logo.json';
 
 const LOADING_MESSAGES = [
   "Analyzing your answers...",
@@ -25,7 +27,12 @@ export default function LoadingScreen() {
     <div className="w-full max-w-2xl mx-auto">
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body items-center text-center p-12">
-          <span className="loading loading-spinner loading-lg text-primary"></span>
+          <Lottie
+            animationData={booeyAnimation}
+            loop
+            className="w-[120px] sm:w-[160px]"
+            aria-hidden="true"
+          />
           <h2 className="text-2xl font-bold mt-6 mb-2">{LOADING_MESSAGES[messageIndex]}</h2>
           <p className="text-lg opacity-70">This usually takes 10-15 seconds</p>
         </div>

@@ -17,6 +17,7 @@
     "@upstash/redis": "^1.36.2",
     "daisyui": "^5.5.18",
     "js-yaml": "^4.1.1",
+    "lottie-react": "^2.4.1",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
