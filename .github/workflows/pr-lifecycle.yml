@@ -320,23 +320,40 @@ jobs:
               }
             }
 
-            // BLOCK: Critical issues found — never auto-merge
-            if (body.includes('CRITICAL')) {
-              core.info('Review has CRITICAL issues — cannot auto-merge');
+            // Count issues
+            const warningCount = (body.match(/⚠️ WARNING/g) || []).length;
+            const criticalCount = (body.match(/CRITICAL/g) || []).length;
+
+            if (criticalCount > 0 || warningCount > 0) {
+              // Check if we already posted a fix request
+              const allComments = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                per_page: 100
+              });
+
+              const alreadyRequested = allComments.data.some(c =>
+                c.body && c.body.includes('<!-- pr-lifecycle-fix-request -->')
+              );
+
+              if (!alreadyRequested) {
+                // First time seeing issues — ask Claude to fix
+                core.info(`Found ${criticalCount} critical and ${warningCount} warning issues. Requesting fixes.`);
+                core.setOutput('needs_fix', 'true');
+                core.setOutput('fix_summary', `Found ${criticalCount} critical and ${warningCount} warning issues.`);
+                return;
+              }
+
+              // Already asked once — Claude either fixed what it could or disagreed. Merge anyway.
+              core.info('Already requested fixes once. Merging despite remaining warnings.');
+              core.setOutput('passed', 'true');
+              core.setOutput('comment_id', reviewComment.id);
               return;
             }
 
             // APPROVE: Explicit approval marker
-            // Our review prompt uses "✅ APPROVED" as the approval severity level
             if (body.includes('APPROVED')) {
-              // Even with approval, block if there are warnings
-              // (Warnings are "should fix" — let the agent address them first)
-              const warningCount = (body.match(/⚠️ WARNING/g) || []).length;
-              if (warningCount > 0) {
-                core.info(`Review has ${warningCount} warnings — waiting for agent to address`);
-                return;
-              }
-
               core.info('Review is clean — approved for merge');
               core.setOutput('passed', 'true');
               core.setOutput('comment_id', reviewComment.id);
@@ -344,6 +361,26 @@ jobs:
             }
 
             core.info('Review comment found but no clear approval signal');
+
+      ##########################################################################
+      # STEP 4.5: Request fixes from Claude if review has issues
+      ##########################################################################
+      - name: Request review fixes from Claude
+        if: steps.review.outputs.needs_fix == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr.outputs.number }},
+              body: [
+                '<!-- pr-lifecycle-fix-request -->',
+                '🔄 **Review has issues** — ${{ steps.review.outputs.fix_summary }}',
+                '',
+                '@claude Please address the CRITICAL and WARNING items from the review above. If you believe any are false positives, you can skip them — the PR will be merged on the next cycle.',
+              ].join('\n')
+            });
 
       ##########################################################################
       # STEP 5: Merge! 🎉
