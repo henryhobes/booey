@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://booey.ai'),
   title: "Booey - Get Things Done Faster, No Tech Skills Needed",
   description: "Simple, guided tools that help you write, plan, create, and organize. Answer a few questions, get helpful results. No confusing prompts, no wrong answers.",
   icons: {

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import HowItWorks from "@/components/landing/HowItWorks";
-import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -35,9 +34,6 @@ export default function Home() {
 
       {/* How It Works */}
       <HowItWorks />
-
-      {/* Testimonials */}
-      <TestimonialsSection />
 
       {/* Second CTA */}
       <section className="py-16 md:py-24 text-center">

@@ -1,7 +1,18 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getUseCaseById } from '@/lib/use-cases';
 import Wizard from '@/components/wizard/Wizard';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const useCase = getUseCaseById(id);
+  if (!useCase) return {};
+  return {
+    title: `${useCase.title} - Booey`,
+    description: useCase.description,
+  };
+}
 
 export default async function UseCasePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
