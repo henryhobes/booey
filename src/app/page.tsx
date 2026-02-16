@@ -19,7 +19,7 @@ export default function Home() {
             <div id="hero-cta">
               <Link
                 href="/explore"
-                className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
+                className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 motion-safe:hover:scale-105 motion-safe:transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
               >
                 Explore Tools →
               </Link>
@@ -43,7 +43,7 @@ export default function Home() {
           </h2>
           <Link
             href="/explore"
-            className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 hover:scale-105 transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
+            className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 motion-safe:hover:scale-105 motion-safe:transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
           >
             Explore Tools →
           </Link>

@@ -36,7 +36,7 @@ function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean
     <Link
       href={`/use/${uc.id}`}
       aria-label={`Try ${uc.title}: ${uc.description}`}
-      className="flex items-start gap-4 p-4 rounded-2xl bg-base-200 hover:bg-base-300 lg:hover:shadow-md lg:hover:-translate-y-0.5 transition-all min-h-[64px] focus:ring-2 focus:ring-primary focus:outline-none"
+      className="flex items-start gap-4 p-4 rounded-2xl bg-base-200 hover:bg-base-300 lg:hover:shadow-md lg:motion-safe:hover:-translate-y-0.5 motion-safe:transition-all min-h-[64px] focus:ring-2 focus:ring-primary focus:outline-none"
     >
       <span className="text-[32px] leading-none shrink-0" aria-hidden="true">
         {uc.icon}
@@ -139,7 +139,7 @@ export default function ExploreContent({
                   key={uc.id}
                   href={`/use/${uc.id}`}
                   aria-label={`Try ${uc.title}: ${uc.description}`}
-                  className="card bg-base-100 border border-accent shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="card bg-base-100 border border-accent shadow-md hover:shadow-lg motion-safe:hover:-translate-y-0.5 motion-safe:transition-all focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   <div className="card-body p-5 items-center text-center gap-2">
                     <span className="text-4xl" aria-hidden="true">
