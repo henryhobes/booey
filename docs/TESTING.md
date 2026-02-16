@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Test coverage: 0%** — No automated tests exist yet. QA is manual (browser-based via Frank).
+**Test coverage: Low** — Vitest is configured (`vitest.config.ts`) with unit tests for `rate-limit`, `budget`, and `use-cases` modules (28 tests). No component or E2E tests yet. QA is otherwise manual (browser-based via Frank).
 
 ## Target Testing Pyramid
 
@@ -54,4 +54,4 @@ Agents should verify their own changes before opening PRs:
 ## CI Pipeline
 
 - **GitHub Actions:** Runs `npm install && npm run build` on all PRs
-- **Future:** Add `npm test` to CI once test suite exists
+- `npm test` is part of the pre-push checklist (see CLAUDE.md)

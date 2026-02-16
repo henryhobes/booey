@@ -24,17 +24,11 @@ Booey (booey.ai) is a web app that makes AI accessible to people who don't know 
 
 ## Use Case Catalog
 
-We've already built an extensive catalog through a multi-agent pipeline:
-- **69 categories** spanning practical daily needs, career, health, creative, emotional, and life skills
-- **~1,007 use cases** with descriptions, example scenarios, and guided question flows
-- **Rated 9/10** by review agent across 4 iterations
-- Master catalog at: `memory/projects/guided-ai/MASTER-CATALOG-v4.md` (in Frank's workspace)
-
-For MVP, we'll ship ~15-20 curated use cases. The full catalog is ready for future expansion.
+A curated set of use cases ships in `src/data/use-cases.json`, organized by category (Health, Work, Creative, Personal, etc.). Each use case includes a description, example scenarios, and a guided question flow. New use cases are added to the JSON file and deployed with the next release.
 
 ## Business Model
 
-**MVP (this weekend):** Free for everyone. Henry eats the API costs.
+**Free for everyone.** Henry eats the API costs.
 - Estimated cost: ~$0.20-$0.60/user/month using Claude Haiku
 - Daily interaction cap of 20 per user to control costs
 - No payments, no subscriptions
@@ -43,4 +37,4 @@ For MVP, we'll ship ~15-20 curated use cases. The full catalog is ready for futu
 
 ## Origin
 
-Booey started as an idea on February 9, 2026 when Henry Hobin realized his parents and their generation were being left behind by AI — not because they couldn't use it, but because they didn't know what to use it for. The blank chatbot UX was the barrier, not the technology.
+Booey started when Henry Hobin realized his parents and their generation were being left behind by AI — not because they couldn't use it, but because they didn't know what to use it for. The blank chatbot UX was the barrier, not the technology.

@@ -6,7 +6,7 @@
 |-------|-----------|-----|
 | **Framework** | Next.js 14 (App Router) | Best ecosystem, AI tool support, Vercel integration |
 | **Styling** | Tailwind CSS + DaisyUI | Fast setup, pre-styled components, mobile-responsive out of box |
-| **Auth** | Supabase Auth (magic links) | Passwordless = better for target demographic, fast to implement |
+| **Auth** | Supabase Auth (Google OAuth) | One-tap sign-in = better for target demographic, fast to implement |
 | **Database** | Supabase (PostgreSQL) | Auth + DB in one platform, generous free tier (50k MAU) |
 | **AI Backend** | Anthropic Claude (Haiku for most, Sonnet for complex) | Cost-effective for guided use cases |
 | **Hosting** | Vercel | Zero-config Next.js deployment, edge functions, auto-deploy from GitHub |
@@ -32,12 +32,13 @@ For MVP, use cases live in a static JSON file (`/data/use-cases.json`), not the 
 ### Try Before Signup
 Users can complete ONE use case without creating an account. After seeing their first result, they're prompted to sign up to save it. This optimizes for the "aha moment" before asking for commitment.
 
-### Magic Links Over Passwords
-Target users (40-60 year olds) struggle with passwords. Magic links (email a login link, click, done) are:
-- Easier to use
-- More secure (no password database)
-- Faster to implement
+### Google OAuth Over Passwords
+Target users (40-60 year olds) struggle with passwords. Google OAuth (one-tap sign-in) is:
+- Familiar — most users already have a Google account
+- Easier to use — no passwords to remember
+- More secure — no password database to protect
 - Better conversion rates
+- See `docs/decisions/004-google-oauth-over-magic-links.md` for the full rationale
 
 ### Claude Haiku as Default Model
 For guided use cases with structured prompts, Haiku delivers good-enough quality at 4-5x less cost than Sonnet. Specific complex use cases can be flagged for Sonnet individually.
@@ -47,14 +48,19 @@ For guided use cases with structured prompts, Haiku delivers good-enough quality
 ```
 booey/
 ├── app/                    # Next.js App Router pages
-│   ├── (public)/          # Public pages (landing, browse)
-│   ├── (auth)/            # Auth pages (login, signup)
-│   ├── (protected)/       # Authenticated pages (history, profile)
-│   └── api/               # API routes (AI, auth callbacks)
+│   ├── api/               # API routes (AI, auth callbacks)
+│   ├── auth/              # Auth pages (login, callback)
+│   ├── explore/           # Use case browsing
+│   ├── history/           # Saved results
+│   ├── use/               # Wizard flow (use a use case)
+│   ├── privacy/           # Privacy policy
+│   └── terms/             # Terms of service
 ├── components/
-│   ├── ui/                # DaisyUI wrappers, design system
-│   ├── wizard/            # Guided flow components
-│   └── browse/            # Use case browsing components
+│   ├── auth/              # Auth-related components
+│   ├── explore/           # Use case browsing components
+│   ├── landing/           # Homepage components
+│   ├── nav/               # Navigation components
+│   └── wizard/            # Guided flow components
 ├── data/
 │   └── use-cases.json     # Static use case catalog
 ├── lib/
@@ -99,7 +105,7 @@ CREATE TABLE usage_logs (
 
 ## Security Architecture
 
-- **Authentication:** Supabase Auth with magic links (HTTP-only cookies, 7-day sessions)
+- **Authentication:** Supabase Auth with Google OAuth (HTTP-only cookies, 7-day sessions)
 - **API Protection:** Middleware validates session on all `/api/*` routes
 - **Rate Limiting:** Multi-layer (per-IP: 5/min, per-user: 20/day, global circuit breaker)
 - **Cost Control:** Hard spending cap in Anthropic dashboard + per-user daily interaction limit
