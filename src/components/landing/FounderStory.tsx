@@ -25,15 +25,13 @@ export default function FounderStory() {
             <div className="text-center md:text-left">
               <h2
                 id="founder-heading"
-                className="text-2xl md:text-3xl font-bold mb-6"
-                style={{ color: "#2C3E50" }}
+                className="text-2xl md:text-3xl font-bold mb-6 text-base-content"
               >
                 Built by Someone Like You
               </h2>
 
               <p
-                className="text-lg leading-relaxed mb-6"
-                style={{ color: "#2C3E50" }}
+                className="text-lg leading-relaxed mb-6 text-base-content"
               >
                 I watched my parents struggle with confusing AI chatbots. They&apos;re
                 smart people — they just didn&apos;t need another tech barrier in their
@@ -42,8 +40,7 @@ export default function FounderStory() {
               </p>
 
               <p
-                className="text-lg font-semibold"
-                style={{ color: "#2C5682" }}
+                className="text-lg font-semibold text-primary"
               >
                 — Henry Hobin, Founder
               </p>
