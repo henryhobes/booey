@@ -13,14 +13,14 @@
 #   This eliminates race conditions entirely.
 #
 # MERGE STRATEGY:
-#   We use `gh pr merge --squash` directly (not --auto) because:
-#   - --auto requires branch protection rules + repo setting enabled
-#   - Direct merge is simpler and gives us full control over conditions
-#   - We do our own safety checks which are stricter than branch protection
+#   We try `gh pr merge --squash --auto` first (works with branch protection).
+#   If that fails (no branch protection configured), we fall back to a direct
+#   `gh pr merge --squash` merge. Either way, we do our own safety checks
+#   which are stricter than branch protection.
 #
 # REQUIRED REPO SETTINGS:
 #   - None! This workflow handles everything.
-#   - Optional: enable branch protection on main for extra safety.
+#   - Optional: enable branch protection on main for --auto merge support.
 #
 # PERMISSIONS:
 #   - contents:write — needed to merge the PR
@@ -128,11 +128,15 @@ jobs:
         if: steps.pr.outputs.found == 'true'
         id: safety
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PR_LABELS: ${{ steps.pr.outputs.labels }}
+          PR_AUTHOR: ${{ steps.pr.outputs.author }}
         with:
           script: |
-            const prNumber = ${{ steps.pr.outputs.number }};
-            const labels = JSON.parse('${{ steps.pr.outputs.labels }}');
-            const author = '${{ steps.pr.outputs.author }}';
+            const prNumber = parseInt(process.env.PR_NUMBER, 10);
+            const labels = JSON.parse(process.env.PR_LABELS);
+            const author = process.env.PR_AUTHOR;
 
             // GATE 1: Must have agent-authored label
             if (!labels.includes('agent-authored')) {
@@ -220,9 +224,11 @@ jobs:
         if: steps.safety.outputs.passed == 'true'
         id: ci
         uses: actions/github-script@v7
+        env:
+          HEAD_SHA: ${{ steps.pr.outputs.head_sha }}
         with:
           script: |
-            const headSha = '${{ steps.pr.outputs.head_sha }}';
+            const headSha = process.env.HEAD_SHA;
 
             // Get all check runs for this commit
             const { data } = await github.rest.checks.listForRef({
@@ -272,9 +278,11 @@ jobs:
         if: steps.ci.outputs.passed == 'true'
         id: review
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         with:
           script: |
-            const prNumber = ${{ steps.pr.outputs.number }};
+            const prNumber = parseInt(process.env.PR_NUMBER, 10);
 
             // Claude Code Action posts a sticky comment (edited in place).
             // Look for the latest comment from the bot that contains review output.
@@ -292,8 +300,8 @@ jobs:
               // Claude Code Action sticky comments contain progress tracking markers
               const hasReviewContent = c.body && (
                 c.body.includes('Claude Code') ||
-                c.body.includes('APPROVED') ||
-                c.body.includes('CRITICAL') ||
+                c.body.includes('✅ APPROVED') ||
+                c.body.includes('🚨 CRITICAL') ||
                 c.body.includes('review')
               );
               return isBot && hasReviewContent;
@@ -311,10 +319,12 @@ jobs:
 
             const body = reviewComment.body;
 
-            // BLOCK: Review still in progress
-            if (body.includes('In progress') || body.includes('🔄') || body.includes('reviewing')) {
+            // BLOCK: Review still in progress (Claude Code Action uses status markers)
+            const hasProgressMarker = body.includes('<!-- status: in_progress -->') ||
+              (body.includes('🔄') && !body.includes('✅'));
+            if (hasProgressMarker) {
               // Check if it also has completion markers
-              if (!body.includes('Completed') && !body.includes('✅ APPROVED')) {
+              if (!body.includes('<!-- status: completed -->') && !body.includes('✅ APPROVED')) {
                 core.info('Review still in progress');
                 return;
               }
@@ -322,7 +332,7 @@ jobs:
 
             // Count issues
             const warningCount = (body.match(/⚠️ WARNING/g) || []).length;
-            const criticalCount = (body.match(/CRITICAL/g) || []).length;
+            const criticalCount = (body.match(/🚨 CRITICAL/g) || []).length;
 
             if (criticalCount > 0 || warningCount > 0) {
               const allComments = await github.rest.issues.listComments({
@@ -374,7 +384,7 @@ jobs:
             }
 
             // APPROVE: Explicit approval marker
-            if (body.includes('APPROVED')) {
+            if (body.includes('✅ APPROVED')) {
               core.info('Review is clean — approved for merge');
               core.setOutput('passed', 'true');
               core.setOutput('comment_id', reviewComment.id);
@@ -389,15 +399,18 @@ jobs:
       - name: Request review fixes from Claude
         if: steps.review.outputs.needs_fix == 'true'
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          FIX_SUMMARY: ${{ steps.review.outputs.fix_summary }}
         with:
           script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ steps.pr.outputs.number }},
+              issue_number: parseInt(process.env.PR_NUMBER, 10),
               body: [
                 '<!-- pr-lifecycle-fix-request -->',
-                '🔄 **Review has issues** — ${{ steps.review.outputs.fix_summary }}',
+                `🔄 **Review has issues** — ${process.env.FIX_SUMMARY}`,
                 '',
                 '@claude Please address the CRITICAL and WARNING items from the review above. If you believe any are false positives, you can skip them — the PR will be merged on the next cycle.',
               ].join('\n')
@@ -406,12 +419,14 @@ jobs:
       - name: Add agent-approved label
         if: steps.review.outputs.passed == 'true'
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         with:
           script: |
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ steps.pr.outputs.number }},
+              issue_number: parseInt(process.env.PR_NUMBER, 10),
               labels: ['agent-approved']
             });
 
@@ -427,7 +442,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_NUMBER=${{ steps.pr.outputs.number }}
+          PR_NUMBER="${{ steps.pr.outputs.number }}"
           echo "🚀 Auto-merging PR #${PR_NUMBER}"
 
           # Squash merge with auto-generated commit message
@@ -448,12 +463,14 @@ jobs:
       - name: Comment merge confirmation
         if: steps.review.outputs.passed == 'true'
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         with:
           script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ steps.pr.outputs.number }},
+              issue_number: parseInt(process.env.PR_NUMBER, 10),
               body: [
                 '🤖 **Auto-merged** by `pr-lifecycle.yml`',
                 '',
@@ -473,7 +490,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          PR_NUMBER=${{ steps.pr.outputs.number }}
+          PR_NUMBER="${{ steps.pr.outputs.number }}"
           PR_TITLE=$(gh pr view "${PR_NUMBER}" --json title --jq .title 2>/dev/null || echo "PR #${PR_NUMBER}")
           MESSAGE="🤖 Auto-merged PR #${PR_NUMBER}: ${PR_TITLE}"
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
