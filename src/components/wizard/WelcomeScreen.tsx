@@ -53,7 +53,7 @@ export default function WelcomeScreen({ useCase, onStart }: WelcomeScreenProps) 
           
           {/* Reassurance box */}
           <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-base" style={{ color: "#2C5682" }}>
+            <p className="text-base text-primary">
               💡 <strong>Tip:</strong> There are no wrong answers. Just answer naturally, like you&apos;re talking to a friend.
             </p>
           </div>
