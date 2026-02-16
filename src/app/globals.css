@@ -253,9 +253,8 @@ button:focus-visible,
 /* Bottom padding on mobile to prevent content overlap with bottom nav */
 @media (max-width: 767px) {
   main {
-    /* Padding for mobile bottom nav (64px) + breathing room */
-    padding-bottom: 96px;
-    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    /* Just enough to clear mobile bottom nav (~114px with QuotaBadge) */
+    padding-bottom: 72px;
   }
   
   /* When keyboard is open (input focused), add extra space for scrolling */
