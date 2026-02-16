@@ -109,19 +109,19 @@ export default function ExploreContent({
         {filteredFeatured.length > 0 && (
           <section className="mb-10">
             <h2 className="text-xl font-bold text-primary mb-4">⭐ Featured</h2>
-            <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex gap-3 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {filteredFeatured.map((uc) => (
                 <Link
                   key={uc.id}
                   href={`/use/${uc.id}`}
                   aria-label={`Try ${uc.title}`}
-                  className="snap-start shrink-0 w-44 card bg-base-200 border border-accent shadow-md hover:shadow-lg transition-shadow focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="snap-start shrink-0 w-32 card bg-base-200 border border-accent shadow-md hover:shadow-lg transition-shadow focus:ring-2 focus:ring-primary focus:outline-none"
                 >
-                  <div className="card-body p-4 items-center text-center">
-                    <span className="text-4xl" aria-hidden="true">
+                  <div className="card-body p-3 items-center text-center">
+                    <span className="text-3xl" aria-hidden="true">
                       {uc.icon}
                     </span>
-                    <h3 className="text-base font-bold leading-tight mt-2">
+                    <h3 className="text-sm font-bold leading-tight mt-2">
                       {uc.title}
                     </h3>
                     {isNew(uc.addedDate) && (
