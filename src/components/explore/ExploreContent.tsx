@@ -109,7 +109,7 @@ export default function ExploreContent({
         {filteredFeatured.length > 0 && (
           <section className="mb-10">
             <h2 className="text-xl font-bold text-primary mb-4">⭐ Featured</h2>
-            <div className="flex gap-3 overflow-x-auto pb-4 -mx-6 px-6 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {filteredFeatured.map((uc) => (
                 <Link
                   key={uc.id}
