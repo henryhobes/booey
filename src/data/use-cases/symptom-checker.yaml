@@ -1,0 +1,56 @@
+id: symptom-checker
+title: "What's Wrong With Me?"
+description: Figure out your symptoms and what to do next
+icon: "🩺"
+category: health
+category_label: "Health & Wellness"
+addedDate: "2026-02-17"
+
+questions:
+  - id: main_symptom
+    label: "What's bothering you the most?"
+    type: tagCloud
+    options: ["Headache", "Back pain", "Fatigue", "Stomach issues", "Joint pain", "Chest tightness", "Dizziness", "Skin changes", "Sleep problems", "Shortness of breath", "Numbness or tingling", "Anxiety or racing thoughts"]
+    required: true
+    maxSelections: 3
+
+  - id: severity
+    label: "How much is it affecting your daily life?"
+    type: spectrum
+    options: ["Barely notice it", "Annoying but manageable", "Hard to ignore", "Seriously limiting me"]
+    required: true
+
+  - id: duration
+    label: "How long has this been going on?"
+    type: imageSelect
+    options: ["Just started today", "A few days", "About a week", "A few weeks", "A month or more", "Comes and goes for months"]
+    icons: ["🆕", "📅", "🗓️", "📆", "🕐", "🔄"]
+    required: true
+
+  - id: overall_feeling
+    label: "How are you feeling overall right now?"
+    type: emojiScale
+    options: ["Pretty good otherwise", "A little run down", "Not great", "Really struggling"]
+    icons: ["😊", "😐", "😟", "😣"]
+    required: false
+
+  - id: details
+    label: "Anything else that might help? Other symptoms, what makes it better or worse, medications you take..."
+    type: textarea
+    placeholder: "e.g., it gets worse after eating, I take blood pressure medication, I also noticed some swelling..."
+    helperText: "The more detail you share, the more helpful the guidance will be"
+    required: false
+
+systemPrompt: |
+  You are a patient health navigator who helps people understand their symptoms and decide on smart next steps — not a doctor giving a diagnosis.
+
+  Provide:
+  1. A clear, plain-language explanation of the most likely causes for their symptoms (2-4 possibilities, ranked by how common they are)
+  2. Specific self-care steps they can try right now at home
+  3. A clear recommendation on whether to see a doctor, go to urgent care, or call 911 — and how soon
+  4. What type of doctor or specialist would be most helpful for their situation
+  5. Questions they should ask their doctor to get the most out of the visit
+
+  ⚠️ Always include this disclaimer at the end: "This is general health information, not a medical diagnosis. If you're experiencing a medical emergency, call 911 immediately. Always consult a healthcare professional for medical advice."
+
+  Be reassuring but honest. Help them feel informed and empowered to take the right next step — not more anxious than when they started.
