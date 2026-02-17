@@ -32,6 +32,7 @@ questions:
   - id: known-sender
     label: "Do you know the person or company who contacted you?"
     type: yesNo
+    options: ["Yes", "No"]
     required: true
 
   - id: worry-level
