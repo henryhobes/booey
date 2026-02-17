@@ -91,7 +91,7 @@ When creating or updating a `systemPrompt` in any use case YAML file, you MUST r
 | Vercel deployment | `docs/infrastructure/VERCEL.md` |
 | Deployment runbook | `DEPLOY.md` |
 | Architectural decisions | `docs/decisions/` |
-| Active work plans | `docs/plans/active/` |
+| Active work plans | `docs/plans/` |
 | One-off tasks | `docs/plans/tasks/` |
 | Historical docs & audits | `docs/archive/` |
 
