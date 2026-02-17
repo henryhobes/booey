@@ -8,7 +8,6 @@ Last updated: 2026-02-15
 
 | ID | Area | Description | Impact |
 |----|------|-------------|--------|
-| TD-001 | Testing | Zero test coverage | Can't verify regressions, relying entirely on CI build + manual QA |
 | TD-002 | Observability | No structured logging | Hard to debug production issues, no request correlation |
 | TD-003 | Observability | No error tracking (Sentry) | User-facing errors invisible unless reported |
 
@@ -39,3 +38,4 @@ Last updated: 2026-02-15
 | — | Phase 5 | No response caching (fixed: Anthropic + Supabase cache) |
 | — | Phase 6 | Poor mobile UX (fixed: bottom nav, touch targets, keyboard handling) |
 | — | Phase 6 | No trust signals (fixed: testimonials, founder story, privacy section) |
+| TD-001 | Phase 7 | Zero test coverage (fixed: unit tests for budget, rate-limit, use-cases in `src/lib/`) |

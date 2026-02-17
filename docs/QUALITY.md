@@ -24,7 +24,7 @@ Last updated: 2026-02-15
 1. **No structured logging** — console.log only, no log levels or correlation IDs
 2. **No error tracking** — no Sentry or equivalent
 3. **No analytics** — no usage tracking beyond cost logs
-4. **No test suite** — zero unit/integration/e2e tests
+4. **Limited test coverage** — unit tests for lib/ only (budget, rate-limit, use-cases); no component/integration/e2e tests
 5. **History page is bare** — needs search, filtering, result previews
 6. **No skip links** for keyboard navigation
 7. **No image/illustration assets** — all text-based UI
