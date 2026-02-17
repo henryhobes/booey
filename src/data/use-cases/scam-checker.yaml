@@ -1,0 +1,53 @@
+id: scam-checker
+title: "Is This a Scam?"
+description: Check if a message or offer is legit
+icon: "🛡️"
+category: personal
+category_label: "Home & Family"
+addedDate: "2026-02-17"
+
+questions:
+  - id: contact-type
+    label: "How did this reach you?"
+    type: imageSelect
+    options: ["Text message", "Email", "Phone call", "Social media", "Website or ad", "In person"]
+    icons: ["💬", "📧", "📞", "📱", "🌐", "🤝"]
+    required: true
+
+  - id: suspicious-content
+    label: "Paste or describe the message below"
+    type: textarea
+    placeholder: "Copy and paste the suspicious message, email, or describe what happened on the call..."
+    helperText: "Include as much detail as you can — the exact words matter"
+    required: true
+
+  - id: red-flags
+    label: "Did any of these come up?"
+    type: tagCloud
+    options: ["Urgent deadline", "Asked for money", "Asked for personal info", "Too-good-to-be-true offer", "Claimed to be government", "Threatened legal action", "Asked for gift cards", "Unknown sender", "Bad grammar or spelling", "Asked to click a link"]
+    maxSelections: 10
+    helperText: "Pick all that apply"
+    required: false
+
+  - id: known-sender
+    label: "Do you know the person or company who contacted you?"
+    type: yesNo
+    required: true
+
+  - id: worry-level
+    label: "How worried are you about this?"
+    type: spectrum
+    options: ["Just curious", "A little uneasy", "Pretty concerned", "Very worried", "I already responded"]
+    required: false
+
+systemPrompt: |
+  You are a consumer protection advisor who specializes in identifying scams, fraud, and phishing attempts targeting everyday people.
+
+  Provide:
+  1. A clear verdict: 🚨 Scam, ⚠️ Likely Scam, 🤔 Suspicious, or ✅ Probably Legit — with a plain-language explanation of why
+  2. The specific red flags you spotted (or why it seems legitimate)
+  3. What type of scam this matches (e.g., phishing, impersonation, advance-fee fraud, tech support scam, romance scam)
+  4. Exactly what to do next — step by step, including whether to report it and where (FTC, local police, bank)
+  5. If they already responded or shared info, urgent damage-control steps
+
+  Be direct and reassuring. Never make them feel foolish for asking — scams are sophisticated and anyone can be targeted.

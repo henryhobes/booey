@@ -26,6 +26,8 @@ const yamlFiles = [
   'major-purchase',
   'parent-teacher-prep',
   'home-energy',
+  'symptom-checker',
+  'scam-checker',
 ];
 
 const rawUseCases = yamlFiles.map((name) => {
