@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
-import { QuotaBadge } from './QuotaBadge'
 import StickyCTA from '@/components/landing/StickyCTA'
 
 function HomeIcon() {
@@ -45,11 +44,6 @@ export function MobileBottomNav() {
   return (
     <nav className="mobile-bottom-nav md:hidden" aria-label="Mobile navigation">
       {pathname === '/' && <StickyCTA />}
-      {user && (
-        <div className="flex justify-center py-1">
-          <QuotaBadge />
-        </div>
-      )}
       <div className={`grid ${user ? 'grid-cols-3' : 'grid-cols-4'}`}>
         <Link
           href="/"
