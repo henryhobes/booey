@@ -34,7 +34,7 @@ export default function EmojiScaleQuestion({
       )}
 
       <div
-        className="flex justify-between gap-2 mt-2"
+        className="grid grid-cols-2 md:flex md:justify-between gap-3 mt-2"
         role="radiogroup"
         aria-label={question.label}
       >
@@ -47,7 +47,7 @@ export default function EmojiScaleQuestion({
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(option)}
-              className={`flex-1 flex flex-col items-center gap-1 p-2 min-h-[48px] rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
+              className={`flex flex-col items-center gap-1 p-2 min-h-[48px] rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                 isSelected
                   ? "bg-primary/10 ring-2 ring-primary"
                   : "hover:bg-accent/50"
