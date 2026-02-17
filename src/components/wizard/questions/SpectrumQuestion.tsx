@@ -33,12 +33,12 @@ export default function SpectrumQuestion({
       )}
 
       <div className="mt-4 px-2">
-        {/* Gradient track */}
+        {/* Gradient track — hidden on mobile where grid layout is used */}
         <div className="relative">
-          <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-1.5 bg-gradient-to-r from-accent to-primary rounded-full" />
+          <div className="hidden md:block absolute top-1/2 left-0 right-0 -translate-y-1/2 h-1.5 bg-gradient-to-r from-accent to-primary rounded-full" />
 
           <div
-            className="relative flex justify-between"
+            className="relative grid grid-cols-2 md:flex md:justify-between gap-3"
             role="radiogroup"
             aria-label={question.label}
           >
@@ -64,7 +64,7 @@ export default function SpectrumQuestion({
                     <span className="text-base font-bold">{i + 1}</span>
                   </div>
                   <span
-                    className={`text-base text-center leading-tight max-w-[80px] ${
+                    className={`text-base text-center leading-tight ${
                       isSelected
                         ? "font-bold text-primary"
                         : isAnchor
