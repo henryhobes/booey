@@ -4,25 +4,12 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import CategoryPills from "./CategoryPills";
 
-const NEW_DAYS = 14;
-const SECTION_MAX = 6;
-
-function isNew(addedDate: string): boolean {
-  const added = new Date(addedDate);
-  const now = new Date();
-  const diffMs = now.getTime() - added.getTime();
-  const diffDays = diffMs / (1000 * 60 * 60 * 24);
-  return diffDays <= NEW_DAYS;
-}
-
 interface UseCase {
   id: string;
   title: string;
   description: string;
   icon: string;
   categoryLabel: string;
-  addedDate: string;
-  popular: boolean;
 }
 
 interface ExploreContentProps {
@@ -31,7 +18,7 @@ interface ExploreContentProps {
   categories: string[];
 }
 
-function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean }) {
+function UseCaseCard({ uc }: { uc: UseCase }) {
   return (
     <Link
       href={`/use/${uc.id}`}
@@ -42,11 +29,8 @@ function UseCaseCard({ uc, showNewBadge }: { uc: UseCase; showNewBadge?: boolean
         {uc.icon}
       </span>
       <div className="min-w-0">
-        <h3 className="text-lg font-bold text-base-content leading-tight flex items-center gap-2 flex-wrap">
+        <h3 className="text-lg font-bold text-base-content leading-tight">
           {uc.title}
-          {showNewBadge && (
-            <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
-          )}
         </h3>
         <p className="text-base text-base-content/70 line-clamp-2 mt-0.5">
           {uc.description}
@@ -82,16 +66,6 @@ export default function ExploreContent({
     [featuredUseCases, selectedCategory],
   );
 
-  const newUseCases = useMemo(
-    () => filteredUseCases.filter((uc) => isNew(uc.addedDate)),
-    [filteredUseCases],
-  );
-
-  const popularUseCases = useMemo(
-    () => filteredUseCases.filter((uc) => uc.popular),
-    [filteredUseCases],
-  );
-
   return (
     <>
       <CategoryPills
@@ -121,9 +95,6 @@ export default function ExploreContent({
                     <h3 className="text-sm font-bold leading-tight mt-2">
                       {uc.title}
                     </h3>
-                    {isNew(uc.addedDate) && (
-                      <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
-                    )}
                   </div>
                 </Link>
               ))}
@@ -147,59 +118,8 @@ export default function ExploreContent({
                     <p className="text-sm text-base-content/70 line-clamp-2">
                       {uc.description}
                     </p>
-                    {isNew(uc.addedDate) && (
-                      <span className="badge badge-secondary badge-sm text-xs font-bold">NEW</span>
-                    )}
                   </div>
                 </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* New This Week Section */}
-        {newUseCases.length > 0 && (
-          <section className="mb-10">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-primary">🆕 New This Week</h2>
-              {newUseCases.length > SECTION_MAX && (
-                <a
-                  href="#all-tools"
-                  className="text-primary text-base font-semibold hover:underline min-h-[48px] flex items-center"
-                >
-                  See all →
-                </a>
-              )}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="New tools">
-              {newUseCases.slice(0, SECTION_MAX).map((uc) => (
-                <div key={uc.id} role="listitem">
-                  <UseCaseCard uc={uc} showNewBadge />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Popular Section */}
-        {popularUseCases.length > 0 && (
-          <section className="mb-10">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-primary">🔥 Popular</h2>
-              {popularUseCases.length > SECTION_MAX && (
-                <a
-                  href="#all-tools"
-                  className="text-primary text-base font-semibold hover:underline min-h-[48px] flex items-center"
-                >
-                  See all →
-                </a>
-              )}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="Popular tools">
-              {popularUseCases.slice(0, SECTION_MAX).map((uc) => (
-                <div key={uc.id} role="listitem">
-                  <UseCaseCard uc={uc} showNewBadge={isNew(uc.addedDate)} />
-                </div>
               ))}
             </div>
           </section>
@@ -218,7 +138,7 @@ export default function ExploreContent({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list" aria-label="All tools">
               {filteredUseCases.map((uc) => (
                 <div key={uc.id} role="listitem">
-                  <UseCaseCard uc={uc} showNewBadge={isNew(uc.addedDate)} />
+                  <UseCaseCard uc={uc} />
                 </div>
               ))}
             </div>

@@ -4,8 +4,6 @@ description: Make any recipe healthier without losing flavor
 icon: "🍎"
 category: health
 category_label: "Health & Wellness"
-addedDate: "2026-02-01"
-popular: true
 
 questions:
   - id: recipe

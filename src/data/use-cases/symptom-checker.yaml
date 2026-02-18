@@ -4,7 +4,6 @@ description: Figure out your symptoms and what to do next
 icon: "🩺"
 category: health
 category_label: "Health & Wellness"
-addedDate: "2026-02-17"
 
 questions:
   - id: main_symptom

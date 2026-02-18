@@ -4,7 +4,6 @@ description: Get your family talking at dinner
 icon: "🍽️"
 category: personal
 category_label: "Home & Family"
-addedDate: "2026-02-01"
 
 questions:
   - id: family

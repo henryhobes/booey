@@ -4,23 +4,21 @@ import { Footer } from "@/components/Footer";
 
 const FEATURED_IDS = [
   "healthy-recipe",
-  "difficult-email",
-  "bill-negotiation",
   "gift-ideas",
-  "meal-plan-week",
+  "conversation-starters",
+  "symptom-checker",
+  "scam-checker",
 ];
 
 export default function HomePage() {
   const useCases = getAllUseCases();
   const allUseCases = useCases.map(
-    ({ id, title, description, icon, category_label, addedDate, popular }) => ({
+    ({ id, title, description, icon, category_label }) => ({
       id,
       title,
       description,
       icon,
       categoryLabel: category_label,
-      addedDate: addedDate ?? "2026-02-01",
-      popular: popular ?? false,
     })
   );
 

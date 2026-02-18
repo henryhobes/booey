@@ -31,8 +31,6 @@ export const useCaseSchema = z.object({
   category_label: z.string(),
   questions: z.array(questionSchema),
   systemPrompt: z.string(),
-  addedDate: z.string().optional(),
-  popular: z.boolean().optional(),
 });
 
 export type ValidatedUseCase = z.infer<typeof useCaseSchema>;

@@ -33,8 +33,6 @@ export interface UseCase {
   category_label: string;
   questions: UseCaseQuestion[];
   systemPrompt: string;
-  addedDate?: string;
-  popular?: boolean;
 }
 
 // Wizard state
