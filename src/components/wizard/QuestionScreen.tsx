@@ -212,7 +212,7 @@ export default function QuestionScreen({
       <div className="flex flex-col-reverse md:flex-row gap-4 md:justify-between">
         {currentStep === 0 ? (
           <Link
-            href="/explore"
+            href="/"
             className="btn btn-outline btn-lg w-full md:w-auto min-h-[48px]"
           >
             ← Back

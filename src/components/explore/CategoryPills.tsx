@@ -21,7 +21,7 @@ export default function CategoryPills({ categories, selected, onSelect }: Catego
   const allCategories = ["All", ...categories];
 
   return (
-    <div className="sticky top-0 z-30 bg-base-100/95 backdrop-blur-sm border-b border-base-200">
+    <div className="bg-base-100 border-b border-base-200">
       <div
         ref={scrollRef}
         className="mx-auto max-w-4xl lg:max-w-6xl flex gap-2 overflow-x-auto md:flex-wrap md:overflow-x-visible px-4 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"

@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { NavAuth } from "@/components/nav/NavAuth";
-import { MobileBottomNav } from "@/components/nav/MobileBottomNav";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import "./globals.css";
 
@@ -57,7 +56,7 @@ export default function RootLayout({
 
         <div className="flex min-h-screen flex-col">
           {/* Navigation */}
-          <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8" aria-label="Main navigation">
+          <nav className="navbar bg-base-100/95 backdrop-blur-sm border-b border-base-300 px-4 md:px-6 lg:px-8 sticky top-0 z-40" aria-label="Main navigation">
             <div className="flex-1">
               <Link href="/" className="flex items-center">
                 <Image
@@ -70,10 +69,7 @@ export default function RootLayout({
                 />
               </Link>
             </div>
-            <div className="flex-none hidden md:flex items-center gap-4">
-              <Link href="/explore" className="btn btn-ghost btn-sm text-base">
-                Explore
-              </Link>
+            <div className="flex-none flex items-center gap-4">
               <NavAuth />
             </div>
           </nav>
@@ -83,8 +79,6 @@ export default function RootLayout({
             {children}
           </main>
 
-          {/* Mobile Bottom Navigation */}
-          <MobileBottomNav />
         </div>
       </body>
     </html>
