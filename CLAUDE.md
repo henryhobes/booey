@@ -104,7 +104,7 @@ When creating or updating a `systemPrompt` in any use case YAML file, you MUST r
    npm run lint && npm run typecheck && npm run build && npm test
    ```
    Fix ALL errors before pushing. Do NOT push code that fails any check.
-4. Push branch → open PR via `gh pr create --title "..." --body "..." --base main`
+4. Push branch → open PR using the `/create-pr` skill (do NOT manually run `gh pr create`)
 5. Run `./scripts/wait-for-pr-approval.sh <pr-number>` — polls CI + Codex review
 6. Fix CI failures and address Codex feedback (max 3 cycles)
 7. Only signal completion when CI passes AND Codex approves
