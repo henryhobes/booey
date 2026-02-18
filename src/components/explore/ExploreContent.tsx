@@ -101,10 +101,6 @@ export default function ExploreContent({
       />
 
       <div className="mx-auto max-w-4xl lg:max-w-6xl px-4 py-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-8">
-          Home
-        </h1>
-
         {/* Featured Section */}
         {filteredFeatured.length > 0 && (
           <section className="mb-10 lg:mb-12 lg:rounded-2xl lg:bg-base-200/50 lg:p-6 lg:-mx-2">
