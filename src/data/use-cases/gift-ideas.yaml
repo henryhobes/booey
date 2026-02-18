@@ -4,8 +4,6 @@ description: Find the perfect gift for anyone
 icon: "🎁"
 category: personal
 category_label: "Home & Family"
-addedDate: "2026-02-01"
-popular: true
 
 questions:
   - id: recipient
