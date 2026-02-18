@@ -1,62 +1,44 @@
-import Link from "next/link";
-import HowItWorks from "@/components/landing/HowItWorks";
+import { getAllUseCases } from "@/lib/use-cases";
+import ExploreContent from "@/components/explore/ExploreContent";
 import { Footer } from "@/components/Footer";
 
-export default function Home() {
+const FEATURED_IDS = [
+  "healthy-recipe",
+  "difficult-email",
+  "bill-negotiation",
+  "gift-ideas",
+  "meal-plan-week",
+];
+
+export default function HomePage() {
+  const useCases = getAllUseCases();
+  const allUseCases = useCases.map(
+    ({ id, title, description, icon, category_label, addedDate, popular }) => ({
+      id,
+      title,
+      description,
+      icon,
+      categoryLabel: category_label,
+      addedDate: addedDate ?? "2026-02-01",
+      popular: popular ?? false,
+    })
+  );
+
+  const featured = FEATURED_IDS.map((fid) => allUseCases.find((uc) => uc.id === fid)).filter(
+    (uc): uc is NonNullable<typeof uc> => uc != null,
+  );
+
+  // Deduplicated categories in order of first appearance
+  const categories = [...new Set(useCases.map((uc) => uc.category_label))];
+
   return (
-    <div className="bg-base-100">
-      {/* Hero Section */}
-      <section className="hero min-h-[70vh] bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10">
-        <div className="hero-content text-center">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-primary">
-              Get things done faster. No tech skills needed.
-            </h1>
-            <p className="py-6 text-lg md:text-xl text-base-content/70 max-w-xl mx-auto">
-              Pick a tool, answer a few simple questions, and get your result in
-              seconds.
-            </p>
-            <div id="hero-cta">
-              <Link
-                href="/explore"
-                className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 motion-safe:hover:scale-105 motion-safe:transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
-              >
-                Explore Tools →
-              </Link>
-            </div>
-            <p className="text-base mt-5 text-base-content/70">
-              ✓ Free to use &nbsp; ✓ No signup required &nbsp; ✓ Works on any
-              device
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <HowItWorks />
-
-      {/* Second CTA */}
-      <section className="py-16 md:py-24 text-center">
-        <div className="mx-auto max-w-2xl px-4">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-primary">
-            Ready to try?
-          </h2>
-          <Link
-            href="/explore"
-            className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8 motion-safe:hover:scale-105 motion-safe:transition-transform focus:ring-2 focus:ring-secondary focus:outline-none"
-          >
-            Explore Tools →
-          </Link>
-          <p className="text-base text-base-content/70 mt-5">
-            No account needed — try your first tool right now
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
+    <div className="bg-base-100 min-h-screen">
+      <ExploreContent
+        allUseCases={allUseCases}
+        featuredUseCases={featured}
+        categories={categories}
+      />
       <Footer />
-
-      {/* Sticky mobile CTA is rendered inside MobileBottomNav */}
     </div>
   );
 }

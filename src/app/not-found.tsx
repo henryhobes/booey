@@ -13,10 +13,10 @@ export default function NotFound() {
           moved or no longer exists.
         </p>
         <Link
-          href="/explore"
+          href="/"
           className="btn btn-secondary btn-lg text-lg min-h-[56px] px-8"
         >
-          Explore Tools →
+          Browse Tools →
         </Link>
       </div>
     </div>

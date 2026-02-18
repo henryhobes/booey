@@ -27,10 +27,10 @@ export default async function UseCasePage({ params }: { params: Promise<{ id: st
       <div className="container mx-auto px-4 py-8">
         <nav aria-label="Breadcrumb" className="mb-6">
           <Link
-            href="/explore"
+            href="/"
             className="inline-flex items-center gap-1 text-base text-primary hover:text-primary-focus transition-colors"
           >
-            ← Back to Explore
+            ← Back to Home
           </Link>
         </nav>
         <Wizard useCase={useCase} />

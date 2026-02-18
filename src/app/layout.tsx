@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { NavAuth } from "@/components/nav/NavAuth";
-import { MobileBottomNav } from "@/components/nav/MobileBottomNav";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import "./globals.css";
 
@@ -70,10 +69,7 @@ export default function RootLayout({
                 />
               </Link>
             </div>
-            <div className="flex-none hidden md:flex items-center gap-4">
-              <Link href="/explore" className="btn btn-ghost btn-sm text-base">
-                Explore
-              </Link>
+            <div className="flex-none flex items-center gap-4">
               <NavAuth />
             </div>
           </nav>
@@ -83,8 +79,6 @@ export default function RootLayout({
             {children}
           </main>
 
-          {/* Mobile Bottom Navigation */}
-          <MobileBottomNav />
         </div>
       </body>
     </html>

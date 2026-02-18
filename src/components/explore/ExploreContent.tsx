@@ -102,7 +102,7 @@ export default function ExploreContent({
 
       <div className="mx-auto max-w-4xl lg:max-w-6xl px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-8">
-          Explore Tools
+          Home
         </h1>
 
         {/* Featured Section */}
