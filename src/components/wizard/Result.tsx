@@ -65,7 +65,7 @@ export default function Result({
         {/* Header with action buttons */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 print:hidden">
           <Link href="/" className="btn btn-ghost btn-sm min-h-[48px]">
-            ← Back to Browse
+            ← Back to Home
           </Link>
           <div className="flex gap-2">
             <button
