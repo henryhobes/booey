@@ -56,7 +56,7 @@ export default function RootLayout({
 
         <div className="flex min-h-screen flex-col">
           {/* Navigation */}
-          <nav className="navbar bg-base-100 border-b border-base-300 px-4 md:px-6 lg:px-8" aria-label="Main navigation">
+          <nav className="navbar bg-base-100/95 backdrop-blur-sm border-b border-base-300 px-4 md:px-6 lg:px-8 sticky top-0 z-40" aria-label="Main navigation">
             <div className="flex-1">
               <Link href="/" className="flex items-center">
                 <Image
