@@ -1,6 +1,8 @@
-# 🔵 Booey
+# Booey (legacy)
 
-**AI tools for everyday people.** No blank chatbot. No prompt engineering. Just guided tools that work.
+> **This project is archived.** It was the original Booey — a Next.js web app for guided AI tools (booey.ai). The Booey brand and domain have been recycled for a new short-form-video project; this repo is preserved here as `booey-legacy` for historical reference and is no longer deployed or maintained.
+
+**Original description:** AI tools for everyday people. No blank chatbot. No prompt engineering. Just guided tools that work.
 
 Booey shows you what AI can do — browse curated use cases, answer a few simple questions, and get a personalized result. Built for people who know AI exists but don't know where to start.
 
