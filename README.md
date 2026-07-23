@@ -1,6 +1,6 @@
 # Booey
 
-Guided AI tools for people who freeze at a blank chatbot. Built in 4 days in February 2026, shipped to [booey.ai](https://booey.ai), then retired — this repo is the archive. (The "Booey" name later got reused for a different project, which is why this one lives here as history.)
+Guided AI tools for people who freeze at a blank chatbot. Built solo over the Presidents' Day long weekend in 2026 — first commit Saturday afternoon, shipped to [booey.ai](https://booey.ai) — then retired; this repo is the archive. (The "Booey" name later got reused for a different project, which is why this one lives here as history.)
 
 ## The idea
 
@@ -67,7 +67,7 @@ Also in there: response caching (Anthropic prompt caching plus a Supabase cache 
 
 ## How it was built
 
-Mostly by directing AI agents, which was half the point of the project. [Claude Code](https://www.anthropic.com/claude-code) did much of the implementation — the 165-commit history keeps its `Co-Authored-By: Claude` trailers on purpose, as a record of the workflow. [v0](https://v0.dev) handled early UI exploration.
+Mostly by directing AI agents, which was half the point of the project — and the reason a long weekend was enough to go from empty repo to a deployed product with 21 tools, auth, rate limiting, and budget controls. [Claude Code](https://www.anthropic.com/claude-code) did much of the implementation — the 165-commit history keeps its `Co-Authored-By: Claude` trailers on purpose, as a record of the workflow. [v0](https://v0.dev) handled early UI exploration.
 
 What made that workable was the guardrails, all checked in: strict TypeScript with enforced import boundaries (`types → lib → hooks → components → app`), a parallel lint/typecheck/test/build CI pipeline, review guidelines in [`AGENTS.md`](AGENTS.md), and reusable project skills in [`.claude/skills/`](.claude/skills/). The agents wrote a lot of the code; the constraints kept it coherent.
 
