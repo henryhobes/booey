@@ -12,12 +12,23 @@ The catalog ended up at 21 use cases across four categories (health, work, lifes
 
 ## Screenshots
 
-<!-- TODO: add real screenshots from the live booey.ai era. Drop images in docs/screenshots/ and replace the placeholders below. -->
+**Browse a shelf of concrete tasks** — pick one instead of facing a blank chatbot.
 
-| Browse use cases | Guided wizard | Personalized result |
-|:---:|:---:|:---:|
-| _screenshot coming soon_ | _screenshot coming soon_ | _screenshot coming soon_ |
-| <!-- ![Explore](docs/screenshots/explore.png) --> | <!-- ![Wizard](docs/screenshots/wizard.png) --> | <!-- ![Result](docs/screenshots/result.png) --> |
+<p align="center">
+  <img src="docs/screenshots/explore.png" alt="Browsing the Booey use-case catalog" width="820">
+</p>
+
+**Answer a few plain-language questions** — 2–4 guided steps, big touch targets, nothing to configure.
+
+<p align="center">
+  <img src="docs/screenshots/wizard.png" alt="The guided wizard for the 'Is This a Scam?' tool" width="720">
+</p>
+
+**Get a personalized result** — here, a scam check with a plain-English verdict and next steps.
+
+<p align="center">
+  <img src="docs/screenshots/result.png" alt="A personalized scam-check result" width="560">
+</p>
 
 ## How it worked
 
