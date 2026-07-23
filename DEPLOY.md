@@ -1,5 +1,7 @@
 # Deployment Guide
 
+> **Archived.** Booey's live Vercel deployment and Supabase project have been retired — this runbook is preserved as a record of how the app was deployed and operated (including its cost controls and kill switch).
+
 ## Pre-Deploy (Do Once)
 
 - [ ] Create Vercel account: https://vercel.com

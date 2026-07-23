@@ -45,7 +45,7 @@ app/api/      → lib/, types/ (NO component imports)
 ### Styling
 - Tailwind utility classes (no custom CSS unless absolutely necessary)
 - DaisyUI components for standard UI elements (buttons, cards, modals)
-- Color tokens from `src/styles/colors.ts` — never hardcode hex values
+- Theme colors via DaisyUI theme tokens in `globals.css` — never hardcode hex values
 - Mobile-first: base styles for mobile, `md:` and `lg:` breakpoints for larger screens
 - Touch targets: minimum 48px for interactive elements
 

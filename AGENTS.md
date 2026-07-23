@@ -21,7 +21,7 @@ Booey's users are **non-technical adults aged 40-60**. Every change should be ev
 - Loading states should reassure, not just spin (use descriptive text like "Creating your answer...")
 
 ### Use case quality
-When PRs add or modify use cases in `src/data/use-cases.json`:
+When PRs add or modify use cases in `src/data/use-cases/`:
 - **Title:** Is it outcome-oriented? ("Make This Recipe Healthier" not "AI Recipe Optimizer")
 - **Description:** Under 10 words, 6th-7th grade reading level, no jargon
 - **Questions:** Are they conversational and clear? Would a non-technical person know exactly what to type?

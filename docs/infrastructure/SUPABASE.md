@@ -1,5 +1,7 @@
 # Supabase Production Configuration — Booey
 
+> **Archived.** The Booey Supabase project has been retired. This is preserved as a reference for the production configuration (RLS, auth, indexes) that backed the app.
+
 ## 1. Row Level Security (RLS)
 
 ### Enable RLS on ALL tables

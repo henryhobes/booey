@@ -1,5 +1,7 @@
 # Booey — Project Overview
 
+> **Archived project.** Booey (booey.ai) was built, shipped, and retired in 2026. This overview describes the product as it existed. The Booey brand was later reused for a separate project.
+
 ## What is Booey?
 
 Booey (booey.ai) is a web app that makes AI accessible to people who don't know what to ask. Instead of opening a blank chatbot and staring at a cursor, users browse curated AI use cases — like "Make this recipe healthier" or "Draft a resignation letter" — click one, and get guided through a few simple questions before the AI generates a personalized result.
@@ -24,7 +26,7 @@ Booey (booey.ai) is a web app that makes AI accessible to people who don't know 
 
 ## Use Case Catalog
 
-A curated set of use cases ships in `src/data/use-cases.json`, organized by category (Health, Work, Creative, Personal, etc.). Each use case includes a description, example scenarios, and a guided question flow. New use cases are added to the JSON file and deployed with the next release.
+A curated set of use cases ships in `src/data/use-cases/` (one YAML file per use case, validated by a shared Zod schema), organized by category (Health, Work, Lifestyle, Personal). Each use case includes a description, an icon, a guided question flow, and a use-case-specific `systemPrompt`. New use cases are added as files and deployed with the next release.
 
 ## Business Model
 

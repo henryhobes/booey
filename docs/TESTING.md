@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Test coverage: Low** — Vitest is configured (`vitest.config.ts`) with unit tests for `rate-limit`, `budget`, and `use-cases` modules (28 tests). No component or E2E tests yet. QA is otherwise manual (browser-based via Frank).
+**Test coverage: focused** — Vitest is configured (`vitest.config.ts`) with unit tests for the `rate-limit`, `budget`, and `use-cases` modules (28 tests). These cover the logic most worth protecting: cost caps, rate limiting, and answer validation. No component or E2E tests; UI QA was manual, browser-based.
 
 ## Target Testing Pyramid
 
@@ -42,16 +42,19 @@
 3. Test auth (unauthenticated requests should be rejected)
 4. Test rate limiting (verify limits are enforced)
 
-## Agent Self-Testing
+## Local Verification (Before Committing)
 
-Agents should verify their own changes before opening PRs:
-1. Run `npm run build` — must pass
-2. Run `npm run lint` — must pass clean
-3. Boot the dev server and verify the change works (if UI change)
-4. Check mobile viewport (375px) for responsive changes
-5. Run existing tests (when they exist): `npm test`
+1. `npm run lint` — must pass clean
+2. `npm run typecheck` — `tsc --noEmit`, must pass
+3. `npm test` — Vitest, must pass
+4. `npm run build` — must pass
+5. For UI changes: boot the dev server, verify the change, and check the 375px mobile viewport
 
 ## CI Pipeline
 
-- **GitHub Actions:** Runs `npm install && npm run build` on all PRs
-- `npm test` is part of the pre-push checklist (see CLAUDE.md)
+GitHub Actions (`.github/workflows/ci.yml`) runs four jobs in parallel on every PR and push to `main`, sharing a cached `node_modules` install:
+
+- **lint** — `npm run lint` (ESLint, incl. import-boundary enforcement)
+- **typecheck** — `tsc --noEmit`
+- **test** — `npm test` (Vitest)
+- **build** — `npm run build` (with placeholder Supabase env)

@@ -1,10 +1,12 @@
 # Booey — Architecture & Tech Stack
 
+> **Archived.** This describes the architecture as built and shipped (Feb–Apr 2026). The live Supabase and Vercel services have since been retired.
+
 ## Tech Stack
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
-| **Framework** | Next.js 14 (App Router) | Best ecosystem, AI tool support, Vercel integration |
+| **Framework** | Next.js 16 (App Router) | Best ecosystem, AI tool support, Vercel integration |
 | **Styling** | Tailwind CSS + DaisyUI | Fast setup, pre-styled components, mobile-responsive out of box |
 | **Auth** | Supabase Auth (Google OAuth) | One-tap sign-in = better for target demographic, fast to implement |
 | **Database** | Supabase (PostgreSQL) | Auth + DB in one platform, generous free tier (50k MAU) |
@@ -21,13 +23,15 @@ The guided flow uses a progressive wizard/form pattern instead of a chat interfa
 - Feels like a tool, not like talking to a robot
 - Faster to build, works better on mobile
 
-### Use Cases as Hardcoded JSON
-For MVP, use cases live in a static JSON file (`/data/use-cases.json`), not the database. Reasons:
+### Use Cases as Hardcoded Files
+Use cases live as static files (`src/data/use-cases/*.yaml`), one YAML file per use case, validated by a Zod schema (`_schema.ts`) — not the database. Reasons:
 - Zero setup time
-- Easy to edit and version control
+- Easy to edit and version control (one readable file per use case)
 - No DB migrations needed for catalog changes
 - Perfect for ~20 use cases
 - Move to DB later when we want user-submitted use cases
+
+> The catalog started as a single `use-cases.json` and was later split into per-use-case YAML files with a shared schema for readability and safer edits.
 
 ### Try Before Signup
 Users can complete ONE use case without creating an account. After seeing their first result, they're prompted to sign up to save it. This optimizes for the "aha moment" before asking for commitment.
@@ -58,14 +62,15 @@ booey/
 ├── components/
 │   ├── auth/              # Auth-related components
 │   ├── explore/           # Use case browsing components
-│   ├── landing/           # Homepage components
 │   ├── nav/               # Navigation components
-│   └── wizard/            # Guided flow components
+│   └── wizard/            # Guided flow components (incl. per-type question inputs)
 ├── data/
-│   └── use-cases.json     # Static use case catalog
+│   └── use-cases/         # Static use case catalog (*.yaml + _schema.ts)
 ├── lib/
 │   ├── supabase/          # DB client, queries, auth helpers
 │   ├── ai/                # Claude API wrapper, prompt templates
+│   ├── budget.ts          # Daily cost cap + kill switch + ntfy alerts
+│   ├── rate-limit.ts      # Per-IP / per-user limiting (Upstash Redis)
 │   └── utils/             # Shared utilities
 ├── types/
 │   └── index.ts           # Shared TypeScript types
@@ -101,7 +106,17 @@ CREATE TABLE usage_logs (
   cost_usd DECIMAL(10,6),
   created_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- Response cache (identical use case + answers → cached result)
+CREATE TABLE response_cache (
+  cache_key TEXT PRIMARY KEY,
+  use_case_id TEXT NOT NULL,
+  result TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()   -- time-based TTL cleanup
+);
 ```
+
+Row Level Security is enabled on all user-scoped tables (`users`, `sessions`) with per-user isolation policies using the `(select auth.uid())` pattern; `response_cache` is service-role only. See `supabase/migrations/` for the full policy set.
 
 ## Security Architecture
 

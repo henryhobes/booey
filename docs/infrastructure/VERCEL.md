@@ -1,5 +1,7 @@
 # Booey — Vercel Deployment Checklist & Best Practices
 
+> **Archived.** Booey's Vercel deployment has been retired. Preserved as a reference for the hosting, env-var, and preview-deploy setup that ran the app.
+
 ## Stack Summary
 - **Framework:** Next.js (App Router)
 - **Auth/DB:** Supabase (SSR + client)
