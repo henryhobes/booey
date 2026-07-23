@@ -161,9 +161,3 @@ async function checkAlerts(spent: number, interactions: number): Promise<void> {
     }
   }
 }
-
-// ── Budget stats endpoint helper ───────────────────────────────────────────
-
-export async function getBudgetStats(): Promise<BudgetStatus> {
-  return checkBudget();
-}

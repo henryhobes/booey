@@ -12,5 +12,3 @@ export const GenerateRequestSchema = z.object({
   ),
   refinement: z.string().max(1000).optional(),
 });
-
-export type ValidatedGenerateRequest = z.infer<typeof GenerateRequestSchema>;
