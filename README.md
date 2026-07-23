@@ -1,18 +1,14 @@
 # Booey
 
-**Guided AI tools for everyday people — no blank chatbot, no prompt engineering.** A retired weekend project (Feb–Apr 2026): built, shipped to [booey.ai](https://booey.ai), and retired. This repo is archived for reference. _(The "Booey" brand later moved to a different project, which is why this one lives on as its history.)_
-
----
+Guided AI tools for people who freeze at a blank chatbot. Built Feb–Apr 2026, shipped to [booey.ai](https://booey.ai), then retired — this repo is the archive. (The "Booey" name later got reused for a different project, which is why this one lives here as history.)
 
 ## The idea
 
-Most people know AI exists but freeze at a blank chat box — they don't know what to type, and "prompt engineering" is a non-starter. Booey removed the blank page entirely.
+My parents' generation knows AI exists. They just don't use it, because the entry point is a blank text box and a blinking cursor, and nobody wakes up thinking "I should prompt-engineer my way to a better recipe."
 
-Instead of a cursor, users got a shelf of **curated use cases** — "Make this recipe healthier," "Negotiate a bill," "Check if this is a scam" — clicked one, answered **2–4 guided questions**, and got a **personalized result**. No jargon, no model picker, no empty prompt.
+So: no blank box. You browse a shelf of concrete tasks — "make this recipe healthier," "negotiate a bill," "is this a scam?" — pick one, answer 2–4 plain-language questions, and get a personalized result. No prompts to write, no model picker, nothing to configure.
 
-- **Who it was for:** non-technical adults, roughly 40–60 — people who'd heard of AI but never reached for it. Every design choice (large touch targets, 16px+ type, plain language, one-tap Google sign-in) followed from that.
-- **The thesis:** the barrier to everyday AI isn't capability, it's the blank-canvas UX. Show people concrete, outcome-shaped tasks and the value becomes obvious.
-- **The shape:** 21 curated tools across four categories (health, work, lifestyle, personal), each defined declaratively as a YAML file with its own guided questions and system prompt.
+The catalog ended up at 21 use cases across four categories (health, work, lifestyle, personal). Each one is a YAML file — guided questions plus a system prompt — validated by a Zod schema. Everything else was built for the audience: big touch targets, 16px+ type, one-tap Google sign-in.
 
 ## Screenshots
 
@@ -23,80 +19,74 @@ Instead of a cursor, users got a shelf of **curated use cases** — "Make this r
 | _screenshot coming soon_ | _screenshot coming soon_ | _screenshot coming soon_ |
 | <!-- ![Explore](docs/screenshots/explore.png) --> | <!-- ![Wizard](docs/screenshots/wizard.png) --> | <!-- ![Result](docs/screenshots/result.png) --> |
 
-## Architecture
+## How it worked
 
 ```mermaid
 flowchart TD
-    User(["User · non-technical, 40–60"]) --> Explore["Browse use cases<br/>21 curated YAML tools"]
-    Explore --> Wizard["Guided wizard<br/>answer 2–4 questions"]
+    User["User"] --> Explore["Browse use cases<br/>21 curated YAML tools"]
+    Explore --> Wizard["Guided wizard<br/>2–4 questions"]
     Wizard --> Route["POST /api/generate<br/>Next.js App Router"]
 
     Route --> Auth["Session check<br/>Supabase middleware"]
-    Auth --> Valid[Zod validation]
-    Valid --> Limit["Rate limit<br/>per-IP + per-user · Redis"]
-    Limit --> Budget["Cost guard<br/>daily cap · kill switch"]
-    Budget --> Cache{Cached<br/>result?}
-    Cache -- hit --> Out[Personalized result]
-    Cache -- miss --> Claude[["Claude API<br/>Haiku default · Sonnet for complex"]]
+    Auth --> Valid["Zod validation"]
+    Valid --> Limit["Rate limit<br/>per-IP + per-user, Redis"]
+    Limit --> Budget["Budget check<br/>daily cap + kill switch"]
+    Budget --> Cache{"Cached?"}
+    Cache -- hit --> Out["Result"]
+    Cache -- miss --> Claude["Claude API<br/>Haiku default, Sonnet for complex cases"]
     Claude --> Out
     Out --> DB[("Supabase Postgres<br/>row-level security")]
 
-    Budget -. threshold alerts .-> Ntfy["ntfy.sh push<br/>50 / 75 / 90%"]
+    Budget -. "alerts at 50/75/90% of budget" .-> Ntfy["ntfy.sh push"]
 ```
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) + TypeScript |
-| Styling | Tailwind CSS + DaisyUI (mobile-first) |
-| Auth & DB | Supabase (Postgres + Google OAuth), row-level security |
-| AI | Anthropic Claude — Haiku by default, Sonnet for complex use cases |
-| Rate limiting & budget | Upstash Redis |
-| Hosting | Vercel |
+The stack: Next.js 16 (App Router) + TypeScript, Tailwind + DaisyUI, Supabase (Postgres + Google OAuth) with row-level security, Claude (Haiku by default, Sonnet where it earned its keep), Upstash Redis for rate limiting and budget tracking, Vercel.
 
-→ Deeper dives: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/OVERVIEW.md`](docs/OVERVIEW.md) · full doc index in [`docs/README.md`](docs/README.md)
+Deeper dives in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/OVERVIEW.md`](docs/OVERVIEW.md); full index at [`docs/README.md`](docs/README.md).
 
-## Engineering highlights
+## The parts that were actually interesting
 
-- **Cost-protection layer.** A single-founder AI app can be bankrupted by a bad day of traffic, so spend was guarded in depth: every `/api/generate` call priced its token usage against a **daily budget cap** (over-budget → `429`), an **`EMERGENCY_STOP` kill switch** to halt all AI calls instantly, and **[ntfy.sh](https://ntfy.sh) push alerts** at 50/75/90% of budget — plus per-IP and per-user rate limits. See [`docs/COST-MODEL.md`](docs/COST-MODEL.md).
-- **RLS-based auth model.** Supabase Row Level Security enforces per-user data isolation at the database, not just the app layer — API routes run behind session-checking middleware, and policies use the `(select auth.uid())` pattern for per-row performance. See [`docs/infrastructure/SUPABASE.md`](docs/infrastructure/SUPABASE.md).
-- **Prompt templating for use cases.** Each use case is a YAML file (validated by a Zod schema) whose `systemPrompt` composes with a shared global prompt at runtime, so tools stay consistent in tone and formatting while varying only in expertise. The authoring standard is documented in [`docs/USE-CASE-PROMPT-TEMPLATE.md`](docs/USE-CASE-PROMPT-TEMPLATE.md).
-- **Response caching** (Anthropic prompt caching + a Supabase cache table) and a **type-safe question framework** — a dozen guided input types rendered from declarative YAML.
+**Not waking up to a giant API bill.** Solo project, my card on the Anthropic account, so I was paranoid about a runaway loop or a bad night of traffic. Every `/api/generate` call prices its token usage against a daily budget cap (over budget → 429), there's an `EMERGENCY_STOP` env var that halts all AI calls instantly, and [ntfy.sh](https://ntfy.sh) pushed alerts to my phone at 50/75/90% of budget. Per-IP and per-user rate limits on top. The math behind the caps is in [`docs/COST-MODEL.md`](docs/COST-MODEL.md).
 
-## How this was built
+**Auth enforced in the database, not just the app.** Supabase row-level security handles per-user data isolation at the Postgres layer, so a bug in application code can't leak someone else's data. API routes sit behind session-checking middleware as the first line.
 
-Booey was built as an **AI-assisted development** experiment as much as a product:
+**Use cases as data, not code.** Each tool is declarative YAML — questions plus a system prompt that composes with a shared global prompt at runtime. All 21 tools stay consistent in tone and formatting and differ only in expertise, and adding one is a file, not a feature.
 
-- **[Claude Code](https://www.anthropic.com/claude-code)** handled much of the implementation, working in git worktrees against task specs — the 165-commit history (Feb–Apr 2026) preserves its `Co-Authored-By: Claude` trailers, kept deliberately as a record of the workflow.
-- **[v0](https://v0.dev)** was used for early UI exploration (the security headers in `next.config.ts` still make room for its embedded preview).
-- Guardrails that made agent-driven development safe are checked in: strict TypeScript with enforced import boundaries (`types → lib → hooks → components → app`), a parallel lint/typecheck/test/build CI pipeline, review guidelines in [`AGENTS.md`](AGENTS.md), and reusable project skills in [`.claude/skills/`](.claude/skills/).
+Also in there: response caching (Anthropic prompt caching plus a Supabase cache table) and a type-safe question framework — about a dozen guided input types rendered straight from the YAML.
 
-## Running it locally
+## How it was built
 
-> **Heads up:** the live Supabase project and Vercel deployment have been retired, so the app no longer runs against real backends. You can install, build, typecheck, lint, and run the unit tests with placeholder env values — that's the verification bar for this archived repo.
+Mostly by directing AI agents, which was half the point of the project. [Claude Code](https://www.anthropic.com/claude-code) did much of the implementation — the 165-commit history keeps its `Co-Authored-By: Claude` trailers on purpose, as a record of the workflow. [v0](https://v0.dev) handled early UI exploration.
+
+What made that workable was the guardrails, all checked in: strict TypeScript with enforced import boundaries (`types → lib → hooks → components → app`), a parallel lint/typecheck/test/build CI pipeline, review guidelines in [`AGENTS.md`](AGENTS.md), and reusable project skills in [`.claude/skills/`](.claude/skills/). The agents wrote a lot of the code; the constraints kept it coherent.
+
+## Running it
+
+The live Supabase and Vercel are gone, so it doesn't run against real backends anymore. What still works — and what I consider the verification bar for this archive:
 
 ```bash
 npm install
-cp .env.example .env.local   # placeholder values are fine for the checks below
+cp .env.example .env.local   # placeholder values are fine for these
 
-npm run lint         # ESLint (incl. import-boundary rules)
+npm run lint         # ESLint, incl. import-boundary rules
 npm run typecheck    # tsc --noEmit
-npm test             # Vitest (28 unit tests)
+npm test             # 28 unit tests (budget, rate-limit, use-cases)
 npm run build        # Next.js production build
 ```
 
-`npm run dev` will boot the UI at `localhost:3000`, but flows that call Supabase or Claude need real credentials.
+`npm run dev` boots the UI at `localhost:3000`, but anything touching Supabase or Claude needs real credentials you can no longer get from me.
 
 ## Repo layout
 
 ```
 src/
-├── app/          # Pages + API routes (home, explore, history, privacy, terms)
+├── app/          # Pages + API routes
 ├── components/   # UI (wizard/, explore/, nav/, auth/)
 ├── hooks/        # useUser, useTryBeforeSignup
-├── lib/          # ai/, supabase/, budget, rate-limit, validation, utils/
+├── lib/          # ai/, supabase/, budget, rate-limit, validation
 ├── data/         # use-cases/*.yaml + Zod schema
 └── types/        # shared TypeScript types
-docs/             # architecture, cost model, ADRs, ops runbooks (see docs/README.md)
+docs/             # architecture, cost model, ADRs (see docs/README.md)
 supabase/         # SQL migrations (RLS, indexes, response cache)
 ```
 
