@@ -1,6 +1,6 @@
 # Booey
 
-Guided AI tools for people who freeze at a blank chatbot. Built Feb–Apr 2026, shipped to [booey.ai](https://booey.ai), then retired — this repo is the archive. (The "Booey" name later got reused for a different project, which is why this one lives here as history.)
+Guided AI tools for people who freeze at a blank chatbot. Built in 4 days in February 2026, shipped to [booey.ai](https://booey.ai), then retired — this repo is the archive. (The "Booey" name later got reused for a different project, which is why this one lives here as history.)
 
 ## The idea
 
