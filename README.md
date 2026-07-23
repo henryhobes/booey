@@ -6,7 +6,7 @@ Guided AI tools for people who freeze at a blank chatbot. Built solo over the Pr
 
 My parents' generation knows AI exists. They just don't use it, because the entry point is a blank text box and a blinking cursor, and nobody wakes up thinking "I should prompt-engineer my way to a better recipe."
 
-So: no blank box. You browse a shelf of concrete tasks — "make this recipe healthier," "negotiate a bill," "is this a scam?" — pick one, answer 2–4 plain-language questions, and get a personalized result. No prompts to write, no model picker, nothing to configure.
+So there's no blank box. You browse a shelf of concrete tasks ("make this recipe healthier," "negotiate a bill," "is this a scam?"), pick one, answer 2–4 plain-language questions, and get a personalized result. No prompts to write, no model picker, nothing to configure.
 
 The catalog ended up at 21 use cases across four categories (health, work, lifestyle, personal). Each one is a YAML file, guided questions plus a system prompt, validated by a Zod schema. Everything else was built for the audience: big touch targets, 16px+ type, one-tap Google sign-in.
 
@@ -53,15 +53,15 @@ flowchart TD
 
 The stack: Next.js 16 (App Router) + TypeScript, Tailwind + DaisyUI, Supabase (Postgres + Google OAuth) with row-level security, Claude (Haiku by default, Sonnet where it earned its keep), Upstash Redis for rate limiting and budget tracking, Vercel.
 
-Deeper dives in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/OVERVIEW.md`](docs/OVERVIEW.md); full index at [`docs/README.md`](docs/README.md).
+More detail in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/OVERVIEW.md`](docs/OVERVIEW.md); full index at [`docs/README.md`](docs/README.md).
 
 ## The parts that were actually interesting
 
 **Not waking up to a giant API bill.** Solo project, my card on the Anthropic account, so I was paranoid about a runaway loop or a bad night of traffic. Every `/api/generate` call prices its token usage against a daily budget cap (over budget → 429), there's an `EMERGENCY_STOP` env var that halts all AI calls instantly, and [ntfy.sh](https://ntfy.sh) pushed alerts to my phone at 50/75/90% of budget. Per-IP and per-user rate limits on top. The math behind the caps is in [`docs/COST-MODEL.md`](docs/COST-MODEL.md).
 
-**Auth enforced in the database, not just the app.** Supabase row-level security handles per-user data isolation at the Postgres layer, so a bug in application code can't leak someone else's data. API routes sit behind session-checking middleware as the first line.
+**Auth enforced in the database.** Supabase row-level security handles per-user data isolation at the Postgres layer, so a bug in application code can't leak someone else's data. API routes sit behind session-checking middleware as the first line.
 
-**Use cases as data, not code.** Each tool is declarative YAML — questions plus a system prompt that composes with a shared global prompt at runtime. All 21 tools stay consistent in tone and formatting and differ only in expertise, and adding one is a file, not a feature.
+**Use cases as data.** Each tool is declarative YAML: questions plus a system prompt that composes with a shared global prompt at runtime. All 21 tools stay consistent in tone and formatting and differ only in expertise, and adding a new one is a one-file change.
 
 Also in there: response caching (Anthropic prompt caching plus a Supabase cache table) and a type-safe question framework, about a dozen guided input types rendered straight from the YAML.
 
@@ -69,11 +69,11 @@ Also in there: response caching (Anthropic prompt caching plus a Supabase cache 
 
 Mostly by directing AI agents, which was half the point of the project and the reason a long weekend was enough to go from empty repo to a deployed product with 21 tools, auth, rate limiting, and budget controls. [Claude Code](https://www.anthropic.com/claude-code) did much of the implementation; the 165-commit history keeps its `Co-Authored-By: Claude` trailers on purpose, as a record of the workflow. [v0](https://v0.dev) handled early UI exploration.
 
-What made that workable was the guardrails, all checked in: strict TypeScript with enforced import boundaries (`types → lib → hooks → components → app`), a parallel lint/typecheck/test/build CI pipeline, review guidelines in [`AGENTS.md`](AGENTS.md), and reusable project skills in [`.claude/skills/`](.claude/skills/). The agents wrote a lot of the code; the constraints kept it coherent.
+What made that workable was the guardrails, all checked in: strict TypeScript with enforced import boundaries (`types → lib → hooks → components → app`), a parallel lint/typecheck/test/build CI pipeline, review guidelines in [`AGENTS.md`](AGENTS.md), and reusable project skills in [`.claude/skills/`](.claude/skills/).
 
 ## Running it
 
-The live Supabase and Vercel are gone, so it doesn't run against real backends anymore. What still works — and what I consider the verification bar for this archive:
+The live Supabase and Vercel are gone, so it doesn't run against real backends anymore. What still works, and what I consider the verification bar for this archive:
 
 ```bash
 npm install
